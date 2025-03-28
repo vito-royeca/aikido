@@ -1,0 +1,86 @@
+[
+    {
+        "name": "tiny",
+        "info": "(F16, 75 MiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin",
+        "fileName": "ggml-tiny.bin",
+        "order": 0
+    },
+    {
+        "name": "tiny.en",
+        "info": "(F16, 75 MiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.en.bin",
+        "fileName": "ggml-tiny.en.bin",
+        "order": 1
+    },
+    {
+        "name": "base",
+        "info": "(F16, 142 MiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin",
+        "fileName": "ggml-base.bin",
+        "order": 2
+    },
+    {
+        "name": "base.en",
+        "info": "(F16, 142 MiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin",
+        "fileName": "ggml-base.en.bin",
+        "order": 3
+    },
+    {
+        "name": "small",
+        "info": "(F16, 466 MiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin",
+        "fileName": "ggml-small.bin",
+        "order": 4
+    },
+    {
+        "name": "small.en",
+        "info": "(F16, 466 MiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.en.bin",
+        "fileName": "ggml-small.en.bin",
+        "order": 5
+    },
+    {
+        "name": "medium",
+        "info": "(F16, 1.5 GiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.bin",
+        "fileName": "ggml-medium.bin",
+        "order": 6
+    },
+    {
+        "name": "medium.en",
+        "info": "(F16, 1.5 GiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.en.bin",
+        "fileName": "ggml-medium.en.bin",
+        "order": 7
+    },
+    {
+        "name": "large-v1",
+        "info": "(F16, 2.9 GiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large.bin",
+        "fileName": "ggml-large.bin",
+        "order": 8
+    },
+    {
+        "name": "large-v2",
+        "info": "(F16, 2.9 GiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v2.bin",
+        "fileName": "ggml-large-v2.bin",
+        "order": 9
+    },
+    {
+        "name": "large-v3",
+        "info": "(F16, 2.9 GiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3.bin",
+        "fileName": "ggml-large-v3.bin",
+        "order": 10
+    },
+    {
+        "name": "large-v3-turbo",
+        "info": "(F16, 1.5 GiB)",
+        "downloadURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-large-v3-turbo.bin",
+        "fileName": "ggml-large-v3-turbo.bin",
+        "order": 11
+    }
+]
