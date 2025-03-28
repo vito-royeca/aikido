@@ -13,14 +13,15 @@ import CoreLocation
 final class WhisperFile {
     var name: String
     var info: String
-    var downloadURL: String
-    var fileName: String
+    var modelURL: String
+    var coreMLModelURL: String
     var order: Int
     
     @Transient  private var _isDownloaded = false
     @Transient var isDownloaded: Bool {
         get {
-            _isDownloaded || FileManager.default.fileExists(atPath: fileURL.path())
+            _isDownloaded || (FileManager.default.fileExists(atPath: localModelURL.path()) &&
+                              FileManager.default.fileExists(atPath: localCoreMLModelURL.path()))
         }
         set {
             _isDownloaded = newValue
@@ -29,13 +30,13 @@ final class WhisperFile {
 
     init(name: String,
          info: String,
-         downloadURL: String,
-         fileName: String,
+         modelURL: String,
+         coreMLModelURL: String,
          order: Int) {
         self.name = name
         self.info = info
-        self.downloadURL = downloadURL
-        self.fileName = fileName
+        self.modelURL = modelURL
+        self.coreMLModelURL = coreMLModelURL
         self.order = order
     }
 
@@ -44,8 +45,8 @@ final class WhisperFile {
     enum CodingKeys: CodingKey {
         case name
         case info
-        case downloadURL
-        case fileName
+        case modelURL
+        case coreMLModelURL
         case order
     }
 
@@ -54,8 +55,8 @@ final class WhisperFile {
         
         name = try container.decode(String.self, forKey: .name)
         info = try container.decode(String.self, forKey: .info)
-        downloadURL = try container.decode(String.self, forKey: .downloadURL)
-        fileName = try container.decode(String.self, forKey: .fileName)
+        modelURL = try container.decode(String.self, forKey: .modelURL)
+        coreMLModelURL = try container.decode(String.self, forKey: .coreMLModelURL)
         order = try container.decode(Int.self, forKey: .order)
     }
 }
@@ -68,7 +69,8 @@ extension WhisperFile: Codable {
         
         try container.encode(name, forKey: .name)
         try container.encode(info, forKey: .info)
-        try container.encode(downloadURL, forKey: .downloadURL)
+        try container.encode(modelURL, forKey: .modelURL)
+        try container.encode(coreMLModelURL, forKey: .coreMLModelURL)
         try container.encode(order, forKey: .order)
     }
 }
@@ -76,7 +78,13 @@ extension WhisperFile: Codable {
 // MARK: - Methods
 
 extension WhisperFile {
-    var fileURL: URL {
-        FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(fileName)
+    var localModelURL: URL {
+        let lastPath = modelURL.components(separatedBy: "/").last ?? ""
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(lastPath)
+    }
+    
+    var localCoreMLModelURL: URL {
+        let lastPath = coreMLModelURL.components(separatedBy: "/").last ?? ""
+        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(lastPath)
     }
 }

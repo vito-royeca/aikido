@@ -41,7 +41,7 @@ struct WhisperDetailView: View {
     }
     
     func download() {
-        guard  let url = URL(string: whisperFile.downloadURL),
+        guard  let url = URL(string: whisperFile.modelURL),
             !whisperFile.isDownloaded else {
             return
         }
@@ -60,7 +60,7 @@ struct WhisperDetailView: View {
             do {
                 if let temporaryURL = temporaryURL {
                     try FileManager.default.copyItem(at: temporaryURL,
-                                                     to: whisperFile.fileURL)
+                                                     to: whisperFile.localModelURL)
                     isDownloaded = true
                     onDownload?(true)
                 }
