@@ -42,22 +42,6 @@
 			);
 			target = 7639E2922D9358FB003B81B9 /* Aikido */;
 		};
-		763F07FC2D98D2EE00E39213 /* Exceptions for "Aikido" folder in "AikidoTests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Resources/models/ggml-tiny-encoder.mlmodelc",
-				"Resources/models/ggml-tiny.bin",
-			);
-			target = 7639E2A62D9358FC003B81B9 /* AikidoTests */;
-		};
-		763F07FD2D98D2EE00E39213 /* Exceptions for "Aikido" folder in "AikidoUITests" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				"Resources/models/ggml-tiny-encoder.mlmodelc",
-				"Resources/models/ggml-tiny.bin",
-			);
-			target = 7639E2B02D9358FC003B81B9 /* AikidoUITests */;
-		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -65,8 +49,6 @@
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				7639E2B92D9358FC003B81B9 /* Exceptions for "Aikido" folder in "Aikido" target */,
-				763F07FC2D98D2EE00E39213 /* Exceptions for "Aikido" folder in "AikidoTests" target */,
-				763F07FD2D98D2EE00E39213 /* Exceptions for "Aikido" folder in "AikidoUITests" target */,
 			);
 			path = Aikido;
 			sourceTree = "<group>";

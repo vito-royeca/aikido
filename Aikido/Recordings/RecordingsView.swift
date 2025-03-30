@@ -5,13 +5,13 @@
 //  Created by Vito Royeca on 3/29/25.
 //
 
-import AVFoundation
 import SwiftData
 import SwiftUI
 
 struct RecordingsView: View {
     @Environment(\.modelContext) private var modelContext
     @State private var isImporting = false
+    @State private var importedURL: URL?
 
     @Query(sort: \Recording.timestamp, order: .reverse)
     private var recordings: [Recording]
@@ -27,10 +27,13 @@ struct RecordingsView: View {
                               allowedContentTypes: [.audio]) {
                     switch $0 {
                     case .success(let url):
-                        importAudio(url: url)
+                        self.importedURL = url
                     case .failure(let error):
                         print(error)
                     }
+                }
+                .sheet(item: $importedURL) { url in
+                    TranscriberView(url: url)
                 }
         }
     }
@@ -39,7 +42,10 @@ struct RecordingsView: View {
         List {
             ForEach(recordings) { recording in
                 NavigationLink {
-                    Text(recording.title)
+                    VStack {
+                        Text(recording.title)
+                        Text(recording.transcription ?? "")
+                    }
                 } label: {
                     VStack(alignment: .leading) {
                         Text(recording.title)
@@ -52,7 +58,6 @@ struct RecordingsView: View {
                                 .font(Font.subheadline)
                         }
                     }
-                    
                 }
             }
             .onDelete(perform: deleteItems)
@@ -60,37 +65,24 @@ struct RecordingsView: View {
 
     }
 
-    private func importAudio(url: URL) {
-        let lastPath = url.path().components(separatedBy: "/").last ?? ""
-        let recording = Recording(title: lastPath,
-                                  timestamp: nil,
-                                  length: 0,
-                                  audioPath: url.path())
-
-        // get the creationDate
-        do {
-            if let timestamp = try url.resourceValues(forKeys: [.creationDateKey]).creationDate {
-                recording.timestamp = timestamp
-            }
-        } catch {
-            print("\(#function) Error: \(error)")
-        }
-        
-        // get the length
-        Task {
-            let asset = AVURLAsset(url: url, options: nil)
-            let (duration, _) = try await asset.load(.duration, .metadata)
-            recording.length = duration.seconds
-            modelContext.insert(recording)
-        }
-    }
-    
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
                 modelContext.delete(recordings[index])
             }
+            
+            do {
+                try DataManager.shared.modelContainer.mainContext.save()
+            } catch {
+                print(error)
+            }
         }
+    }
+}
+
+extension URL: Identifiable {
+    public var id: String {
+        absoluteString
     }
 }
 
