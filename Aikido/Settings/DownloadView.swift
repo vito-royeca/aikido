@@ -9,7 +9,7 @@ import SwiftUI
 
 struct DownloadView: View {
     let progress: Double
-        
+
     var body: some View {
         GeometryReader { geometry in
             ZStack {

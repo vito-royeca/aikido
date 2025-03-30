@@ -20,8 +20,9 @@ final class WhisperFile {
     @Transient  private var _isDownloaded = false
     @Transient var isDownloaded: Bool {
         get {
-            _isDownloaded || (FileManager.default.fileExists(atPath: localModelURL.path()) &&
-                              FileManager.default.fileExists(atPath: localCoreMLModelURL.path()))
+            _isDownloaded &&
+            FileManager.default.fileExists(atPath: localModelURL.path()) &&
+            FileManager.default.fileExists(atPath: localCoreMLModelURL.path())
         }
         set {
             _isDownloaded = newValue
@@ -75,16 +76,18 @@ extension WhisperFile: Codable {
     }
 }
 
-// MARK: - Methods
+// MARK: - HElper
 
 extension WhisperFile {
     var localModelURL: URL {
         let lastPath = modelURL.components(separatedBy: "/").last ?? ""
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(lastPath)
+        return FileManager.default.urls(for: .documentDirectory,
+                                        in: .userDomainMask)[0].appendingPathComponent(lastPath)
     }
     
     var localCoreMLModelURL: URL {
         let lastPath = coreMLModelURL.components(separatedBy: "/").last ?? ""
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(lastPath)
+        return FileManager.default.urls(for: .documentDirectory,
+                                        in: .userDomainMask)[0].appendingPathComponent(lastPath)
     }
 }

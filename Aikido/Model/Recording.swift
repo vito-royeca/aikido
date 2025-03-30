@@ -12,16 +12,38 @@ import CoreLocation
 @Model
 final class Recording {
     var title: String
-    var timestamp: Date
-    var length: Float
-//    var audioPath: NSURL?
-//    var location: CLLocation?
+    var timestamp: Date?
+    var length: Double
+    var audioPath: String?
     var transcription: String?
     var summary: String?
+//    var location: CLLocation?
 
-    init(title: String, timestamp: Date) {
+    init(title: String, timestamp: Date?, length: Double, audioPath: String?) {
         self.title = title
         self.timestamp = timestamp
-        self.length = 0
+        self.length = length
+        self.audioPath = audioPath
+    }
+}
+
+// MARK: - Helper
+
+extension Recording {
+    var formattedLength: String {
+        get {
+            let duration: Duration = .seconds(length)
+            let string = duration.formatted(.units(width: .narrow))
+            return string
+        }
+    }
+    
+    var formattedTimestamp: String {
+        get {
+            guard let timestamp = self.timestamp else {
+                return ""
+            }
+            return DateFormatter.localizedString(from: timestamp, dateStyle: .medium, timeStyle: .short)
+        }
     }
 }

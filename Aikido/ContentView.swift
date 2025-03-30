@@ -26,25 +26,28 @@ struct ContentView: View {
     var tabView: some View {
         ZStack(alignment: .bottom) {
             TabView(selection: $selectedTab) {
-                Text("List")
+                RecordingsView()
                     .tabItem {
                         Label("List", systemImage: "list.dash")
                     }
                     .tag(ContentTab.list)
 
                 Text("Calendar")
+                    .navigationBarTitle("Calendar")
                     .tabItem {
                         Label("Calendar", systemImage: "calendar")
                     }
                     .tag(ContentTab.calendar)
                 
-                Text("Recording")
+                Text("Record")
+                    .navigationBarTitle("Record")
                     .tabItem {
                         EmptyView()
                     }
                     .tag(ContentTab.record)
                 
                 Text("Map")
+                    .navigationBarTitle("Map")
                     .tabItem {
                         Label("Map", systemImage: "map")
                     }
@@ -56,56 +59,26 @@ struct ContentView: View {
                     }
                     .tag(ContentTab.settings)
             }
-            
-            Button {
-                print("recording...")
-                selectedTab = .record
-            } label: {
-                Image(systemName: "microphone.fill")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 40, height: 40)
-                    .tint(Color.white)
-            }
-            .frame(width: 80, height: 80)
-            .background(Color.green)
-            .clipShape(Circle())
-            
+            recordButton
         }
         .ignoresSafeArea(.keyboard) // usefull so the button doesn't move around on keyboard show
     }
     
-//    var listView: some View {
-//        NavigationSplitView {
-//            List {
-//                ForEach(items) { item in
-//                    NavigationLink {
-//                        Text("Item at \(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))")
-//                    } label: {
-//                        Text(item.timestamp, format: Date.FormatStyle(date: .numeric, time: .standard))
-//                    }
-//                }
-//                .onDelete(perform: deleteItems)
-//            }
-//#if os(macOS)
-//            .navigationSplitViewColumnWidth(min: 180, ideal: 200)
-//#endif
-//            .toolbar {
-//#if os(iOS)
-//                ToolbarItem(placement: .navigationBarTrailing) {
-//                    EditButton()
-//                }
-//#endif
-//                ToolbarItem {
-//                    Button(action: addItem) {
-//                        Label("Add Item", systemImage: "plus")
-//                    }
-//                }
-//            }
-//        } detail: {
-//            Text("Select an item")
-//        }
-//    }
+    var recordButton: some View {
+        Button {
+            print("recording...")
+            selectedTab = .record
+        } label: {
+            Image(systemName: "microphone.fill")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 40, height: 40)
+                .tint(Color.white)
+        }
+        .frame(width: 80, height: 80)
+        .background(Color.green)
+        .clipShape(Circle())
+    }
 }
 
 #Preview {

@@ -12,10 +12,10 @@ struct SettingsView: View {
     @Environment(\.modelContext) private var modelContext
 
     @AppStorage(.settingsWhisperNameKey)
-    private var whisperName = ""
+    private var whisperName = "tiny"
         
     @AppStorage(.settingsLLMNameKey)
-    private var llmName = ""
+    private var llmName: String?
     
     @Query(sort: \WhisperFile.order)
     private var whisperFiles: [WhisperFile]
@@ -49,12 +49,10 @@ struct SettingsView: View {
                     }
                     .pickerStyle(.navigationLink)
                     
-                    if let whisperFile = whisperFile {
-                        WhisperDetailView(whisperFile: whisperFile)
-                            .onDownload { result in
-                                update(result: result)
-                            }
-                    }
+//                    if let whisperFile = whisperFile,
+//                       !whisperFile.isDownloaded {
+//                        fileDownloadView
+//                    }
                 } header: {
                     Text("Whisper AI Model")
                 } footer: {
@@ -77,6 +75,20 @@ struct SettingsView: View {
             .navigationBarTitle("Settings")
         }
     }
+    
+//    var fileDownloadView: some View {
+//        guard let whisperFile = whisperFile,
+//            let modelURL = URL(string: whisperFile.modelURL),
+//            let coreModelURL = URL(string: whisperFile.coreMLModelURL) else {
+//            return EmptyView()
+//        }
+//        
+//        
+//        return FileDownloadView(fileName: "Whisper Model", remoteURL: modelURL, localURL: coreModelURL)
+//             .onDownload { result in
+//                 update(result: result)
+//             }
+//    }
 }
 
 extension SettingsView {

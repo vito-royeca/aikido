@@ -1,0 +1,7704 @@
+{
+  "storage" : "model.espresso.weights",
+  "analyses" : {
+
+  },
+  "properties" : {
+
+  },
+  "format_version" : 200,
+  "metadata_in_weights" : [
+
+  ],
+  "layers" : [
+    {
+      "size_of_axes" : 1,
+      "bottom" : "logmel_data",
+      "axes_0" : -2,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "expand_dims_0",
+      "top" : "expand_dims_0",
+      "type" : "expand_dims",
+      "name" : "expand_dims_0"
+    },
+    {
+      "pad_r" : 1,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "conv_0",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 1,
+      "top" : "conv_0",
+      "blob_weights" : 3,
+      "K" : 80,
+      "blob_biases" : 1,
+      "name" : "conv_0",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "expand_dims_0",
+      "weights" : {
+
+      },
+      "Nx" : 3,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "size_of_axes" : 1,
+      "bottom" : "conv_0",
+      "axes_0" : -2,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "28",
+      "version" : 1,
+      "top" : "28",
+      "type" : "squeeze",
+      "name" : "28"
+    },
+    {
+      "bottom" : "28",
+      "weights" : {
+
+      },
+      "mode" : 19,
+      "debug_info" : "input.1",
+      "top" : "input.1",
+      "type" : "activation",
+      "name" : "input.1"
+    },
+    {
+      "size_of_axes" : 1,
+      "bottom" : "input.1",
+      "axes_0" : -2,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "expand_dims_2",
+      "top" : "expand_dims_2",
+      "type" : "expand_dims",
+      "name" : "expand_dims_2"
+    },
+    {
+      "pad_r" : 1,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "conv_1",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 1,
+      "top" : "conv_1",
+      "blob_weights" : 7,
+      "K" : 384,
+      "blob_biases" : 5,
+      "stride_x" : 2,
+      "name" : "conv_1",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "expand_dims_2",
+      "weights" : {
+
+      },
+      "Nx" : 3,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "size_of_axes" : 1,
+      "bottom" : "conv_1",
+      "axes_0" : -2,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "46",
+      "version" : 1,
+      "top" : "46",
+      "type" : "squeeze",
+      "name" : "46"
+    },
+    {
+      "bottom" : "46",
+      "weights" : {
+
+      },
+      "mode" : 19,
+      "debug_info" : "x.3",
+      "top" : "x.3",
+      "type" : "activation",
+      "name" : "x.3"
+    },
+    {
+      "top" : "51",
+      "w" : 1500,
+      "h" : 384,
+      "name" : "51",
+      "nd_rank" : 2,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "51",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 9
+    },
+    {
+      "bottom" : "51,x.3",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "53",
+      "top" : "53",
+      "type" : "elementwise",
+      "name" : "53",
+      "beta" : 0
+    },
+    {
+      "size_of_axes" : 1,
+      "bottom" : "53",
+      "axes_0" : 2,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "inputs.1",
+      "top" : "inputs.1",
+      "type" : "expand_dims",
+      "name" : "inputs.1"
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.1",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.3_mean",
+      "use_version" : 1,
+      "top" : "input.3_mean",
+      "type" : "reduce",
+      "name" : "input.3_mean"
+    },
+    {
+      "bottom" : "inputs.1,input.3_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.3_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.3_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.3_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_square",
+      "top" : "input.3_square",
+      "type" : "elementwise",
+      "name" : "input.3_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.3_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.3_square_sum",
+      "use_version" : 1,
+      "top" : "input.3_square_sum",
+      "type" : "reduce",
+      "name" : "input.3_square_sum"
+    },
+    {
+      "top" : "input.3_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.3_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.3_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 11
+    },
+    {
+      "bottom" : "input.3_square_sum,input.3_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.3_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.3_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.3_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.3_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.3_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 13
+    },
+    {
+      "bottom" : "input.3_div_square_sum,input.3_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_add_epsilon",
+      "top" : "input.3_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.3_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.3_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_sqrt",
+      "top" : "input.3_sqrt",
+      "type" : "elementwise",
+      "name" : "input.3_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.3_sub_mean,input.3_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_divide",
+      "nd_mode" : true,
+      "top" : "input.3_divide",
+      "type" : "elementwise",
+      "name" : "input.3_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.3_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.3_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.3_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 15
+    },
+    {
+      "top" : "input.3_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.3_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.3_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 17
+    },
+    {
+      "bottom" : "input.3_divide,input.3_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3_mul",
+      "nd_mode" : true,
+      "top" : "input.3_mul",
+      "type" : "elementwise",
+      "name" : "input.3_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.3_mul,input.3_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.3",
+      "nd_mode" : true,
+      "top" : "input.3",
+      "type" : "elementwise",
+      "name" : "input.3",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "119",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "119",
+      "blob_weights" : 21,
+      "K" : 384,
+      "blob_biases" : 19,
+      "name" : "119",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.3",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "k.1",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "k.1",
+      "blob_weights" : 23,
+      "K" : 384,
+      "name" : "k.1",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 0,
+      "C" : 384,
+      "bottom" : "input.3",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "117",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "117",
+      "blob_weights" : 27,
+      "K" : 384,
+      "blob_biases" : 25,
+      "name" : "117",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.3",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "119",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "120",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "120",
+      "begin_48" : 0,
+      "top" : "120_0,120_1,120_2,120_3,120_4,120_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 1,
+      "axis_w" : 2,
+      "bottom" : "k.1",
+      "axis_k" : 0,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "transpose_4",
+      "top" : "127",
+      "type" : "transpose",
+      "name" : "transpose_4"
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 3,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "127",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "128",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "128",
+      "begin_48" : 0,
+      "top" : "128_0,128_1,128_2,128_3,128_4,128_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "117",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "135",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "135",
+      "begin_48" : 0,
+      "top" : "135_0,135_1,135_2,135_3,135_4,135_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "128_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.1_transpose_x",
+      "top" : "aw.1_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.1_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "120_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.1_transpose_y",
+      "top" : "aw.1_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.1_transpose_y"
+    },
+    {
+      "bottom" : "aw.1_transpose_1,aw.1_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.1_batch_matmul",
+      "top" : "aw.1_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.1_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.1_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.1",
+      "top" : "aw.1",
+      "type" : "transpose",
+      "name" : "aw.1"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "128_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.3_transpose_x",
+      "top" : "aw.3_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.3_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "120_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.3_transpose_y",
+      "top" : "aw.3_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.3_transpose_y"
+    },
+    {
+      "bottom" : "aw.3_transpose_1,aw.3_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.3_batch_matmul",
+      "top" : "aw.3_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.3_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.3_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.3",
+      "top" : "aw.3",
+      "type" : "transpose",
+      "name" : "aw.3"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "128_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.5_transpose_x",
+      "top" : "aw.5_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.5_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "120_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.5_transpose_y",
+      "top" : "aw.5_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.5_transpose_y"
+    },
+    {
+      "bottom" : "aw.5_transpose_1,aw.5_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.5_batch_matmul",
+      "top" : "aw.5_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.5_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.5_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.5",
+      "top" : "aw.5",
+      "type" : "transpose",
+      "name" : "aw.5"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "128_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.7_transpose_x",
+      "top" : "aw.7_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.7_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "120_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.7_transpose_y",
+      "top" : "aw.7_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.7_transpose_y"
+    },
+    {
+      "bottom" : "aw.7_transpose_1,aw.7_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.7_batch_matmul",
+      "top" : "aw.7_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.7_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.7_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.7",
+      "top" : "aw.7",
+      "type" : "transpose",
+      "name" : "aw.7"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "128_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.9_transpose_x",
+      "top" : "aw.9_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.9_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "120_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.9_transpose_y",
+      "top" : "aw.9_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.9_transpose_y"
+    },
+    {
+      "bottom" : "aw.9_transpose_1,aw.9_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.9_batch_matmul",
+      "top" : "aw.9_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.9_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.9_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.9",
+      "top" : "aw.9",
+      "type" : "transpose",
+      "name" : "aw.9"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "128_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.11_transpose_x",
+      "top" : "aw.11_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.11_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "120_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.11_transpose_y",
+      "top" : "aw.11_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.11_transpose_y"
+    },
+    {
+      "bottom" : "aw.11_transpose_1,aw.11_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.11_batch_matmul",
+      "top" : "aw.11_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.11_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.11_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.11",
+      "top" : "aw.11",
+      "type" : "transpose",
+      "name" : "aw.11"
+    },
+    {
+      "bottom" : "aw.1",
+      "weights" : {
+
+      },
+      "debug_info" : "154",
+      "top" : "154",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "154"
+    },
+    {
+      "bottom" : "aw.3",
+      "weights" : {
+
+      },
+      "debug_info" : "155",
+      "top" : "155",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "155"
+    },
+    {
+      "bottom" : "aw.5",
+      "weights" : {
+
+      },
+      "debug_info" : "156",
+      "top" : "156",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "156"
+    },
+    {
+      "bottom" : "aw.7",
+      "weights" : {
+
+      },
+      "debug_info" : "157",
+      "top" : "157",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "157"
+    },
+    {
+      "bottom" : "aw.9",
+      "weights" : {
+
+      },
+      "debug_info" : "158",
+      "top" : "158",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "158"
+    },
+    {
+      "bottom" : "aw.11",
+      "weights" : {
+
+      },
+      "debug_info" : "159",
+      "top" : "159",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "159"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "135_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "161_transpose_x",
+      "top" : "161_transpose_1",
+      "type" : "transpose",
+      "name" : "161_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "154",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "161_transpose_y",
+      "top" : "161_transpose_2",
+      "type" : "transpose",
+      "name" : "161_transpose_y"
+    },
+    {
+      "bottom" : "161_transpose_1,161_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "161_batch_matmul",
+      "top" : "161_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "161_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "161_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "161",
+      "top" : "161",
+      "type" : "transpose",
+      "name" : "161"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "135_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "163_transpose_x",
+      "top" : "163_transpose_1",
+      "type" : "transpose",
+      "name" : "163_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "155",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "163_transpose_y",
+      "top" : "163_transpose_2",
+      "type" : "transpose",
+      "name" : "163_transpose_y"
+    },
+    {
+      "bottom" : "163_transpose_1,163_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "163_batch_matmul",
+      "top" : "163_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "163_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "163_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "163",
+      "top" : "163",
+      "type" : "transpose",
+      "name" : "163"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "135_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "165_transpose_x",
+      "top" : "165_transpose_1",
+      "type" : "transpose",
+      "name" : "165_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "156",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "165_transpose_y",
+      "top" : "165_transpose_2",
+      "type" : "transpose",
+      "name" : "165_transpose_y"
+    },
+    {
+      "bottom" : "165_transpose_1,165_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "165_batch_matmul",
+      "top" : "165_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "165_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "165_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "165",
+      "top" : "165",
+      "type" : "transpose",
+      "name" : "165"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "135_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "167_transpose_x",
+      "top" : "167_transpose_1",
+      "type" : "transpose",
+      "name" : "167_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "157",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "167_transpose_y",
+      "top" : "167_transpose_2",
+      "type" : "transpose",
+      "name" : "167_transpose_y"
+    },
+    {
+      "bottom" : "167_transpose_1,167_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "167_batch_matmul",
+      "top" : "167_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "167_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "167_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "167",
+      "top" : "167",
+      "type" : "transpose",
+      "name" : "167"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "135_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "169_transpose_x",
+      "top" : "169_transpose_1",
+      "type" : "transpose",
+      "name" : "169_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "158",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "169_transpose_y",
+      "top" : "169_transpose_2",
+      "type" : "transpose",
+      "name" : "169_transpose_y"
+    },
+    {
+      "bottom" : "169_transpose_1,169_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "169_batch_matmul",
+      "top" : "169_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "169_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "169_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "169",
+      "top" : "169",
+      "type" : "transpose",
+      "name" : "169"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "135_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "171_transpose_x",
+      "top" : "171_transpose_1",
+      "type" : "transpose",
+      "name" : "171_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "159",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "171_transpose_y",
+      "top" : "171_transpose_2",
+      "type" : "transpose",
+      "name" : "171_transpose_y"
+    },
+    {
+      "bottom" : "171_transpose_1,171_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "171_batch_matmul",
+      "top" : "171_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "171_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "171_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "171",
+      "top" : "171",
+      "type" : "transpose",
+      "name" : "171"
+    },
+    {
+      "weights" : {
+
+      },
+      "debug_info" : "input.5",
+      "top" : "input.5",
+      "type" : "concat",
+      "name" : "input.5",
+      "bottom" : "161,163,165,167,169,171"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "180",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "180",
+      "blob_weights" : 31,
+      "K" : 384,
+      "blob_biases" : 29,
+      "name" : "180",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.5",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.1,180",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.3",
+      "top" : "inputs.3",
+      "type" : "elementwise",
+      "name" : "inputs.3",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.3",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.7_mean",
+      "use_version" : 1,
+      "top" : "input.7_mean",
+      "type" : "reduce",
+      "name" : "input.7_mean"
+    },
+    {
+      "bottom" : "inputs.3,input.7_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.7_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.7_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.7_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_square",
+      "top" : "input.7_square",
+      "type" : "elementwise",
+      "name" : "input.7_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.7_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.7_square_sum",
+      "use_version" : 1,
+      "top" : "input.7_square_sum",
+      "type" : "reduce",
+      "name" : "input.7_square_sum"
+    },
+    {
+      "top" : "input.7_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.7_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.7_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 33
+    },
+    {
+      "bottom" : "input.7_square_sum,input.7_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.7_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.7_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.7_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.7_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.7_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 35
+    },
+    {
+      "bottom" : "input.7_div_square_sum,input.7_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_add_epsilon",
+      "top" : "input.7_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.7_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.7_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_sqrt",
+      "top" : "input.7_sqrt",
+      "type" : "elementwise",
+      "name" : "input.7_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.7_sub_mean,input.7_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_divide",
+      "nd_mode" : true,
+      "top" : "input.7_divide",
+      "type" : "elementwise",
+      "name" : "input.7_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.7_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.7_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.7_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 37
+    },
+    {
+      "top" : "input.7_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.7_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.7_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 39
+    },
+    {
+      "bottom" : "input.7_divide,input.7_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7_mul",
+      "nd_mode" : true,
+      "top" : "input.7_mul",
+      "type" : "elementwise",
+      "name" : "input.7_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.7_mul,input.7_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.7",
+      "nd_mode" : true,
+      "top" : "input.7",
+      "type" : "elementwise",
+      "name" : "input.7",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "input.9",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "input.9",
+      "blob_weights" : 43,
+      "K" : 384,
+      "blob_biases" : 41,
+      "name" : "input.9",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 1536,
+      "bottom" : "input.7",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "input.9",
+      "weights" : {
+
+      },
+      "mode" : 19,
+      "debug_info" : "input.11",
+      "top" : "input.11",
+      "type" : "activation",
+      "name" : "input.11"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "216",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "216",
+      "blob_weights" : 47,
+      "K" : 1536,
+      "blob_biases" : 45,
+      "name" : "216",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.11",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.3,216",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.5",
+      "top" : "inputs.5",
+      "type" : "elementwise",
+      "name" : "inputs.5",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.5",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.13_mean",
+      "use_version" : 1,
+      "top" : "input.13_mean",
+      "type" : "reduce",
+      "name" : "input.13_mean"
+    },
+    {
+      "bottom" : "inputs.5,input.13_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.13_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.13_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.13_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_square",
+      "top" : "input.13_square",
+      "type" : "elementwise",
+      "name" : "input.13_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.13_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.13_square_sum",
+      "use_version" : 1,
+      "top" : "input.13_square_sum",
+      "type" : "reduce",
+      "name" : "input.13_square_sum"
+    },
+    {
+      "top" : "input.13_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.13_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.13_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 49
+    },
+    {
+      "bottom" : "input.13_square_sum,input.13_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.13_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.13_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.13_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.13_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.13_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 51
+    },
+    {
+      "bottom" : "input.13_div_square_sum,input.13_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_add_epsilon",
+      "top" : "input.13_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.13_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.13_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_sqrt",
+      "top" : "input.13_sqrt",
+      "type" : "elementwise",
+      "name" : "input.13_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.13_sub_mean,input.13_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_divide",
+      "nd_mode" : true,
+      "top" : "input.13_divide",
+      "type" : "elementwise",
+      "name" : "input.13_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.13_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.13_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.13_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 53
+    },
+    {
+      "top" : "input.13_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.13_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.13_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 55
+    },
+    {
+      "bottom" : "input.13_divide,input.13_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13_mul",
+      "nd_mode" : true,
+      "top" : "input.13_mul",
+      "type" : "elementwise",
+      "name" : "input.13_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.13_mul,input.13_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.13",
+      "nd_mode" : true,
+      "top" : "input.13",
+      "type" : "elementwise",
+      "name" : "input.13",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "276",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "276",
+      "blob_weights" : 59,
+      "K" : 384,
+      "blob_biases" : 57,
+      "name" : "276",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.13",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "k.3",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "k.3",
+      "blob_weights" : 61,
+      "K" : 384,
+      "name" : "k.3",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 0,
+      "C" : 384,
+      "bottom" : "input.13",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "274",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "274",
+      "blob_weights" : 65,
+      "K" : 384,
+      "blob_biases" : 63,
+      "name" : "274",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.13",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "276",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "277",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "277",
+      "begin_48" : 0,
+      "top" : "277_0,277_1,277_2,277_3,277_4,277_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 1,
+      "axis_w" : 2,
+      "bottom" : "k.3",
+      "axis_k" : 0,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "transpose_3",
+      "top" : "284",
+      "type" : "transpose",
+      "name" : "transpose_3"
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 3,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "284",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "285",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "285",
+      "begin_48" : 0,
+      "top" : "285_0,285_1,285_2,285_3,285_4,285_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "274",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "292",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "292",
+      "begin_48" : 0,
+      "top" : "292_0,292_1,292_2,292_3,292_4,292_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "285_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.13_transpose_x",
+      "top" : "aw.13_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.13_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "277_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.13_transpose_y",
+      "top" : "aw.13_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.13_transpose_y"
+    },
+    {
+      "bottom" : "aw.13_transpose_1,aw.13_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.13_batch_matmul",
+      "top" : "aw.13_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.13_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.13_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.13",
+      "top" : "aw.13",
+      "type" : "transpose",
+      "name" : "aw.13"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "285_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.15_transpose_x",
+      "top" : "aw.15_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.15_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "277_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.15_transpose_y",
+      "top" : "aw.15_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.15_transpose_y"
+    },
+    {
+      "bottom" : "aw.15_transpose_1,aw.15_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.15_batch_matmul",
+      "top" : "aw.15_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.15_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.15_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.15",
+      "top" : "aw.15",
+      "type" : "transpose",
+      "name" : "aw.15"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "285_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.17_transpose_x",
+      "top" : "aw.17_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.17_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "277_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.17_transpose_y",
+      "top" : "aw.17_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.17_transpose_y"
+    },
+    {
+      "bottom" : "aw.17_transpose_1,aw.17_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.17_batch_matmul",
+      "top" : "aw.17_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.17_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.17_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.17",
+      "top" : "aw.17",
+      "type" : "transpose",
+      "name" : "aw.17"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "285_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.19_transpose_x",
+      "top" : "aw.19_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.19_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "277_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.19_transpose_y",
+      "top" : "aw.19_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.19_transpose_y"
+    },
+    {
+      "bottom" : "aw.19_transpose_1,aw.19_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.19_batch_matmul",
+      "top" : "aw.19_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.19_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.19_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.19",
+      "top" : "aw.19",
+      "type" : "transpose",
+      "name" : "aw.19"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "285_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.21_transpose_x",
+      "top" : "aw.21_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.21_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "277_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.21_transpose_y",
+      "top" : "aw.21_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.21_transpose_y"
+    },
+    {
+      "bottom" : "aw.21_transpose_1,aw.21_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.21_batch_matmul",
+      "top" : "aw.21_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.21_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.21_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.21",
+      "top" : "aw.21",
+      "type" : "transpose",
+      "name" : "aw.21"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "285_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.23_transpose_x",
+      "top" : "aw.23_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.23_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "277_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.23_transpose_y",
+      "top" : "aw.23_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.23_transpose_y"
+    },
+    {
+      "bottom" : "aw.23_transpose_1,aw.23_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.23_batch_matmul",
+      "top" : "aw.23_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.23_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.23_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.23",
+      "top" : "aw.23",
+      "type" : "transpose",
+      "name" : "aw.23"
+    },
+    {
+      "bottom" : "aw.13",
+      "weights" : {
+
+      },
+      "debug_info" : "311",
+      "top" : "311",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "311"
+    },
+    {
+      "bottom" : "aw.15",
+      "weights" : {
+
+      },
+      "debug_info" : "312",
+      "top" : "312",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "312"
+    },
+    {
+      "bottom" : "aw.17",
+      "weights" : {
+
+      },
+      "debug_info" : "313",
+      "top" : "313",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "313"
+    },
+    {
+      "bottom" : "aw.19",
+      "weights" : {
+
+      },
+      "debug_info" : "314",
+      "top" : "314",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "314"
+    },
+    {
+      "bottom" : "aw.21",
+      "weights" : {
+
+      },
+      "debug_info" : "315",
+      "top" : "315",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "315"
+    },
+    {
+      "bottom" : "aw.23",
+      "weights" : {
+
+      },
+      "debug_info" : "316",
+      "top" : "316",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "316"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "292_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "318_transpose_x",
+      "top" : "318_transpose_1",
+      "type" : "transpose",
+      "name" : "318_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "311",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "318_transpose_y",
+      "top" : "318_transpose_2",
+      "type" : "transpose",
+      "name" : "318_transpose_y"
+    },
+    {
+      "bottom" : "318_transpose_1,318_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "318_batch_matmul",
+      "top" : "318_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "318_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "318_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "318",
+      "top" : "318",
+      "type" : "transpose",
+      "name" : "318"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "292_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "320_transpose_x",
+      "top" : "320_transpose_1",
+      "type" : "transpose",
+      "name" : "320_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "312",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "320_transpose_y",
+      "top" : "320_transpose_2",
+      "type" : "transpose",
+      "name" : "320_transpose_y"
+    },
+    {
+      "bottom" : "320_transpose_1,320_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "320_batch_matmul",
+      "top" : "320_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "320_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "320_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "320",
+      "top" : "320",
+      "type" : "transpose",
+      "name" : "320"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "292_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "322_transpose_x",
+      "top" : "322_transpose_1",
+      "type" : "transpose",
+      "name" : "322_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "313",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "322_transpose_y",
+      "top" : "322_transpose_2",
+      "type" : "transpose",
+      "name" : "322_transpose_y"
+    },
+    {
+      "bottom" : "322_transpose_1,322_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "322_batch_matmul",
+      "top" : "322_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "322_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "322_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "322",
+      "top" : "322",
+      "type" : "transpose",
+      "name" : "322"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "292_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "324_transpose_x",
+      "top" : "324_transpose_1",
+      "type" : "transpose",
+      "name" : "324_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "314",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "324_transpose_y",
+      "top" : "324_transpose_2",
+      "type" : "transpose",
+      "name" : "324_transpose_y"
+    },
+    {
+      "bottom" : "324_transpose_1,324_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "324_batch_matmul",
+      "top" : "324_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "324_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "324_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "324",
+      "top" : "324",
+      "type" : "transpose",
+      "name" : "324"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "292_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "326_transpose_x",
+      "top" : "326_transpose_1",
+      "type" : "transpose",
+      "name" : "326_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "315",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "326_transpose_y",
+      "top" : "326_transpose_2",
+      "type" : "transpose",
+      "name" : "326_transpose_y"
+    },
+    {
+      "bottom" : "326_transpose_1,326_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "326_batch_matmul",
+      "top" : "326_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "326_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "326_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "326",
+      "top" : "326",
+      "type" : "transpose",
+      "name" : "326"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "292_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "328_transpose_x",
+      "top" : "328_transpose_1",
+      "type" : "transpose",
+      "name" : "328_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "316",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "328_transpose_y",
+      "top" : "328_transpose_2",
+      "type" : "transpose",
+      "name" : "328_transpose_y"
+    },
+    {
+      "bottom" : "328_transpose_1,328_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "328_batch_matmul",
+      "top" : "328_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "328_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "328_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "328",
+      "top" : "328",
+      "type" : "transpose",
+      "name" : "328"
+    },
+    {
+      "weights" : {
+
+      },
+      "debug_info" : "input.15",
+      "top" : "input.15",
+      "type" : "concat",
+      "name" : "input.15",
+      "bottom" : "318,320,322,324,326,328"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "337",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "337",
+      "blob_weights" : 69,
+      "K" : 384,
+      "blob_biases" : 67,
+      "name" : "337",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.15",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.5,337",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.7",
+      "top" : "inputs.7",
+      "type" : "elementwise",
+      "name" : "inputs.7",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.7",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.17_mean",
+      "use_version" : 1,
+      "top" : "input.17_mean",
+      "type" : "reduce",
+      "name" : "input.17_mean"
+    },
+    {
+      "bottom" : "inputs.7,input.17_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.17_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.17_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.17_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_square",
+      "top" : "input.17_square",
+      "type" : "elementwise",
+      "name" : "input.17_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.17_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.17_square_sum",
+      "use_version" : 1,
+      "top" : "input.17_square_sum",
+      "type" : "reduce",
+      "name" : "input.17_square_sum"
+    },
+    {
+      "top" : "input.17_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.17_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.17_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 71
+    },
+    {
+      "bottom" : "input.17_square_sum,input.17_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.17_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.17_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.17_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.17_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.17_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 73
+    },
+    {
+      "bottom" : "input.17_div_square_sum,input.17_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_add_epsilon",
+      "top" : "input.17_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.17_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.17_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_sqrt",
+      "top" : "input.17_sqrt",
+      "type" : "elementwise",
+      "name" : "input.17_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.17_sub_mean,input.17_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_divide",
+      "nd_mode" : true,
+      "top" : "input.17_divide",
+      "type" : "elementwise",
+      "name" : "input.17_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.17_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.17_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.17_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 75
+    },
+    {
+      "top" : "input.17_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.17_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.17_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 77
+    },
+    {
+      "bottom" : "input.17_divide,input.17_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17_mul",
+      "nd_mode" : true,
+      "top" : "input.17_mul",
+      "type" : "elementwise",
+      "name" : "input.17_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.17_mul,input.17_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.17",
+      "nd_mode" : true,
+      "top" : "input.17",
+      "type" : "elementwise",
+      "name" : "input.17",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "input.19",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "input.19",
+      "blob_weights" : 81,
+      "K" : 384,
+      "blob_biases" : 79,
+      "name" : "input.19",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 1536,
+      "bottom" : "input.17",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "input.19",
+      "weights" : {
+
+      },
+      "mode" : 19,
+      "debug_info" : "input.21",
+      "top" : "input.21",
+      "type" : "activation",
+      "name" : "input.21"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "373",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "373",
+      "blob_weights" : 85,
+      "K" : 1536,
+      "blob_biases" : 83,
+      "name" : "373",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.21",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.7,373",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.9",
+      "top" : "inputs.9",
+      "type" : "elementwise",
+      "name" : "inputs.9",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.9",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.23_mean",
+      "use_version" : 1,
+      "top" : "input.23_mean",
+      "type" : "reduce",
+      "name" : "input.23_mean"
+    },
+    {
+      "bottom" : "inputs.9,input.23_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.23_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.23_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.23_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_square",
+      "top" : "input.23_square",
+      "type" : "elementwise",
+      "name" : "input.23_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.23_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.23_square_sum",
+      "use_version" : 1,
+      "top" : "input.23_square_sum",
+      "type" : "reduce",
+      "name" : "input.23_square_sum"
+    },
+    {
+      "top" : "input.23_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.23_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.23_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 87
+    },
+    {
+      "bottom" : "input.23_square_sum,input.23_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.23_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.23_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.23_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.23_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.23_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 89
+    },
+    {
+      "bottom" : "input.23_div_square_sum,input.23_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_add_epsilon",
+      "top" : "input.23_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.23_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.23_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_sqrt",
+      "top" : "input.23_sqrt",
+      "type" : "elementwise",
+      "name" : "input.23_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.23_sub_mean,input.23_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_divide",
+      "nd_mode" : true,
+      "top" : "input.23_divide",
+      "type" : "elementwise",
+      "name" : "input.23_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.23_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.23_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.23_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 91
+    },
+    {
+      "top" : "input.23_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.23_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.23_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 93
+    },
+    {
+      "bottom" : "input.23_divide,input.23_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23_mul",
+      "nd_mode" : true,
+      "top" : "input.23_mul",
+      "type" : "elementwise",
+      "name" : "input.23_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.23_mul,input.23_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.23",
+      "nd_mode" : true,
+      "top" : "input.23",
+      "type" : "elementwise",
+      "name" : "input.23",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "433",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "433",
+      "blob_weights" : 97,
+      "K" : 384,
+      "blob_biases" : 95,
+      "name" : "433",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.23",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "k.5",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "k.5",
+      "blob_weights" : 99,
+      "K" : 384,
+      "name" : "k.5",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 0,
+      "C" : 384,
+      "bottom" : "input.23",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "431",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "431",
+      "blob_weights" : 103,
+      "K" : 384,
+      "blob_biases" : 101,
+      "name" : "431",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.23",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "433",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "434",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "434",
+      "begin_48" : 0,
+      "top" : "434_0,434_1,434_2,434_3,434_4,434_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 1,
+      "axis_w" : 2,
+      "bottom" : "k.5",
+      "axis_k" : 0,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "transpose_2",
+      "top" : "441",
+      "type" : "transpose",
+      "name" : "transpose_2"
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 3,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "441",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "442",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "442",
+      "begin_48" : 0,
+      "top" : "442_0,442_1,442_2,442_3,442_4,442_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "431",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "449",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "449",
+      "begin_48" : 0,
+      "top" : "449_0,449_1,449_2,449_3,449_4,449_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "442_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.25_transpose_x",
+      "top" : "aw.25_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.25_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "434_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.25_transpose_y",
+      "top" : "aw.25_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.25_transpose_y"
+    },
+    {
+      "bottom" : "aw.25_transpose_1,aw.25_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.25_batch_matmul",
+      "top" : "aw.25_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.25_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.25_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.25",
+      "top" : "aw.25",
+      "type" : "transpose",
+      "name" : "aw.25"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "442_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.27_transpose_x",
+      "top" : "aw.27_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.27_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "434_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.27_transpose_y",
+      "top" : "aw.27_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.27_transpose_y"
+    },
+    {
+      "bottom" : "aw.27_transpose_1,aw.27_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.27_batch_matmul",
+      "top" : "aw.27_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.27_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.27_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.27",
+      "top" : "aw.27",
+      "type" : "transpose",
+      "name" : "aw.27"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "442_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.29_transpose_x",
+      "top" : "aw.29_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.29_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "434_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.29_transpose_y",
+      "top" : "aw.29_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.29_transpose_y"
+    },
+    {
+      "bottom" : "aw.29_transpose_1,aw.29_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.29_batch_matmul",
+      "top" : "aw.29_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.29_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.29_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.29",
+      "top" : "aw.29",
+      "type" : "transpose",
+      "name" : "aw.29"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "442_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.31_transpose_x",
+      "top" : "aw.31_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.31_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "434_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.31_transpose_y",
+      "top" : "aw.31_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.31_transpose_y"
+    },
+    {
+      "bottom" : "aw.31_transpose_1,aw.31_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.31_batch_matmul",
+      "top" : "aw.31_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.31_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.31_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.31",
+      "top" : "aw.31",
+      "type" : "transpose",
+      "name" : "aw.31"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "442_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.33_transpose_x",
+      "top" : "aw.33_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.33_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "434_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.33_transpose_y",
+      "top" : "aw.33_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.33_transpose_y"
+    },
+    {
+      "bottom" : "aw.33_transpose_1,aw.33_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.33_batch_matmul",
+      "top" : "aw.33_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.33_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.33_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.33",
+      "top" : "aw.33",
+      "type" : "transpose",
+      "name" : "aw.33"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "442_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.35_transpose_x",
+      "top" : "aw.35_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.35_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "434_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.35_transpose_y",
+      "top" : "aw.35_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.35_transpose_y"
+    },
+    {
+      "bottom" : "aw.35_transpose_1,aw.35_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.35_batch_matmul",
+      "top" : "aw.35_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.35_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.35_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.35",
+      "top" : "aw.35",
+      "type" : "transpose",
+      "name" : "aw.35"
+    },
+    {
+      "bottom" : "aw.25",
+      "weights" : {
+
+      },
+      "debug_info" : "468",
+      "top" : "468",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "468"
+    },
+    {
+      "bottom" : "aw.27",
+      "weights" : {
+
+      },
+      "debug_info" : "469",
+      "top" : "469",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "469"
+    },
+    {
+      "bottom" : "aw.29",
+      "weights" : {
+
+      },
+      "debug_info" : "470",
+      "top" : "470",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "470"
+    },
+    {
+      "bottom" : "aw.31",
+      "weights" : {
+
+      },
+      "debug_info" : "471",
+      "top" : "471",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "471"
+    },
+    {
+      "bottom" : "aw.33",
+      "weights" : {
+
+      },
+      "debug_info" : "472",
+      "top" : "472",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "472"
+    },
+    {
+      "bottom" : "aw.35",
+      "weights" : {
+
+      },
+      "debug_info" : "473",
+      "top" : "473",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "473"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "449_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "475_transpose_x",
+      "top" : "475_transpose_1",
+      "type" : "transpose",
+      "name" : "475_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "468",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "475_transpose_y",
+      "top" : "475_transpose_2",
+      "type" : "transpose",
+      "name" : "475_transpose_y"
+    },
+    {
+      "bottom" : "475_transpose_1,475_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "475_batch_matmul",
+      "top" : "475_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "475_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "475_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "475",
+      "top" : "475",
+      "type" : "transpose",
+      "name" : "475"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "449_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "477_transpose_x",
+      "top" : "477_transpose_1",
+      "type" : "transpose",
+      "name" : "477_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "469",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "477_transpose_y",
+      "top" : "477_transpose_2",
+      "type" : "transpose",
+      "name" : "477_transpose_y"
+    },
+    {
+      "bottom" : "477_transpose_1,477_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "477_batch_matmul",
+      "top" : "477_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "477_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "477_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "477",
+      "top" : "477",
+      "type" : "transpose",
+      "name" : "477"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "449_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "479_transpose_x",
+      "top" : "479_transpose_1",
+      "type" : "transpose",
+      "name" : "479_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "470",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "479_transpose_y",
+      "top" : "479_transpose_2",
+      "type" : "transpose",
+      "name" : "479_transpose_y"
+    },
+    {
+      "bottom" : "479_transpose_1,479_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "479_batch_matmul",
+      "top" : "479_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "479_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "479_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "479",
+      "top" : "479",
+      "type" : "transpose",
+      "name" : "479"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "449_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "481_transpose_x",
+      "top" : "481_transpose_1",
+      "type" : "transpose",
+      "name" : "481_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "471",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "481_transpose_y",
+      "top" : "481_transpose_2",
+      "type" : "transpose",
+      "name" : "481_transpose_y"
+    },
+    {
+      "bottom" : "481_transpose_1,481_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "481_batch_matmul",
+      "top" : "481_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "481_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "481_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "481",
+      "top" : "481",
+      "type" : "transpose",
+      "name" : "481"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "449_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "483_transpose_x",
+      "top" : "483_transpose_1",
+      "type" : "transpose",
+      "name" : "483_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "472",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "483_transpose_y",
+      "top" : "483_transpose_2",
+      "type" : "transpose",
+      "name" : "483_transpose_y"
+    },
+    {
+      "bottom" : "483_transpose_1,483_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "483_batch_matmul",
+      "top" : "483_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "483_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "483_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "483",
+      "top" : "483",
+      "type" : "transpose",
+      "name" : "483"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "449_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "485_transpose_x",
+      "top" : "485_transpose_1",
+      "type" : "transpose",
+      "name" : "485_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "473",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "485_transpose_y",
+      "top" : "485_transpose_2",
+      "type" : "transpose",
+      "name" : "485_transpose_y"
+    },
+    {
+      "bottom" : "485_transpose_1,485_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "485_batch_matmul",
+      "top" : "485_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "485_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "485_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "485",
+      "top" : "485",
+      "type" : "transpose",
+      "name" : "485"
+    },
+    {
+      "weights" : {
+
+      },
+      "debug_info" : "input.25",
+      "top" : "input.25",
+      "type" : "concat",
+      "name" : "input.25",
+      "bottom" : "475,477,479,481,483,485"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "494",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "494",
+      "blob_weights" : 107,
+      "K" : 384,
+      "blob_biases" : 105,
+      "name" : "494",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.25",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.9,494",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.11",
+      "top" : "inputs.11",
+      "type" : "elementwise",
+      "name" : "inputs.11",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.11",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.27_mean",
+      "use_version" : 1,
+      "top" : "input.27_mean",
+      "type" : "reduce",
+      "name" : "input.27_mean"
+    },
+    {
+      "bottom" : "inputs.11,input.27_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.27_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.27_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.27_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_square",
+      "top" : "input.27_square",
+      "type" : "elementwise",
+      "name" : "input.27_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.27_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.27_square_sum",
+      "use_version" : 1,
+      "top" : "input.27_square_sum",
+      "type" : "reduce",
+      "name" : "input.27_square_sum"
+    },
+    {
+      "top" : "input.27_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.27_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.27_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 109
+    },
+    {
+      "bottom" : "input.27_square_sum,input.27_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.27_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.27_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.27_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.27_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.27_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 111
+    },
+    {
+      "bottom" : "input.27_div_square_sum,input.27_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_add_epsilon",
+      "top" : "input.27_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.27_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.27_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_sqrt",
+      "top" : "input.27_sqrt",
+      "type" : "elementwise",
+      "name" : "input.27_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.27_sub_mean,input.27_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_divide",
+      "nd_mode" : true,
+      "top" : "input.27_divide",
+      "type" : "elementwise",
+      "name" : "input.27_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.27_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.27_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.27_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 113
+    },
+    {
+      "top" : "input.27_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.27_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.27_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 115
+    },
+    {
+      "bottom" : "input.27_divide,input.27_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27_mul",
+      "nd_mode" : true,
+      "top" : "input.27_mul",
+      "type" : "elementwise",
+      "name" : "input.27_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.27_mul,input.27_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.27",
+      "nd_mode" : true,
+      "top" : "input.27",
+      "type" : "elementwise",
+      "name" : "input.27",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "input.29",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "input.29",
+      "blob_weights" : 119,
+      "K" : 384,
+      "blob_biases" : 117,
+      "name" : "input.29",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 1536,
+      "bottom" : "input.27",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "input.29",
+      "weights" : {
+
+      },
+      "mode" : 19,
+      "debug_info" : "input.31",
+      "top" : "input.31",
+      "type" : "activation",
+      "name" : "input.31"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "530",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "530",
+      "blob_weights" : 123,
+      "K" : 1536,
+      "blob_biases" : 121,
+      "name" : "530",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.31",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.11,530",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.13",
+      "top" : "inputs.13",
+      "type" : "elementwise",
+      "name" : "inputs.13",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.13",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.33_mean",
+      "use_version" : 1,
+      "top" : "input.33_mean",
+      "type" : "reduce",
+      "name" : "input.33_mean"
+    },
+    {
+      "bottom" : "inputs.13,input.33_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.33_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.33_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.33_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_square",
+      "top" : "input.33_square",
+      "type" : "elementwise",
+      "name" : "input.33_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.33_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.33_square_sum",
+      "use_version" : 1,
+      "top" : "input.33_square_sum",
+      "type" : "reduce",
+      "name" : "input.33_square_sum"
+    },
+    {
+      "top" : "input.33_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.33_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.33_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 125
+    },
+    {
+      "bottom" : "input.33_square_sum,input.33_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.33_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.33_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.33_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.33_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.33_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 127
+    },
+    {
+      "bottom" : "input.33_div_square_sum,input.33_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_add_epsilon",
+      "top" : "input.33_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.33_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.33_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_sqrt",
+      "top" : "input.33_sqrt",
+      "type" : "elementwise",
+      "name" : "input.33_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.33_sub_mean,input.33_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_divide",
+      "nd_mode" : true,
+      "top" : "input.33_divide",
+      "type" : "elementwise",
+      "name" : "input.33_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.33_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.33_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.33_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 129
+    },
+    {
+      "top" : "input.33_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.33_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.33_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 131
+    },
+    {
+      "bottom" : "input.33_divide,input.33_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33_mul",
+      "nd_mode" : true,
+      "top" : "input.33_mul",
+      "type" : "elementwise",
+      "name" : "input.33_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.33_mul,input.33_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.33",
+      "nd_mode" : true,
+      "top" : "input.33",
+      "type" : "elementwise",
+      "name" : "input.33",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "590",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "590",
+      "blob_weights" : 135,
+      "K" : 384,
+      "blob_biases" : 133,
+      "name" : "590",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.33",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "k",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "k",
+      "blob_weights" : 137,
+      "K" : 384,
+      "name" : "k",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 0,
+      "C" : 384,
+      "bottom" : "input.33",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "588",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "588",
+      "blob_weights" : 141,
+      "K" : 384,
+      "blob_biases" : 139,
+      "name" : "588",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.33",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "590",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "591",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "591",
+      "begin_48" : 0,
+      "top" : "591_0,591_1,591_2,591_3,591_4,591_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 1,
+      "axis_w" : 2,
+      "bottom" : "k",
+      "axis_k" : 0,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "transpose_1",
+      "top" : "598",
+      "type" : "transpose",
+      "name" : "transpose_1"
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 3,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "598",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "599",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "599",
+      "begin_48" : 0,
+      "top" : "599_0,599_1,599_2,599_3,599_4,599_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "begin_104" : 0,
+      "begin_63" : 0,
+      "begin_59" : 0,
+      "begin_64" : 0,
+      "begin_105" : 0,
+      "begin_65" : 0,
+      "begin_0" : 0,
+      "begin_70" : 0,
+      "begin_66" : 0,
+      "begin_106" : 0,
+      "begin_110" : 0,
+      "begin_2" : 0,
+      "begin_71" : 0,
+      "begin_67" : 0,
+      "begin_68" : 0,
+      "begin_107" : 0,
+      "begin_111" : 0,
+      "begin_4" : 0,
+      "begin_72" : 0,
+      "begin_73" : 0,
+      "begin_69" : 0,
+      "begin_6" : 0,
+      "begin_74" : 0,
+      "begin_108" : 0,
+      "type" : "split_nd",
+      "begin_8" : 0,
+      "begin_112" : 0,
+      "begin_75" : 0,
+      "begin_10" : 0,
+      "begin_80" : 0,
+      "begin_76" : 0,
+      "begin_109" : 0,
+      "begin_113" : 0,
+      "begin_11" : 0,
+      "nd_axis" : 1,
+      "begin_81" : 0,
+      "begin_77" : 0,
+      "begin_114" : 0,
+      "begin_12" : 0,
+      "begin_78" : 0,
+      "begin_82" : 0,
+      "begin_13" : 0,
+      "begin_83" : 0,
+      "begin_79" : 0,
+      "begin_115" : 0,
+      "begin_14" : 0,
+      "begin_84" : 0,
+      "begin_15" : 0,
+      "begin_85" : 0,
+      "num_splits" : 6,
+      "begin_116" : 0,
+      "begin_120" : 0,
+      "begin_20" : 0,
+      "begin_86" : 0,
+      "begin_16" : 0,
+      "begin_90" : 0,
+      "begin_21" : 0,
+      "begin_91" : 0,
+      "begin_87" : 0,
+      "begin_17" : 0,
+      "begin_117" : 0,
+      "begin_121" : 0,
+      "begin_18" : 0,
+      "begin_92" : 0,
+      "begin_88" : 0,
+      "begin_22" : 0,
+      "begin_23" : 0,
+      "begin_89" : 0,
+      "begin_19" : 0,
+      "begin_93" : 0,
+      "begin_118" : 0,
+      "begin_122" : 0,
+      "begin_24" : 0,
+      "begin_94" : 0,
+      "begin_25" : 0,
+      "begin_95" : 0,
+      "begin_119" : 0,
+      "begin_123" : 0,
+      "begin_30" : 0,
+      "begin_26" : 0,
+      "begin_96" : 0,
+      "begin_124" : 0,
+      "begin_31" : 0,
+      "begin_97" : 0,
+      "begin_27" : 0,
+      "begin_28" : 0,
+      "begin_98" : 0,
+      "begin_32" : 0,
+      "begin_125" : 0,
+      "begin_33" : 0,
+      "begin_29" : 0,
+      "begin_99" : 0,
+      "begin_1" : 0,
+      "weights" : {
+
+      },
+      "begin_34" : 0,
+      "bottom" : "588",
+      "begin_3" : 0,
+      "begin_126" : 0,
+      "begin_35" : 0,
+      "begin_5" : 0,
+      "begin_36" : 0,
+      "begin_40" : 0,
+      "begin_127" : 0,
+      "name" : "606",
+      "begin_41" : 0,
+      "begin_37" : 0,
+      "begin_7" : 0,
+      "begin_42" : 0,
+      "begin_38" : 0,
+      "begin_9" : 0,
+      "begin_39" : 0,
+      "begin_43" : 0,
+      "begin_44" : 0,
+      "begin_45" : 0,
+      "begin_50" : 0,
+      "begin_46" : 0,
+      "begin_51" : 0,
+      "begin_47" : 0,
+      "begin_100" : 0,
+      "begin_52" : 0,
+      "debug_info" : "606",
+      "begin_48" : 0,
+      "top" : "606_0,606_1,606_2,606_3,606_4,606_5",
+      "begin_101" : 0,
+      "begin_53" : 0,
+      "begin_49" : 0,
+      "begin_54" : 0,
+      "begin_55" : 0,
+      "begin_102" : 0,
+      "begin_60" : 0,
+      "begin_56" : 0,
+      "begin_103" : 0,
+      "begin_57" : 0,
+      "begin_61" : 0,
+      "begin_62" : 0,
+      "begin_58" : 0
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "599_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.37_transpose_x",
+      "top" : "aw.37_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.37_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "591_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.37_transpose_y",
+      "top" : "aw.37_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.37_transpose_y"
+    },
+    {
+      "bottom" : "aw.37_transpose_1,aw.37_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.37_batch_matmul",
+      "top" : "aw.37_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.37_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.37_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.37",
+      "top" : "aw.37",
+      "type" : "transpose",
+      "name" : "aw.37"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "599_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.39_transpose_x",
+      "top" : "aw.39_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.39_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "591_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.39_transpose_y",
+      "top" : "aw.39_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.39_transpose_y"
+    },
+    {
+      "bottom" : "aw.39_transpose_1,aw.39_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.39_batch_matmul",
+      "top" : "aw.39_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.39_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.39_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.39",
+      "top" : "aw.39",
+      "type" : "transpose",
+      "name" : "aw.39"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "599_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.41_transpose_x",
+      "top" : "aw.41_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.41_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "591_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.41_transpose_y",
+      "top" : "aw.41_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.41_transpose_y"
+    },
+    {
+      "bottom" : "aw.41_transpose_1,aw.41_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.41_batch_matmul",
+      "top" : "aw.41_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.41_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.41_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.41",
+      "top" : "aw.41",
+      "type" : "transpose",
+      "name" : "aw.41"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "599_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.43_transpose_x",
+      "top" : "aw.43_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.43_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "591_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.43_transpose_y",
+      "top" : "aw.43_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.43_transpose_y"
+    },
+    {
+      "bottom" : "aw.43_transpose_1,aw.43_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.43_batch_matmul",
+      "top" : "aw.43_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.43_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.43_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.43",
+      "top" : "aw.43",
+      "type" : "transpose",
+      "name" : "aw.43"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "599_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.45_transpose_x",
+      "top" : "aw.45_transpose_1",
+      "type" : "transpose",
+      "name" : "aw.45_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "591_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.45_transpose_y",
+      "top" : "aw.45_transpose_2",
+      "type" : "transpose",
+      "name" : "aw.45_transpose_y"
+    },
+    {
+      "bottom" : "aw.45_transpose_1,aw.45_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw.45_batch_matmul",
+      "top" : "aw.45_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw.45_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw.45_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw.45",
+      "top" : "aw.45",
+      "type" : "transpose",
+      "name" : "aw.45"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "599_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw_transpose_x",
+      "top" : "aw_transpose_1",
+      "type" : "transpose",
+      "name" : "aw_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "591_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw_transpose_y",
+      "top" : "aw_transpose_2",
+      "type" : "transpose",
+      "name" : "aw_transpose_y"
+    },
+    {
+      "bottom" : "aw_transpose_1,aw_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "aw_batch_matmul",
+      "top" : "aw_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "aw_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "aw_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "aw",
+      "top" : "aw",
+      "type" : "transpose",
+      "name" : "aw"
+    },
+    {
+      "bottom" : "aw.37",
+      "weights" : {
+
+      },
+      "debug_info" : "625",
+      "top" : "625",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "625"
+    },
+    {
+      "bottom" : "aw.39",
+      "weights" : {
+
+      },
+      "debug_info" : "626",
+      "top" : "626",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "626"
+    },
+    {
+      "bottom" : "aw.41",
+      "weights" : {
+
+      },
+      "debug_info" : "627",
+      "top" : "627",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "627"
+    },
+    {
+      "bottom" : "aw.43",
+      "weights" : {
+
+      },
+      "debug_info" : "628",
+      "top" : "628",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "628"
+    },
+    {
+      "bottom" : "aw.45",
+      "weights" : {
+
+      },
+      "debug_info" : "629",
+      "top" : "629",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "629"
+    },
+    {
+      "bottom" : "aw",
+      "weights" : {
+
+      },
+      "debug_info" : "630",
+      "top" : "630",
+      "C" : 2,
+      "type" : "softmax",
+      "name" : "630"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "606_0",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "632_transpose_x",
+      "top" : "632_transpose_1",
+      "type" : "transpose",
+      "name" : "632_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "625",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "632_transpose_y",
+      "top" : "632_transpose_2",
+      "type" : "transpose",
+      "name" : "632_transpose_y"
+    },
+    {
+      "bottom" : "632_transpose_1,632_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "632_batch_matmul",
+      "top" : "632_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "632_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "632_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "632",
+      "top" : "632",
+      "type" : "transpose",
+      "name" : "632"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "606_1",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "634_transpose_x",
+      "top" : "634_transpose_1",
+      "type" : "transpose",
+      "name" : "634_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "626",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "634_transpose_y",
+      "top" : "634_transpose_2",
+      "type" : "transpose",
+      "name" : "634_transpose_y"
+    },
+    {
+      "bottom" : "634_transpose_1,634_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "634_batch_matmul",
+      "top" : "634_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "634_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "634_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "634",
+      "top" : "634",
+      "type" : "transpose",
+      "name" : "634"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "606_2",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "636_transpose_x",
+      "top" : "636_transpose_1",
+      "type" : "transpose",
+      "name" : "636_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "627",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "636_transpose_y",
+      "top" : "636_transpose_2",
+      "type" : "transpose",
+      "name" : "636_transpose_y"
+    },
+    {
+      "bottom" : "636_transpose_1,636_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "636_batch_matmul",
+      "top" : "636_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "636_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "636_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "636",
+      "top" : "636",
+      "type" : "transpose",
+      "name" : "636"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "606_3",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "638_transpose_x",
+      "top" : "638_transpose_1",
+      "type" : "transpose",
+      "name" : "638_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "628",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "638_transpose_y",
+      "top" : "638_transpose_2",
+      "type" : "transpose",
+      "name" : "638_transpose_y"
+    },
+    {
+      "bottom" : "638_transpose_1,638_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "638_batch_matmul",
+      "top" : "638_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "638_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "638_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "638",
+      "top" : "638",
+      "type" : "transpose",
+      "name" : "638"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "606_4",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "640_transpose_x",
+      "top" : "640_transpose_1",
+      "type" : "transpose",
+      "name" : "640_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "629",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "640_transpose_y",
+      "top" : "640_transpose_2",
+      "type" : "transpose",
+      "name" : "640_transpose_y"
+    },
+    {
+      "bottom" : "640_transpose_1,640_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "640_batch_matmul",
+      "top" : "640_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "640_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "640_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "640",
+      "top" : "640",
+      "type" : "transpose",
+      "name" : "640"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "606_5",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "642_transpose_x",
+      "top" : "642_transpose_1",
+      "type" : "transpose",
+      "name" : "642_transpose_x"
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "630",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "642_transpose_y",
+      "top" : "642_transpose_2",
+      "type" : "transpose",
+      "name" : "642_transpose_y"
+    },
+    {
+      "bottom" : "642_transpose_1,642_transpose_2",
+      "weights" : {
+
+      },
+      "debug_info" : "642_batch_matmul",
+      "top" : "642_pre_transpose",
+      "type" : "batch_matmul",
+      "name" : "642_batch_matmul",
+      "channel_mode" : false
+    },
+    {
+      "axis_h" : 2,
+      "axis_w" : 0,
+      "bottom" : "642_pre_transpose",
+      "axis_k" : 1,
+      "axis_n" : 3,
+      "axis_seq" : 4,
+      "weights" : {
+
+      },
+      "debug_info" : "642",
+      "top" : "642",
+      "type" : "transpose",
+      "name" : "642"
+    },
+    {
+      "weights" : {
+
+      },
+      "debug_info" : "input.35",
+      "top" : "input.35",
+      "type" : "concat",
+      "name" : "input.35",
+      "bottom" : "632,634,636,638,640,642"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "651",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "651",
+      "blob_weights" : 145,
+      "K" : 384,
+      "blob_biases" : 143,
+      "name" : "651",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input.35",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.13,651",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs.15",
+      "top" : "inputs.15",
+      "type" : "elementwise",
+      "name" : "inputs.15",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs.15",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.37_mean",
+      "use_version" : 1,
+      "top" : "input.37_mean",
+      "type" : "reduce",
+      "name" : "input.37_mean"
+    },
+    {
+      "bottom" : "inputs.15,input.37_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_sub_mean",
+      "nd_mode" : true,
+      "top" : "input.37_sub_mean",
+      "type" : "elementwise",
+      "name" : "input.37_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.37_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_square",
+      "top" : "input.37_square",
+      "type" : "elementwise",
+      "name" : "input.37_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "input.37_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "input.37_square_sum",
+      "use_version" : 1,
+      "top" : "input.37_square_sum",
+      "type" : "reduce",
+      "name" : "input.37_square_sum"
+    },
+    {
+      "top" : "input.37_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.37_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.37_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 147
+    },
+    {
+      "bottom" : "input.37_square_sum,input.37_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_div_square_sum",
+      "nd_mode" : true,
+      "top" : "input.37_div_square_sum",
+      "type" : "elementwise",
+      "name" : "input.37_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "input.37_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.37_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "input.37_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 149
+    },
+    {
+      "bottom" : "input.37_div_square_sum,input.37_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_add_epsilon",
+      "top" : "input.37_add_epsilon",
+      "type" : "elementwise",
+      "name" : "input.37_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.37_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_sqrt",
+      "top" : "input.37_sqrt",
+      "type" : "elementwise",
+      "name" : "input.37_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.37_sub_mean,input.37_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_divide",
+      "nd_mode" : true,
+      "top" : "input.37_divide",
+      "type" : "elementwise",
+      "name" : "input.37_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "input.37_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.37_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.37_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 151
+    },
+    {
+      "top" : "input.37_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "input.37_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "input.37_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 153
+    },
+    {
+      "bottom" : "input.37_divide,input.37_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37_mul",
+      "nd_mode" : true,
+      "top" : "input.37_mul",
+      "type" : "elementwise",
+      "name" : "input.37_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "input.37_mul,input.37_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "input.37",
+      "nd_mode" : true,
+      "top" : "input.37",
+      "type" : "elementwise",
+      "name" : "input.37",
+      "beta" : 0
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "input.39",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "input.39",
+      "blob_weights" : 157,
+      "K" : 384,
+      "blob_biases" : 155,
+      "name" : "input.39",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 1536,
+      "bottom" : "input.37",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "input.39",
+      "weights" : {
+
+      },
+      "mode" : 19,
+      "debug_info" : "input",
+      "top" : "input",
+      "type" : "activation",
+      "name" : "input"
+    },
+    {
+      "pad_r" : 0,
+      "fused_relu" : 0,
+      "fused_tanh" : 0,
+      "debug_info" : "687",
+      "pad_fill_mode" : 0,
+      "pad_b" : 0,
+      "pad_l" : 0,
+      "top" : "687",
+      "blob_weights" : 161,
+      "K" : 1536,
+      "blob_biases" : 159,
+      "name" : "687",
+      "has_batch_norm" : 0,
+      "type" : "convolution",
+      "n_groups" : 1,
+      "pad_t" : 0,
+      "has_biases" : 1,
+      "C" : 384,
+      "bottom" : "input",
+      "weights" : {
+
+      },
+      "Nx" : 1,
+      "pad_mode" : 0,
+      "pad_value" : 0,
+      "Ny" : 1,
+      "n_parallel" : 1
+    },
+    {
+      "bottom" : "inputs.15,687",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "inputs",
+      "top" : "inputs",
+      "type" : "elementwise",
+      "name" : "inputs",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "inputs",
+      "weights" : {
+
+      },
+      "mode" : 1,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "x_mean",
+      "use_version" : 1,
+      "top" : "x_mean",
+      "type" : "reduce",
+      "name" : "x_mean"
+    },
+    {
+      "bottom" : "inputs,x_mean",
+      "alpha" : 1,
+      "operation" : 33,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_sub_mean",
+      "nd_mode" : true,
+      "top" : "x_sub_mean",
+      "type" : "elementwise",
+      "name" : "x_sub_mean",
+      "beta" : 0
+    },
+    {
+      "bottom" : "x_sub_mean",
+      "alpha" : 2,
+      "operation" : 13,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_square",
+      "top" : "x_square",
+      "type" : "elementwise",
+      "name" : "x_square",
+      "beta" : 0
+    },
+    {
+      "axis_mode" : 4,
+      "bottom" : "x_square",
+      "weights" : {
+
+      },
+      "mode" : 0,
+      "nd_axis" : 1,
+      "nd_mode" : true,
+      "debug_info" : "x_square_sum",
+      "use_version" : 1,
+      "top" : "x_square_sum",
+      "type" : "reduce",
+      "name" : "x_square_sum"
+    },
+    {
+      "top" : "x_div_constant",
+      "w" : 1,
+      "h" : 1,
+      "name" : "x_div_constant",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "x_div_constant",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 163
+    },
+    {
+      "bottom" : "x_square_sum,x_div_constant",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_div_square_sum",
+      "nd_mode" : true,
+      "top" : "x_div_square_sum",
+      "type" : "elementwise",
+      "name" : "x_div_square_sum",
+      "beta" : 0
+    },
+    {
+      "top" : "x_epsilon",
+      "w" : 1,
+      "h" : 1,
+      "name" : "x_epsilon",
+      "nd_rank" : 1,
+      "type" : "load_constant",
+      "k" : 1,
+      "bottom" : "",
+      "debug_info" : "x_epsilon",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 165
+    },
+    {
+      "bottom" : "x_div_square_sum,x_epsilon",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_add_epsilon",
+      "top" : "x_add_epsilon",
+      "type" : "elementwise",
+      "name" : "x_add_epsilon",
+      "beta" : 0
+    },
+    {
+      "bottom" : "x_add_epsilon",
+      "alpha" : 1,
+      "operation" : 11,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_sqrt",
+      "top" : "x_sqrt",
+      "type" : "elementwise",
+      "name" : "x_sqrt",
+      "beta" : 0
+    },
+    {
+      "bottom" : "x_sub_mean,x_sqrt",
+      "alpha" : 1,
+      "operation" : 102,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_divide",
+      "nd_mode" : true,
+      "top" : "x_divide",
+      "type" : "elementwise",
+      "name" : "x_divide",
+      "beta" : 0
+    },
+    {
+      "top" : "x_gamma",
+      "w" : 1,
+      "h" : 1,
+      "name" : "x_gamma",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "x_gamma",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 167
+    },
+    {
+      "top" : "x_beta",
+      "w" : 1,
+      "h" : 1,
+      "name" : "x_beta",
+      "nd_rank" : 4,
+      "type" : "load_constant",
+      "k" : 384,
+      "bottom" : "",
+      "debug_info" : "x_beta",
+      "n" : 1,
+      "weights" : {
+
+      },
+      "constant_blob" : 169
+    },
+    {
+      "bottom" : "x_divide,x_gamma",
+      "alpha" : 1,
+      "operation" : 1,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x_mul",
+      "nd_mode" : true,
+      "top" : "x_mul",
+      "type" : "elementwise",
+      "name" : "x_mul",
+      "beta" : 0
+    },
+    {
+      "bottom" : "x_mul,x_beta",
+      "alpha" : 1,
+      "operation" : 0,
+      "weights" : {
+
+      },
+      "fused_relu" : 0,
+      "debug_info" : "x",
+      "nd_mode" : true,
+      "top" : "x",
+      "type" : "elementwise",
+      "name" : "x",
+      "beta" : 0
+    },
+    {
+      "size_of_axes" : 1,
+      "bottom" : "x",
+      "axes_0" : 2,
+      "weights" : {
+
+      },
+      "nd_axis" : 0,
+      "debug_info" : "712",
+      "version" : 1,
+      "top" : "712",
+      "type" : "squeeze",
+      "name" : "712"
+    },
+    {
+      "axis_seq" : 4,
+      "name" : "transpose_0",
+      "axis_n" : 3,
+      "axis_h" : 0,
+      "type" : "transpose",
+      "attributes" : {
+        "is_output" : 1
+      },
+      "bottom" : "712",
+      "axis_w" : 1,
+      "axis_k" : 2,
+      "debug_info" : "transpose_0",
+      "weights" : {
+
+      },
+      "top" : "output"
+    }
+  ]
+}

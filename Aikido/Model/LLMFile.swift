@@ -19,7 +19,7 @@ final class LLMFile {
     @Transient  private var _isDownloaded = false
     @Transient var isDownloaded: Bool {
         get {
-            _isDownloaded || FileManager.default.fileExists(atPath: fileURL.path())
+            _isDownloaded && FileManager.default.fileExists(atPath: localModelURL.path())
         }
         set {
             _isDownloaded = newValue
@@ -68,11 +68,12 @@ extension LLMFile: Codable {
     }
 }
 
-// MARK: - Methods
+// MARK: - Helper
 
 extension LLMFile {
     var localModelURL: URL {
         let lastPath = modelURL.components(separatedBy: "/").last ?? ""
-        return FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].appendingPathComponent(lastPath)
+        return FileManager.default.urls(for: .documentDirectory,
+                                        in: .userDomainMask)[0].appendingPathComponent(lastPath)
     }
 }
