@@ -27,7 +27,6 @@ struct SettingsView: View {
 
     var body: some View {
         formView
-            .navigationBarTitle("Settings")
             .onAppear {
                 createData()
                 loadWhisper()
@@ -35,44 +34,41 @@ struct SettingsView: View {
     }
     
     var formView: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    Picker("Select", selection: $whisperName) {
-                        ForEach(whisperFiles) { whisperFile in
-                            WhisperRowView(whisperFile: whisperFile)
-                                .tag(whisperFile.name)
-                        }
+        Form {
+            Section {
+                Picker("Select", selection: $whisperName) {
+                    ForEach(whisperFiles) { whisperFile in
+                        WhisperRowView(whisperFile: whisperFile)
+                            .tag(whisperFile.name)
                     }
-                    .onChange(of: whisperName) {
-                        whisperFile = whisperFiles.first { $0.name == whisperName }
-                    }
-                    .pickerStyle(.navigationLink)
-                    
+                }
+                .onChange(of: whisperName) {
+                    whisperFile = whisperFiles.first { $0.name == whisperName }
+                }
+                .pickerStyle(.navigationLink)
+                
 //                    if let whisperFile = whisperFile,
 //                       !whisperFile.isDownloaded {
 //                        fileDownloadView
 //                    }
-                } header: {
-                    Text("Whisper AI Model")
-                } footer: {
-                    Text("General-purpose speech recognition model")
-                }
-                
-                Section {
-                    Picker("Select", selection: $llmName) {
-                        ForEach(llmFiles) { llmFile in
-                            Text(llmFile.name)
-                                .tag(llmFile.name)
-                        }
-                    }
-                } header: {
-                    Text("LLM Model")
-                } footer: {
-                    Text("General-purpose AI model")
-                }
+            } header: {
+                Text("Whisper AI Model")
+            } footer: {
+                Text("General-purpose speech recognition model")
             }
-            .navigationBarTitle("Settings")
+            
+            Section {
+                Picker("Select", selection: $llmName) {
+                    ForEach(llmFiles) { llmFile in
+                        Text(llmFile.name)
+                            .tag(llmFile.name)
+                    }
+                }
+            } header: {
+                Text("LLM Model")
+            } footer: {
+                Text("General-purpose AI model")
+            }
         }
     }
     

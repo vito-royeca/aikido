@@ -48,7 +48,7 @@ class WhisperManager {
         }
     }
     
-    func copyFile(name: String) {
+    private func copyFile(name: String) {
         if let resPath = Bundle.main.resourcePath {
             do {
                 let dirContents = try FileManager.default.contentsOfDirectory(atPath: resPath)
@@ -87,7 +87,6 @@ class WhisperManager {
             let data = try readAudioSamples(url)
             await whisperContext.fullTranscribe(samples: data)
             let text = await whisperContext.getTranscription()
-//            return await saveRecording(url: url, transcription: text)
             return text
         } catch {
             print(error)
@@ -144,6 +143,4 @@ class WhisperManager {
             }
         }
     }
-    
-    
 }

@@ -17,52 +17,47 @@ struct RecordingsView: View {
     private var recordings: [Recording]
 
     var body: some View {
-        NavigationStack {
-            listView
-                .toolbar {
-                    RecordingsToolbar(isImporting: $isImporting)
+        listView
+            .fileImporter(isPresented: $isImporting,
+                          allowedContentTypes: [.audio]) {
+                switch $0 {
+                case .success(let url):
+                    self.importedURL = url
+                case .failure(let error):
+                    print(error)
                 }
-                .navigationBarTitle("Recordings")
-                .fileImporter(isPresented: $isImporting,
-                              allowedContentTypes: [.audio]) {
-                    switch $0 {
-                    case .success(let url):
-                        self.importedURL = url
-                    case .failure(let error):
-                        print(error)
-                    }
-                }
-                .sheet(item: $importedURL) { url in
-                    TranscriberView(url: url)
-                }
-        }
+            }
+            .toolbar {
+                RecordingsToolbar(isImporting: $isImporting)
+            }
+            .sheet(item: $importedURL) { url in
+                TranscriberView(url: url)
+            }
     }
     
     var listView: some View {
         List {
             ForEach(recordings) { recording in
                 NavigationLink {
-                    VStack {
-                        Text(recording.title)
-                        Text(recording.transcription ?? "")
-                    }
+                    RecordingDetailsView(recording: recording)
                 } label: {
                     VStack(alignment: .leading) {
                         Text(recording.title)
-                            .font(Font.headline)
+                            .font(Font.body)
                         HStack {
                             Text(recording.formattedTimestamp)
                                 .font(Font.subheadline)
+                                .foregroundStyle(Color.secondary)
                             Spacer()
                             Text(recording.formattedLength)
                                 .font(Font.subheadline)
+                                .foregroundStyle(Color.secondary)
                         }
                     }
                 }
             }
             .onDelete(perform: deleteItems)
         }
-
     }
 
     private func deleteItems(offsets: IndexSet) {

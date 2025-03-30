@@ -43,7 +43,7 @@ extension Recording {
             guard let timestamp = self.timestamp else {
                 return ""
             }
-            return DateFormatter.localizedString(from: timestamp, dateStyle: .medium, timeStyle: .short)
+            return DateFormatter.localizedString(from: timestamp, dateStyle: .short, timeStyle: .short)
         }
     }
 }
