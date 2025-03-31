@@ -28,6 +28,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 struct AikidoApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
+    
     var body: some Scene {
         WindowGroup {
             ContentView()

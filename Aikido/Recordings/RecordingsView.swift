@@ -10,6 +10,8 @@ import SwiftUI
 
 struct RecordingsView: View {
     @Environment(\.modelContext) private var modelContext
+    @EnvironmentObject var audioRecorder: AudioRecorder
+
     @State private var isImporting = false
     @State private var importedURL: URL?
 
@@ -31,6 +33,9 @@ struct RecordingsView: View {
                 RecordingsToolbar(isImporting: $isImporting)
             }
             .sheet(item: $importedURL) { url in
+                TranscriberView(url: url)
+            }
+            .sheet(item: $audioRecorder.recordedURL) { url in
                 TranscriberView(url: url)
             }
     }
@@ -63,7 +68,13 @@ struct RecordingsView: View {
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
             for index in offsets {
-                modelContext.delete(recordings[index])
+                let recording = recordings[index]
+                
+                if let audioPath = recording.audioPath,
+                   let url = URL(string: audioPath) {
+                    WhisperManager.shared.deleteRecording(url: url)
+                }
+                modelContext.delete(recording)
             }
             
             do {

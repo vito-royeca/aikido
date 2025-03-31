@@ -111,10 +111,25 @@ class WhisperManager {
         return floats
     }
     
+    func deleteRecording(url: URL) {
+        let lastPath = url.path().components(separatedBy: "/").last ?? ""
+        let savedPath = FileManager.default.urls(for: .documentDirectory,
+                                                 in: .userDomainMask)[0].appendingPathComponent(lastPath.removingPercentEncoding ?? lastPath)
+        
+        do {
+            if FileManager.default.fileExists(atPath: savedPath.path) {
+                try FileManager.default.removeItem(at: savedPath)
+            }
+        } catch {
+            print(error)
+        }
+    }
+
     @MainActor
     func saveRecording(url: URL, transcription: String) {
         let lastPath = url.path().components(separatedBy: "/").last ?? ""
-        let recording = Recording(title: lastPath,
+        
+        let recording = Recording(title: lastPath.removingPercentEncoding ?? lastPath,
                                   timestamp: nil,
                                   length: 0,
                                   audioPath: url.path())

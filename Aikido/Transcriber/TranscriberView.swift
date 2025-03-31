@@ -19,7 +19,8 @@ struct TranscriberView: View {
         NavigationStack {
             contentView
                 .toolbar {
-                    TranscriberToolbar(saveAction: saveRecording)
+                    TranscriberToolbar(cancelAction: deleteRecording,
+                                       saveAction: saveRecording)
                 }
                 .onAppear {
                     transcribeAudio()
@@ -54,12 +55,17 @@ struct TranscriberView: View {
         }
     }
     
-    private func saveRecording() {
-        guard let url else {
-            return
+    private func deleteRecording() {
+        if let url {
+            WhisperManager.shared.deleteRecording(url: url)
         }
+        dismiss()
+    }
 
-        WhisperManager.shared.saveRecording(url: url, transcription: transcription)
+    private func saveRecording() {
+        if let url {
+            WhisperManager.shared.saveRecording(url: url, transcription: transcription)
+        }
         dismiss()
     }
 }
@@ -69,14 +75,13 @@ struct TranscriberView: View {
 }
 
 struct TranscriberToolbar: ToolbarContent {
-    @Environment(\.dismiss) private var dismiss
-
+    var cancelAction: () -> Void
     var saveAction: () -> Void
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .cancellationAction) {
             Button(action: {
-                dismiss()
+                cancelAction()
             }, label: {
                 Text("Cancel")
             })
@@ -85,7 +90,6 @@ struct TranscriberToolbar: ToolbarContent {
         ToolbarItem(placement: .primaryAction) {
             Button(action: {
                 saveAction()
-                dismiss()
             }, label: {
                 Text("Save")
             })
