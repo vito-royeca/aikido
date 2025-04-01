@@ -14,6 +14,9 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
         let documentsDirectory = paths[0]
         print(documentsDirectory)
+        
+        setupData()
+        
         return true
     }
     
@@ -21,6 +24,17 @@ class AppDelegate: NSObject, UIApplicationDelegate {
                      open url: URL,
                      options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
         return true
+    }
+}
+
+extension AppDelegate {
+    func setupData() {
+        do {
+            try DataManager.shared.createWhisperFiles()
+            WhisperManager.shared.loadDefault()
+        } catch {
+            print(error)
+        }
     }
 }
 

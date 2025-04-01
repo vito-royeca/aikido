@@ -12,7 +12,7 @@ class DataManager {
     static let shared = DataManager()
     
     private init() {
-        
+//        deleteDataInLivePreview()
     }
     
     var modelContainer: ModelContainer = {
@@ -49,4 +49,14 @@ class DataManager {
         }
     }
     
+    private func deleteDataInLivePreview() {
+        let path = URL.documentsDirectory.appending(component: "Aikido")
+        let data = try? JSONEncoder().encode("")
+        
+        do {
+            try data?.write(to: path)
+        } catch {
+            print(error)
+        }
+    }
 }

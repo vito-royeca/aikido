@@ -11,13 +11,15 @@ struct RecordingDetailsView: View {
     var recording: Recording
 
     var body: some View {
-        NavigationStack {
+        VStack {
+            PlayerView(title: recording.title,
+                       audioURL: recording.copiedFileURL ?? recording.originalPathURL ?? nil)
+
             ScrollView {
                 Text(recording.transcription ?? "")
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             .padding()
-            .navigationTitle(recording.title)
         }
     }
 }
@@ -26,7 +28,8 @@ struct RecordingDetailsView: View {
     let recording = Recording(title: "Test.wav",
                               timestamp: Date(),
                               length: 100,
-                              audioPath: "/path/file.wav")
-    
+                              copiedFileName: "file.wav",
+                              originalPath: "/path/file.wav")
+
     RecordingDetailsView(recording: recording)
 }

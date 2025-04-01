@@ -14,22 +14,40 @@ final class Recording {
     var title: String
     var timestamp: Date?
     var length: Double
-    var audioPath: String?
+    var copiedFileName: String?
+    var originalPath: String?
     var transcription: String?
     var summary: String?
-//    var location: CLLocation?
 
-    init(title: String, timestamp: Date?, length: Double, audioPath: String?) {
+    init(title: String, timestamp: Date?, length: Double, copiedFileName: String?, originalPath: String?) {
         self.title = title
         self.timestamp = timestamp
         self.length = length
-        self.audioPath = audioPath
+        self.copiedFileName = copiedFileName
+        self.originalPath = originalPath
     }
 }
 
 // MARK: - Helper
 
 extension Recording {
+    var copiedFileURL: URL? {
+        guard let copiedFileName else {
+            return nil
+        }
+        
+        return FileManager.default.urls(for: .documentDirectory,
+                                        in: .userDomainMask)[0].appendingPathComponent(copiedFileName)
+    }
+    
+    var originalPathURL: URL? {
+        guard let originalPath else {
+            return nil
+        }
+        
+        return URL(string: originalPath)
+    }
+
     var formattedLength: String {
         get {
             let duration: Duration = .seconds(length)

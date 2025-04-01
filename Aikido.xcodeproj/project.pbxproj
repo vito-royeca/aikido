@@ -7,7 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		476FA6982D9442AC00CA3962 /* whisper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; };
+		762D8C2A2D9A7E210011ABEE /* whisper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; };
+		762D8C2B2D9A7E210011ABEE /* whisper.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -27,6 +28,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		762D8C2C2D9A7E210011ABEE /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				762D8C2B2D9A7E210011ABEE /* whisper.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		476FA6972D9442AC00CA3962 /* whisper.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = whisper.xcframework; sourceTree = "<group>"; };
 		7639E2932D9358FB003B81B9 /* Aikido.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Aikido.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -38,14 +53,26 @@
 		762D8C1E2D9A4E3C0011ABEE /* Exceptions for "Aikido" folder in "AikidoTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Player/PlaybackValue.swift,
+				Player/PlayerDisplay.swift,
+				Player/PlayerView.swift,
+				Player/PlayerViewModel.swift,
 				Recorder/RecorderView.swift,
+				Resources/jfk.wav,
+				"Resources/models/ggml-tiny.en-encoder.mlmodelc",
 			);
 			target = 7639E2A62D9358FC003B81B9 /* AikidoTests */;
 		};
 		762D8C1F2D9A4E3C0011ABEE /* Exceptions for "Aikido" folder in "AikidoUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Player/PlaybackValue.swift,
+				Player/PlayerDisplay.swift,
+				Player/PlayerView.swift,
+				Player/PlayerViewModel.swift,
 				Recorder/RecorderView.swift,
+				Resources/jfk.wav,
+				"Resources/models/ggml-tiny.en-encoder.mlmodelc",
 			);
 			target = 7639E2B02D9358FC003B81B9 /* AikidoUITests */;
 		};
@@ -86,7 +113,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				476FA6982D9442AC00CA3962 /* whisper.xcframework in Frameworks */,
+				762D8C2A2D9A7E210011ABEE /* whisper.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,6 +173,7 @@
 				7639E28F2D9358FB003B81B9 /* Sources */,
 				7639E2902D9358FB003B81B9 /* Frameworks */,
 				7639E2912D9358FB003B81B9 /* Resources */,
+				762D8C2C2D9A7E210011ABEE /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -319,7 +347,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Aikido/Aikido.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Aikido/Preview Content\"";
@@ -362,7 +390,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Aikido/Aikido.entitlements;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Aikido/Preview Content\"";

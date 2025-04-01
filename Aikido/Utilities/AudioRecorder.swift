@@ -11,12 +11,12 @@ class AudioRecorder: NSObject, ObservableObject {
     @Published var isRecording = false
     @Published var recordedURL: URL?
 
-    private let fileExtension = "m4a"
-    private let settings = [AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
+    private let fileExtension = "wav"
+    private let settings = [AVFormatIDKey: Int(kAudioFormatLinearPCM),
                             AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
-                            AVEncoderBitRateKey: 320000,
+//                            AVEncoderBitRateKey: 320000,
                             AVNumberOfChannelsKey: 2,
-                            AVSampleRateKey: 44100.0] as [String: Any]
+                            AVSampleRateKey: 12000.0] as [String: Any]
     
     private var audioRecorder: AVAudioRecorder?
     private var audioSession: AVAudioSession?

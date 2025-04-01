@@ -99,7 +99,7 @@ extension SettingsView {
     func loadWhisper() {
         whisperFile = whisperFiles.first { $0.name == whisperName }
         
-        if let whisperFile = whisperFile {
+        if let whisperFile {
             WhisperManager.shared.load(whisperFile)
         }
     }

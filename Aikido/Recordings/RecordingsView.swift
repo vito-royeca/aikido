@@ -70,9 +70,8 @@ struct RecordingsView: View {
             for index in offsets {
                 let recording = recordings[index]
                 
-                if let audioPath = recording.audioPath,
-                   let url = URL(string: audioPath) {
-                    WhisperManager.shared.deleteRecording(url: url)
+                if let copiedFileURL = recording.copiedFileURL {
+                    WhisperManager.shared.deleteRecording(url: copiedFileURL)
                 }
                 modelContext.delete(recording)
             }

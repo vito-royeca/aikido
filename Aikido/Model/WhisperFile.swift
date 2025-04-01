@@ -76,7 +76,7 @@ extension WhisperFile: Codable {
     }
 }
 
-// MARK: - HElper
+// MARK: - Helper
 
 extension WhisperFile {
     var localModelURL: URL {

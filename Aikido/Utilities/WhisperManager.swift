@@ -21,7 +21,7 @@ class WhisperManager {
     
     @MainActor
     func loadDefault() {
-        let descriptor = FetchDescriptor<WhisperFile>(predicate: #Predicate { $0.name == "tiny" })
+        let descriptor = FetchDescriptor<WhisperFile>(predicate: #Predicate { $0.name == "tiny.en" })
         
         if let whisperFile = (try? DataManager.shared.modelContainer.mainContext.fetch(descriptor))?.first {
             load(whisperFile)
@@ -35,8 +35,8 @@ class WhisperManager {
         }
 
         do {
-            copyFile(name: "ggml-\(whisperFile.name).bin")
-            copyFile(name: "ggml-\(whisperFile.name)-encoder.mlmodelc")
+            copyBundle(name: "ggml-\(whisperFile.name).bin")
+            copyBundle(name: "ggml-\(whisperFile.name)-encoder.mlmodelc")
             
             whisperContext = nil
             whisperContext = try WhisperContext.createContext(path: whisperFile.localModelURL.path())
@@ -48,15 +48,30 @@ class WhisperManager {
         }
     }
     
-    private func copyFile(name: String) {
+    private func copyBundle(name: String) {
         if let resPath = Bundle.main.resourcePath {
             do {
                 let dirContents = try FileManager.default.contentsOfDirectory(atPath: resPath)
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
                 let filteredFiles = dirContents.filter{ $0.starts(with: name) }
 
-                for fileName in filteredFiles {
-                    if let documentsURL = documentsURL {
+//                for fileName in filteredFiles {
+//                    if let documentsURL = documentsURL {
+//                        let sourceURL = Bundle.main.bundleURL.appendingPathComponent(fileName)
+//                        let destURL = documentsURL.appendingPathComponent(fileName)
+//                        
+//                        do {
+//                            if !FileManager.default.fileExists(atPath: destURL.path()) {
+//                                try FileManager.default.copyItem(at: sourceURL, to: destURL)
+//                            }
+//                        }
+//                        catch {
+//                            print(error)
+//                        }
+//                    }
+//                }
+                if let documentsURL {
+                    for fileName in filteredFiles {
                         let sourceURL = Bundle.main.bundleURL.appendingPathComponent(fileName)
                         let destURL = documentsURL.appendingPathComponent(fileName)
                         
@@ -95,8 +110,6 @@ class WhisperManager {
     }
     
     private func readAudioSamples(_ url: URL) throws -> [Float] {
-//        stopPlayback()
-//        try startPlayback(url)
         return try decodeWaveFile(url)
     }
     
@@ -128,11 +141,23 @@ class WhisperManager {
     @MainActor
     func saveRecording(url: URL, transcription: String) {
         let lastPath = url.path().components(separatedBy: "/").last ?? ""
+        let title = lastPath.removingPercentEncoding ?? lastPath
+        var copiedFileName: String?
+        var originalPath: String?
         
-        let recording = Recording(title: lastPath.removingPercentEncoding ?? lastPath,
+        let documentsDir = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask)[0]
+        if url.path().hasPrefix(documentsDir.path()) {
+            copiedFileName = title
+        } else {
+            originalPath = url.path()
+        }
+        
+        let recording = Recording(title: title,
                                   timestamp: nil,
                                   length: 0,
-                                  audioPath: url.path())
+                                  copiedFileName: copiedFileName,
+                                  originalPath: originalPath)
         recording.transcription = transcription
 
         // get the creationDate
