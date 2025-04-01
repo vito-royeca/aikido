@@ -1,5 +1,5 @@
 //
-//  AudioRecorder.swift
+//  RecorderViewModel.swift
 //  Aikido
 //
 //  Created by Vito Royeca on 3/31/25.
@@ -7,22 +7,24 @@
 
 import AVFoundation
 
-class AudioRecorder: NSObject, ObservableObject {
+class RecorderViewModel: NSObject, ObservableObject {
     @Published var isRecording = false
     @Published var recordedURL: URL?
 
     private let fileExtension = "wav"
-    private let settings = [AVFormatIDKey: Int(kAudioFormatLinearPCM),
-                            AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
-//                            AVEncoderBitRateKey: 320000,
-                            AVNumberOfChannelsKey: 2,
-                            AVSampleRateKey: 12000.0] as [String: Any]
+    private let settings = [
+        AVFormatIDKey: Int(kAudioFormatLinearPCM),
+        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
+//        AVEncoderBitRateKey: 320000,
+        AVNumberOfChannelsKey: 2,
+        AVSampleRateKey: 12000.0
+    ] as [String: Any]
     
     private var audioRecorder: AVAudioRecorder?
     private var audioSession: AVAudioSession?
     private var audioFileName: URL?
     
-    func startRecording() {
+    func start() {
         audioSession = AVAudioSession.sharedInstance()
         recordedURL = nil
 
@@ -42,7 +44,6 @@ class AudioRecorder: NSObject, ObservableObject {
                 }
             }
         } catch {
-            // failed to record!
             print("Failed to record")
             audioSession = nil
             return
@@ -62,14 +63,14 @@ class AudioRecorder: NSObject, ObservableObject {
         }
     }
     
-    func stopRecording() {
+    func stop() {
         audioRecorder?.stop()
     }
 }
 
-// MARK: Helper
+// MARK: - Helper
 
-extension AudioRecorder {
+extension RecorderViewModel {
     func getNextID(_ reset: Bool = false) -> Int {
         var nextID = UserDefaults.standard.integer(forKey: "aikido.record.nextID")
 
@@ -85,7 +86,7 @@ extension AudioRecorder {
 
 // MARK: - AVAudioRecorderDelegate
 
-extension AudioRecorder: AVAudioRecorderDelegate {
+extension RecorderViewModel: AVAudioRecorderDelegate {
     func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder,
                                          successfully flag: Bool) {
         if flag {

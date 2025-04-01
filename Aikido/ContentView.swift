@@ -48,7 +48,7 @@ enum ContentTab {
 
 struct ContentView: View {
     @State private var selectedTab: ContentTab = .recordings
-    @StateObject private var audioRecorder = AudioRecorder()
+    @StateObject private var recorderViewModel = RecorderViewModel()
 
     var body: some View {
         tabView
@@ -97,28 +97,28 @@ struct ContentView: View {
             
             recordButton
         }
-        .environmentObject(audioRecorder)
+        .environmentObject(recorderViewModel)
         .ignoresSafeArea(.keyboard) // usefull so the button doesn't move around on keyboard show
     }
     
     var recordButton: some View {
         Button {
-            if audioRecorder.isRecording {
+            if recorderViewModel.isRecording {
                 selectedTab = .recordings
-                audioRecorder.stopRecording()
+                recorderViewModel.stop()
             } else {
                 selectedTab = .record
-                audioRecorder.startRecording()
+                recorderViewModel.start()
             }
         } label: {
-            Image(systemName: audioRecorder.isRecording ? "stop.fill" : "microphone.fill")
+            Image(systemName: recorderViewModel.isRecording ? "stop.fill" : "microphone.fill")
                 .resizable()
                 .scaledToFit()
                 .frame(width: 40, height: 40)
                 .tint(Color.white)
         }
         .frame(width: 80, height: 80)
-        .background(audioRecorder.isRecording ? Color.red : Color.green)
+        .background(recorderViewModel.isRecording ? Color.red : Color.green)
         .clipShape(Circle())
     }
 }

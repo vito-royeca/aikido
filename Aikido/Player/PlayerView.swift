@@ -14,11 +14,6 @@ struct PlayerView: View {
 
     @StateObject var viewModel = PlayerViewModel()
     
-    private let timer = Timer.publish(every: PlayerConstants.updateInterval,
-                                      on: .main,
-                                      in: .common)
-        .autoconnect()
-
     var body: some View {
         VStack {
             if let title {
@@ -57,7 +52,6 @@ struct PlayerView: View {
                 )
             )
         }
-        .onReceive(timer, perform: viewModel.updateData)
         .chartYScale(domain: 0 ... PlayerConstants.magnitudeLimit)
         .chartXAxis(.hidden)
         .chartYAxis(.hidden)

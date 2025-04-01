@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RecordingsView: View {
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var audioRecorder: AudioRecorder
+    @EnvironmentObject var viewModel: RecorderViewModel
 
     @State private var isImporting = false
     @State private var importedURL: URL?
@@ -35,7 +35,7 @@ struct RecordingsView: View {
             .sheet(item: $importedURL) { url in
                 TranscriberView(url: url)
             }
-            .sheet(item: $audioRecorder.recordedURL) { url in
+            .sheet(item: $viewModel.recordedURL) { url in
                 TranscriberView(url: url)
             }
     }

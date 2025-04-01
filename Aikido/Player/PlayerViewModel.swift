@@ -44,11 +44,9 @@ class PlayerViewModel: NSObject, ObservableObject {
             objectWillChange.send()
         }
     }
-
     
     @Published var data: [Float] = Array(repeating: 0,
                                          count: PlayerConstants.barAmount)
-    var fftMagnitudes: [Float] = []
 
     // MARK: - Private properties
 
@@ -79,6 +77,8 @@ class PlayerViewModel: NSObject, ObservableObject {
 
         return playerTime.sampleTime
     }
+
+    private var fftMagnitudes: [Float] = []
 
     // MARK: - Public
 
@@ -124,18 +124,6 @@ class PlayerViewModel: NSObject, ObservableObject {
         seek(to: time)
     }
 
-    func updateData(_: Date) {
-        if isPlaying {
-            withAnimation(.easeOut(duration: 0.08)) {
-                data = fftMagnitudes.map {
-                    min($0, PlayerConstants.magnitudeLimit)
-                }
-            }
-        }
-    }
-
-    // MARK: - Private
-
     func setupWithAudio(url: URL) {
         do {
             let file = try AVAudioFile(forReading: url)
@@ -152,6 +140,8 @@ class PlayerViewModel: NSObject, ObservableObject {
             print("Error reading the audio file: \(error.localizedDescription)")
         }
     }
+
+    // MARK: - Private
 
     private func configureEngine(with format: AVAudioFormat) {
         engine.attach(player)
@@ -273,6 +263,14 @@ class PlayerViewModel: NSObject, ObservableObject {
         let time = Double(currentPosition) / audioSampleRate
         playerTime = PlayerDisplay(elapsedTime: time,
                                    remainingTime: audioLengthSeconds - time)
+        
+        if isPlaying {
+            withAnimation(.easeOut(duration: 0.08)) {
+                data = fftMagnitudes.map {
+                    min($0, PlayerConstants.magnitudeLimit)
+                }
+            }
+        }
     }
 }
 
