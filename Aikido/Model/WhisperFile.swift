@@ -16,29 +16,20 @@ final class WhisperFile {
     var modelURL: String
     var coreMLModelURL: String
     var order: Int
+    var isDownloaded: Bool
     
-    @Transient  private var _isDownloaded = false
-    @Transient var isDownloaded: Bool {
-        get {
-            _isDownloaded &&
-            FileManager.default.fileExists(atPath: localModelURL.path()) &&
-            FileManager.default.fileExists(atPath: localCoreMLModelURL.path())
-        }
-        set {
-            _isDownloaded = newValue
-        }
-    }
-
     init(name: String,
          info: String,
          modelURL: String,
          coreMLModelURL: String,
-         order: Int) {
+         order: Int,
+         isDownloaded: Bool = false) {
         self.name = name
         self.info = info
         self.modelURL = modelURL
         self.coreMLModelURL = coreMLModelURL
         self.order = order
+        self.isDownloaded = isDownloaded
     }
 
     // MARK: - Codable
@@ -49,6 +40,7 @@ final class WhisperFile {
         case modelURL
         case coreMLModelURL
         case order
+        case isDownloaded
     }
 
     required init(from decoder: Decoder) throws {
@@ -59,6 +51,7 @@ final class WhisperFile {
         modelURL = try container.decode(String.self, forKey: .modelURL)
         coreMLModelURL = try container.decode(String.self, forKey: .coreMLModelURL)
         order = try container.decode(Int.self, forKey: .order)
+        isDownloaded = try container.decode(Bool.self, forKey: .isDownloaded)
     }
 }
 
@@ -73,6 +66,7 @@ extension WhisperFile: Codable {
         try container.encode(modelURL, forKey: .modelURL)
         try container.encode(coreMLModelURL, forKey: .coreMLModelURL)
         try container.encode(order, forKey: .order)
+        try container.encode(isDownloaded, forKey: .isDownloaded)
     }
 }
 
@@ -86,7 +80,8 @@ extension WhisperFile {
     }
     
     var localCoreMLModelURL: URL {
-        let lastPath = coreMLModelURL.components(separatedBy: "/").last ?? ""
+        let lastPath = (coreMLModelURL.components(separatedBy: "/").last ?? "")
+            .replacingOccurrences(of: ".zip?download=true", with: "")
         return FileManager.default.urls(for: .documentDirectory,
                                         in: .userDomainMask)[0].appendingPathComponent(lastPath)
     }

@@ -4,55 +4,63 @@
         "info": "(F16, 75 MiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-tiny-encoder.mlmodelc.zip?download=true",
-        "order": 0
+        "order": 0,
+        "isDownloaded": false
     },
     {
         "name": "tiny.en",
         "info": "(F16, 75 MiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.en.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-tiny.en-encoder.mlmodelc.zip?download=true",
-        "order": 1
+        "order": 1,
+        "isDownloaded": false
     },
     {
         "name": "base",
         "info": "(F16, 142 MiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-base-encoder.mlmodelc.zip?download=true",
-        "order": 2
+        "order": 2,
+        "isDownloaded": false
     },
     {
         "name": "base.en",
         "info": "(F16, 142 MiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-base.en.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-base.en-encoder.mlmodelc.zip?download=true",
-        "order": 3
+        "order": 3,
+        "isDownloaded": false
     },
     {
         "name": "small",
         "info": "(F16, 466 MiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-small-encoder.mlmodelc.zip?download=true",
-        "order": 4
+        "order": 4,
+        "isDownloaded": false
     },
     {
         "name": "small.en",
         "info": "(F16, 466 MiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-small.en.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-small.en-encoder.mlmodelc.zip?download=true",
-        "order": 5
+        "order": 5,
+        "isDownloaded": false
     },
     {
         "name": "medium",
         "info": "(F16, 1.5 GiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-medium-encoder.mlmodelc.zip?download=true",
-        "order": 6
+        "order": 6,
+        "isDownloaded": false
     },
     {
         "name": "medium.en",
         "info": "(F16, 1.5 GiB)",
         "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-medium.en.bin",
         "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-medium.en-encoder.mlmodelc.zip?download=true",
-        "order": 7
+        "order": 7,
+        "isDownloaded": false
     }
 ]

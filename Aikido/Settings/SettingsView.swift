@@ -28,7 +28,7 @@ struct SettingsView: View {
     var body: some View {
         formView
             .onAppear {
-                createData()
+                refreshData()
                 loadWhisper()
             }
     }
@@ -38,7 +38,9 @@ struct SettingsView: View {
             Section {
                 Picker("Select", selection: $whisperName) {
                     ForEach(whisperFiles) { whisperFile in
-                        WhisperRowView(whisperFile: whisperFile)
+                        WhisperRowView(whisperFile: whisperFile,
+                                       willDownload: self.whisperFile == whisperFile && !whisperFile.isDownloaded,
+                                       updateWhisper: updateWhisper(_:))
                             .tag(whisperFile.name)
                     }
                 }
@@ -46,11 +48,6 @@ struct SettingsView: View {
                     whisperFile = whisperFiles.first { $0.name == whisperName }
                 }
                 .pickerStyle(.navigationLink)
-                
-//                    if let whisperFile = whisperFile,
-//                       !whisperFile.isDownloaded {
-//                        fileDownloadView
-//                    }
             } header: {
                 Text("Whisper AI Model")
             } footer: {
@@ -71,65 +68,91 @@ struct SettingsView: View {
             }
         }
     }
-    
-//    var fileDownloadView: some View {
-//        guard let whisperFile = whisperFile,
-//            let modelURL = URL(string: whisperFile.modelURL),
-//            let coreModelURL = URL(string: whisperFile.coreMLModelURL) else {
-//            return EmptyView()
-//        }
-//        
-//        
-//        return FileDownloadView(fileName: "Whisper Model", remoteURL: modelURL, localURL: coreModelURL)
-//             .onDownload { result in
-//                 update(result: result)
-//             }
-//    }
 }
 
+// MARK: - Methods
+
 extension SettingsView {
-    func createData() {
-        do {
-            try DataManager.shared.createWhisperFiles()
-        } catch {
-            print(error)
+    func refreshData() {
+        for whisperFile in self.whisperFiles {
+            if FileManager.default.fileExists(atPath: whisperFile.localModelURL.path) &&
+                FileManager.default.fileExists(atPath: whisperFile.localCoreMLModelURL.path) {
+                whisperFile.isDownloaded = true
+            } else {
+                whisperFile.isDownloaded = false
+            }
         }
     }
 
     func loadWhisper() {
         whisperFile = whisperFiles.first { $0.name == whisperName }
         
-        if let whisperFile {
+        if let whisperFile, whisperFile.isDownloaded {
             WhisperManager.shared.load(whisperFile)
         }
     }
-
-    func update(result: Bool) {
-        do {
-            guard let whisperFile = whisperFile else {
-                return
-            }
-            
-            whisperFile.isDownloaded = result
-            try modelContext.save()
-            loadWhisper()
-        } catch {
-            print(error)
+    
+    func updateWhisper(_ result: Bool) {
+        guard let whisperFile else {
+            return
         }
+
+        
+        whisperFile.isDownloaded = result
+        WhisperManager.shared.load(whisperFile)
     }
 }
 
-struct WhisperRowView: View {
-    var whisperFile: WhisperFile
+// MARK: - WhisperRowView
 
+struct WhisperRowView: View {
+    @Environment(\.modelContext) private var modelContext
+
+    @State var whisperFile: WhisperFile
+    var willDownload: Bool
+    var updateWhisper: (Bool) -> Void
+    
     var body: some View {
         HStack {
+            Text("\(whisperFile.name) \(whisperFile.info)")
+            
+            Spacer()
+            
             if whisperFile.isDownloaded {
-                Text("\(Image(systemName: "externaldrive.fill.badge.checkmark")) \(whisperFile.name) \(whisperFile.info)")
+                Image(systemName: "externaldrive.fill.badge.checkmark")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 20, height: 20)
             } else {
-                Text("\(Image(systemName: "square.and.arrow.down")) \(whisperFile.name) \(whisperFile.info)")
+                if willDownload {
+                    FileDownloadView(items: createDownloadItems())
+                        .onDownload { result in
+                            updateWhisper(result)
+                        }
+                } else {
+                    Image(systemName: "square.and.arrow.down")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                }
             }
         }
+    }
+    
+    func createDownloadItems() -> [DownloadItem] {
+        var items = [DownloadItem]()
+        
+        if let url = URL(string: whisperFile.modelURL) {
+            items.append(DownloadItem(sourceURL: url,
+                                      destinationURL: whisperFile.localModelURL))
+        }
+        
+        if let url = URL(string: whisperFile.coreMLModelURL) {
+            items.append(DownloadItem(sourceURL: url,
+                                      destinationURL: whisperFile.localCoreMLModelURL))
+        }
+        
+        return items
     }
 }
 

@@ -184,7 +184,7 @@ class PlayerViewModel: NSObject, ObservableObject {
     // MARK: - Audio adjustments
 
     private func seek(to time: Double) {
-        guard let audioFile = audioFile else {
+        guard let audioFile else {
             return
         }
 

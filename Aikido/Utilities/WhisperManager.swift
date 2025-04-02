@@ -12,6 +12,8 @@ import SwiftData
 class WhisperManager {
     static let shared = WhisperManager()
     
+    private let defaultWhisperName = "tiny"
+    
     private var whisperContext: WhisperContext?
     private var loadedWhisperFile: WhisperFile?
 
@@ -21,7 +23,7 @@ class WhisperManager {
     
     @MainActor
     func loadDefault() {
-        let descriptor = FetchDescriptor<WhisperFile>(predicate: #Predicate { $0.name == "tiny.en" })
+        let descriptor = FetchDescriptor<WhisperFile>(predicate: #Predicate { $0.name == defaultWhisperName })
         
         if let whisperFile = (try? DataManager.shared.modelContainer.mainContext.fetch(descriptor))?.first {
             load(whisperFile)
@@ -41,6 +43,7 @@ class WhisperManager {
             whisperContext = nil
             whisperContext = try WhisperContext.createContext(path: whisperFile.localModelURL.path())
             
+            whisperFile.isDownloaded = true
             self.loadedWhisperFile = whisperFile
             print("whisper loaded successfully")
         } catch {
@@ -55,21 +58,6 @@ class WhisperManager {
                 let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first
                 let filteredFiles = dirContents.filter{ $0.starts(with: name) }
 
-//                for fileName in filteredFiles {
-//                    if let documentsURL = documentsURL {
-//                        let sourceURL = Bundle.main.bundleURL.appendingPathComponent(fileName)
-//                        let destURL = documentsURL.appendingPathComponent(fileName)
-//                        
-//                        do {
-//                            if !FileManager.default.fileExists(atPath: destURL.path()) {
-//                                try FileManager.default.copyItem(at: sourceURL, to: destURL)
-//                            }
-//                        }
-//                        catch {
-//                            print(error)
-//                        }
-//                    }
-//                }
                 if let documentsURL {
                     for fileName in filteredFiles {
                         let sourceURL = Bundle.main.bundleURL.appendingPathComponent(fileName)

@@ -8,21 +8,19 @@
 import SwiftUI
 
 struct FileDownloadView: View {
-    var fileName: String
-    var remoteURL: URL
-    var localURL: URL
+    var items: [DownloadItem]
 
-    @StateObject private var downloadManager = DownloadManager()
+    @StateObject private var downloadManager = DownloadManager.shared
     @State private var isDownloaded = false
-    
+
     private var onDownload: ((_ result: Bool) -> Void)?
+
+    init(items: [DownloadItem]) {
+        self.items = items
+    }
 
     var body: some View {
         HStack {
-            Text(fileName)
-
-            Spacer()
-
             DownloadView(progress: downloadManager.progress)
                 .frame(width: 20, height: 20)
         }
@@ -31,17 +29,8 @@ struct FileDownloadView: View {
         }
     }
     
-    init(fileName: String,
-         remoteURL: URL,
-         localURL: URL) {
-        self.fileName = fileName
-        self.remoteURL = remoteURL
-        self.localURL = localURL
-    }
-    
     func download() {
-        downloadManager.download(from: remoteURL,
-                                 to: localURL) { result in
+        downloadManager.download(items: items) { result in
             onDownload?(result)
         }
     }
