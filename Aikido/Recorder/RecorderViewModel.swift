@@ -65,6 +65,7 @@ class RecorderViewModel: NSObject, ObservableObject {
     
     func stop() {
         audioRecorder?.stop()
+        isRecording = false
     }
 }
 

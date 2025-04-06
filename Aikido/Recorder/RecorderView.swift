@@ -8,11 +8,14 @@
 import SwiftUI
 
 struct RecorderView: View {
+    @Binding var isRecording: Bool
+
     var body: some View {
+
         Text("Recording...")
     }
 }
 
 #Preview {
-    RecorderView()
+    RecorderView(isRecording: .constant(true))
 }

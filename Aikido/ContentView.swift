@@ -10,21 +10,15 @@ import SwiftData
 
 enum ContentTab {
     case recordings
-    case calendar
     case record
-    case map
     case settings
     
     var title: String {
         switch self {
         case .recordings:
             "Recordings"
-        case .calendar:
-            "Calendar"
         case .record:
             "Record"
-        case .map:
-            "Map"
         case .settings:
             "Settings"
         }
@@ -34,12 +28,8 @@ enum ContentTab {
         switch self {
         case .recordings:
             "list.dash"
-        case .calendar:
-            "calendar"
         case .record:
             "microphone.fill"
-        case .map:
-            "map"
         case .settings:
             "gear"
         }
@@ -49,7 +39,7 @@ enum ContentTab {
 struct ContentView: View {
     @State private var selectedTab: ContentTab = .recordings
     @StateObject private var recorderViewModel = RecorderViewModel()
-
+    
     var body: some View {
         tabView
     }
@@ -65,25 +55,12 @@ struct ContentView: View {
                         }
                         .tag(ContentTab.recordings)
                     
-                    Text(ContentTab.calendar.title)
-                        .tabItem {
-                            Label(ContentTab.calendar.title,
-                                  systemImage: ContentTab.calendar.icon)
-                        }
-                        .tag(ContentTab.calendar)
-                    
-                    RecorderView()
+                    RecorderView(isRecording: $recorderViewModel.isRecording)
                         .tabItem {
                             EmptyView()
                         }
                         .tag(ContentTab.record)
-                    
-                    Text(ContentTab.map.title)
-                        .tabItem {
-                            Label(ContentTab.map.title,
-                                  systemImage: ContentTab.map.icon)
-                        }
-                        .tag(ContentTab.map)
+                        
                     
                     SettingsView()
                         .tabItem {
@@ -91,6 +68,11 @@ struct ContentView: View {
                                   systemImage: ContentTab.settings.icon)
                         }
                         .tag(ContentTab.settings)
+                }
+                .onChange(of: selectedTab) {
+                    if recorderViewModel.isRecording {
+                        selectedTab = .record
+                    }
                 }
                 .navigationBarTitle(selectedTab.title)
             }
@@ -107,9 +89,10 @@ struct ContentView: View {
                 selectedTab = .recordings
                 recorderViewModel.stop()
             } else {
-                selectedTab = .record
                 recorderViewModel.start()
+                selectedTab = .record
             }
+
         } label: {
             Image(systemName: recorderViewModel.isRecording ? "stop.fill" : "microphone.fill")
                 .resizable()
