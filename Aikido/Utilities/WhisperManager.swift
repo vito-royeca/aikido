@@ -130,6 +130,7 @@ class WhisperManager {
     func saveRecording(url: URL, transcription: String) {
         let lastPath = url.path().components(separatedBy: "/").last ?? ""
         let title = lastPath.removingPercentEncoding ?? lastPath
+        let cleanTitle = title.components(separatedBy: ".").first ?? ""
         var copiedFileName: String?
         var originalPath: String?
         
@@ -141,7 +142,7 @@ class WhisperManager {
             originalPath = url.path()
         }
         
-        let recording = Recording(title: title,
+        let recording = Recording(title: cleanTitle,
                                   timestamp: nil,
                                   length: 0,
                                   copiedFileName: copiedFileName,
