@@ -62,4 +62,4 @@ fastlane/screenshots/**/*.png
 fastlane/test_output
 
 # models
-Aikido/Resources/models
+Aikido/Resources/models/*

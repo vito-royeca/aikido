@@ -10,8 +10,7 @@
 		762D8C2A2D9A7E210011ABEE /* whisper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; };
 		762D8C2B2D9A7E210011ABEE /* whisper.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76C5D4E82D9CCB0700EDF6B9 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 76C5D4E72D9CCB0700EDF6B9 /* ZIPFoundation */; };
-		76C5D4EE2DA0FB9000EDF6B9 /* DSWaveformImage in Frameworks */ = {isa = PBXBuildFile; productRef = 76C5D4ED2DA0FB9000EDF6B9 /* DSWaveformImage */; };
-		76C5D4F02DA0FB9000EDF6B9 /* DSWaveformImageViews in Frameworks */ = {isa = PBXBuildFile; productRef = 76C5D4EF2DA0FB9000EDF6B9 /* DSWaveformImageViews */; };
+		76C5D4F92DA3442100EDF6B9 /* LLM in Frameworks */ = {isa = PBXBuildFile; productRef = 76C5D4F82DA3442100EDF6B9 /* LLM */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -114,10 +113,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				76C5D4F92DA3442100EDF6B9 /* LLM in Frameworks */,
 				762D8C2A2D9A7E210011ABEE /* whisper.xcframework in Frameworks */,
-				76C5D4EE2DA0FB9000EDF6B9 /* DSWaveformImage in Frameworks */,
 				76C5D4E82D9CCB0700EDF6B9 /* ZIPFoundation in Frameworks */,
-				76C5D4F02DA0FB9000EDF6B9 /* DSWaveformImageViews in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -189,8 +187,7 @@
 			name = Aikido;
 			packageProductDependencies = (
 				76C5D4E72D9CCB0700EDF6B9 /* ZIPFoundation */,
-				76C5D4ED2DA0FB9000EDF6B9 /* DSWaveformImage */,
-				76C5D4EF2DA0FB9000EDF6B9 /* DSWaveformImageViews */,
+				76C5D4F82DA3442100EDF6B9 /* LLM */,
 			);
 			productName = Aikido;
 			productReference = 7639E2932D9358FB003B81B9 /* Aikido.app */;
@@ -277,7 +274,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				76C5D4E62D9CCB0700EDF6B9 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
-				76C5D4EC2DA0FB9000EDF6B9 /* XCRemoteSwiftPackageReference "DSWaveformImage" */,
+				76C5D4F72DA3442100EDF6B9 /* XCRemoteSwiftPackageReference "LLM.swift" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7639E2942D9358FB003B81B9 /* Products */;
@@ -361,10 +358,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Aikido/Aikido.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Aikido/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 43CD66539H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Aikido/Info.plist;
@@ -407,10 +404,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Aikido/Aikido.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Aikido/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = 43CD66539H;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Aikido/Info.plist;
@@ -702,12 +699,12 @@
 				minimumVersion = 0.9.19;
 			};
 		};
-		76C5D4EC2DA0FB9000EDF6B9 /* XCRemoteSwiftPackageReference "DSWaveformImage" */ = {
+		76C5D4F72DA3442100EDF6B9 /* XCRemoteSwiftPackageReference "LLM.swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/dmrschmidt/DSWaveformImage.git";
+			repositoryURL = "https://github.com/eastriverlee/LLM.swift.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 14.2.2;
+				minimumVersion = 1.4.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -718,15 +715,10 @@
 			package = 76C5D4E62D9CCB0700EDF6B9 /* XCRemoteSwiftPackageReference "ZIPFoundation" */;
 			productName = ZIPFoundation;
 		};
-		76C5D4ED2DA0FB9000EDF6B9 /* DSWaveformImage */ = {
+		76C5D4F82DA3442100EDF6B9 /* LLM */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 76C5D4EC2DA0FB9000EDF6B9 /* XCRemoteSwiftPackageReference "DSWaveformImage" */;
-			productName = DSWaveformImage;
-		};
-		76C5D4EF2DA0FB9000EDF6B9 /* DSWaveformImageViews */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 76C5D4EC2DA0FB9000EDF6B9 /* XCRemoteSwiftPackageReference "DSWaveformImage" */;
-			productName = DSWaveformImageViews;
+			package = 76C5D4F72DA3442100EDF6B9 /* XCRemoteSwiftPackageReference "LLM.swift" */;
+			productName = LLM;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -26,7 +26,6 @@ struct PlayerView: View {
         .padding()
         .background(.ultraThinMaterial)
         .cornerRadius(20)
-        .padding()
         .onAppear {
             if let audioURL {
                 viewModel.setupWithAudio(url: audioURL)

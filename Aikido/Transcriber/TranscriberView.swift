@@ -14,6 +14,8 @@ struct TranscriberView: View {
     var url: URL?
 
     @State private var transcription: String = "Transcribing..."
+    @State private var summary: String?
+    @State private var selectedTab: RecordingTab = .transcription
 
     var body: some View {
         NavigationStack {
@@ -23,7 +25,7 @@ struct TranscriberView: View {
                                        saveAction: saveRecording)
                 }
                 .onAppear {
-                    transcribeAudio()
+                    transcribeAndSummarize()
                 }
         }
     }
@@ -34,24 +36,53 @@ struct TranscriberView: View {
                 Text(url.lastPathComponent)
             }
 
-            ScrollView {
-                Text(transcription)
-                    .frame(maxWidth: .infinity, alignment: .leading)
+//            ScrollView {
+//                Text(transcription)
+//                    .frame(maxWidth: .infinity, alignment: .leading)
+//            }
+//            .padding()
+//            .background(Color.gray.opacity(0.1))
+//            .cornerRadius(10)
+            VStack {
+                Picker("", selection: $selectedTab) {
+                    ForEach(RecordingTab.allCases) { tab in
+                        Text(tab.rawValue.capitalized)
+                    }
+                }
+                .pickerStyle(.segmented)
+                
+                ScrollView {
+                    switch selectedTab {
+                    case .transcription:
+                        Text(transcription)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    case .summary:
+                        Text(summary ?? "")
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
             }
             .padding()
-            .background(Color.gray.opacity(0.1))
-            .cornerRadius(10)
         }
     }
     
-    private func transcribeAudio() {
+    private func transcribeAndSummarize() {
         guard let url else {
             return
         }
 
         Task {
-            let text = await WhisperManager.shared.transcribeAudio(url: url)
-            transcription = text ?? ""
+            do {
+                if let text = try await WhisperManager.shared.transcribeAudio(url: url) {
+                    transcription = text
+                    summary = await WhisperManager.shared.summarize(text: text)
+                } else {
+                    transcription = ""
+                    summary = nil
+                }
+            } catch {
+                print(error)
+            }
         }
     }
     
@@ -64,7 +95,15 @@ struct TranscriberView: View {
 
     private func saveRecording() {
         if let url {
-            WhisperManager.shared.saveRecording(url: url, transcription: transcription)
+            Task {
+                do {
+                    try await WhisperManager.shared.saveRecording(url: url,
+                                                                  transcription: transcription,
+                                                                  summary: summary)
+                } catch {
+                    print("\(#function) Error: \(error)")
+                }
+            }
         }
         dismiss()
     }

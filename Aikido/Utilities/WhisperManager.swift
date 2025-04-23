@@ -8,6 +8,15 @@
 import Foundation
 import AVFoundation
 import SwiftData
+import LLM
+
+class Summarizer: LLM {
+    convenience init() {
+        let url = Bundle.main.url(forResource: "tinyllama-1.1b-chat-v1.0.Q2_K", withExtension: "gguf")!
+        let systemPrompt = "You are a sentient AI with emotions."
+        self.init(from: url, template: .llama(systemPrompt))!
+    }
+}
 
 class WhisperManager {
     static let shared = WhisperManager()
@@ -16,10 +25,13 @@ class WhisperManager {
     
     private var whisperContext: WhisperContext?
     private var loadedWhisperFile: WhisperFile?
+    private var summarizer = Summarizer()
 
     private init() {
         
     }
+    
+    // MARK: - Public methods
     
     @MainActor
     func loadDefault() {
@@ -51,6 +63,107 @@ class WhisperManager {
         }
     }
     
+    func transcribeAudio(url: URL) async throws -> String? {
+        await loadDefault()
+
+        guard let whisperContext else {
+            return nil
+        }
+        
+        do {
+            let data = try readAudioSamples(url)
+            await whisperContext.fullTranscribe(samples: data)
+            let text = await whisperContext.getTranscription()
+            return text
+        } catch {
+            throw error
+        }
+    }
+    
+    func summarize(text: String) async -> String {
+        await loadDefault()
+        
+        await summarizer.respond(to: summaryPrompt(for: text))
+//        await summarizer.respond(to: "Give me seven national flag emojis people use the most; You must include South Korea.")
+        return summarizer.output
+    }
+    
+    func deleteRecording(url: URL) {
+        let lastPath = url.path().components(separatedBy: "/").last ?? ""
+        let savedPath = FileManager.default.urls(for: .documentDirectory,
+                                                 in: .userDomainMask)[0].appendingPathComponent(lastPath.removingPercentEncoding ?? lastPath)
+        
+        do {
+            if FileManager.default.fileExists(atPath: savedPath.path) {
+                try FileManager.default.removeItem(at: savedPath)
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    @MainActor
+    func saveRecording(url: URL, transcription: String, summary: String?) async throws {
+        let lastPath = url.path().components(separatedBy: "/").last ?? ""
+        let title = lastPath.removingPercentEncoding ?? lastPath
+        let cleanTitle = title.components(separatedBy: ".").first ?? ""
+        var copiedFileName: String?
+        var originalPath: String?
+        
+        let documentsDir = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask)[0]
+        if url.path().hasPrefix(documentsDir.path()) {
+            copiedFileName = title
+        } else {
+            originalPath = url.path()
+        }
+        
+        let recording = Recording(title: cleanTitle,
+                                  timestamp: nil,
+                                  length: 0,
+                                  copiedFileName: copiedFileName,
+                                  originalPath: originalPath)
+        recording.transcription = transcription
+        recording.summary = summary
+
+        // get the creationDate
+        do {
+            if let timestamp = try url.resourceValues(forKeys: [.creationDateKey]).creationDate {
+                recording.timestamp = timestamp
+            }
+        } catch {
+            throw error
+        }
+        
+        // get the length
+        let asset = AVURLAsset(url: url, options: nil)
+        let (duration, _) = try await asset.load(.duration, .metadata)
+        recording.length = duration.seconds
+        
+        
+        // save the recording
+        DataManager.shared.modelContainer.mainContext.insert(recording)
+        do {
+            try DataManager.shared.modelContainer.mainContext.save()
+        } catch {
+            throw error
+        }
+    }
+    
+    // MARK: - Private methods
+
+    private func summaryPrompt(for text: String) -> String {
+        let prompt = """
+        <|begin_of_text|><|start_header_id|>system<|end_header_id|>You are a professional summarizer. Please provide a structured summary of this business meeting, focusing on critical information:
+        - **Updates**: Latest project or team updates.
+        - **Decisions**: Key decisions made during the meeting.
+        - **Next Steps**: Action items and assigned responsibilities.
+        <|eot_id|><|start_header_id|>transcript<|end_header_id|>\(text)<|eot_id|><|start_header_id|>user<|end_header_id|>Summarize this meeting, using the format above, in fewer than 300 words.<|eot_id|>
+        """
+        
+        return prompt
+    }
+    
     private func copyBundle(name: String) {
         if let resPath = Bundle.main.resourcePath {
             do {
@@ -78,25 +191,7 @@ class WhisperManager {
             }
         }
     }
-    
-    func transcribeAudio(url: URL) async -> String? {
-        await loadDefault()
 
-        guard let whisperContext else {
-            return nil
-        }
-        
-        do {
-            let data = try readAudioSamples(url)
-            await whisperContext.fullTranscribe(samples: data)
-            let text = await whisperContext.getTranscription()
-            return text
-        } catch {
-            print(error)
-            return nil
-        }
-    }
-    
     private func readAudioSamples(_ url: URL) throws -> [Float] {
         return try decodeWaveFile(url)
     }
@@ -112,64 +207,5 @@ class WhisperManager {
         return floats
     }
     
-    func deleteRecording(url: URL) {
-        let lastPath = url.path().components(separatedBy: "/").last ?? ""
-        let savedPath = FileManager.default.urls(for: .documentDirectory,
-                                                 in: .userDomainMask)[0].appendingPathComponent(lastPath.removingPercentEncoding ?? lastPath)
-        
-        do {
-            if FileManager.default.fileExists(atPath: savedPath.path) {
-                try FileManager.default.removeItem(at: savedPath)
-            }
-        } catch {
-            print(error)
-        }
-    }
-
-    @MainActor
-    func saveRecording(url: URL, transcription: String) {
-        let lastPath = url.path().components(separatedBy: "/").last ?? ""
-        let title = lastPath.removingPercentEncoding ?? lastPath
-        let cleanTitle = title.components(separatedBy: ".").first ?? ""
-        var copiedFileName: String?
-        var originalPath: String?
-        
-        let documentsDir = FileManager.default.urls(for: .documentDirectory,
-                                                    in: .userDomainMask)[0]
-        if url.path().hasPrefix(documentsDir.path()) {
-            copiedFileName = title
-        } else {
-            originalPath = url.path()
-        }
-        
-        let recording = Recording(title: cleanTitle,
-                                  timestamp: nil,
-                                  length: 0,
-                                  copiedFileName: copiedFileName,
-                                  originalPath: originalPath)
-        recording.transcription = transcription
-
-        // get the creationDate
-        do {
-            if let timestamp = try url.resourceValues(forKeys: [.creationDateKey]).creationDate {
-                recording.timestamp = timestamp
-            }
-        } catch {
-            print("\(#function) Error: \(error)")
-        }
-        
-        // get the length
-        Task {
-            let asset = AVURLAsset(url: url, options: nil)
-            let (duration, _) = try await asset.load(.duration, .metadata)
-            recording.length = duration.seconds
-            
-            DataManager.shared.modelContainer.mainContext.insert(recording)
-            do {
-                try DataManager.shared.modelContainer.mainContext.save()
-            } catch {
-                print(error)
-            }
-        }
-    }
+    
 }
