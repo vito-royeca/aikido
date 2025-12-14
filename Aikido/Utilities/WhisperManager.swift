@@ -9,6 +9,7 @@ import Foundation
 import AVFoundation
 import SwiftData
 import LLM
+import SwiftWhisper
 
 class Summarizer: LLM {
     convenience init() {
@@ -23,9 +24,9 @@ class WhisperManager {
     
     private let defaultWhisperName = "tiny"
     
-    private var whisperContext: WhisperContext?
     private var loadedWhisperModel: WhisperModel?
     private var summarizer = Summarizer()
+    private var segments = [Segment]()
 
     private init() {
         
@@ -43,38 +44,31 @@ class WhisperManager {
     }
 
     func load(_ whisperModel: WhisperModel) {
-        if let loadedWhisperModel,
-              loadedWhisperModel.name == whisperModel.name {
+        guard whisperModel.name != loadedWhisperModel?.name else {
             return
         }
 
-        do {
-            copyBundle(name: "ggml-\(whisperModel.name).bin")
-            copyBundle(name: "ggml-\(whisperModel.name)-encoder.mlmodelc")
-            
-            whisperContext = nil
-            whisperContext = try WhisperContext.createContext(path: whisperModel.localModelURL.path())
-            
-            whisperModel.isDownloaded = true
-            self.loadedWhisperModel = whisperModel
-            print("whisper loaded successfully")
-        } catch {
-            print(error.localizedDescription)
-        }
+        copyBundle(name: "ggml-\(whisperModel.name).bin")
+        copyBundle(name: "ggml-\(whisperModel.name)-encoder.mlmodelc")
+        
+        whisperModel.isDownloaded = true
+        self.loadedWhisperModel = whisperModel
+        print("\(whisperModel.name) - Whisper model loaded successfully")
     }
     
     func transcribeAudio(url: URL) async throws -> String? {
         await loadDefault()
 
-        guard let whisperContext else {
+        guard let loadedWhisperModel else {
             return nil
         }
-        
+
         do {
             let data = try readAudioSamples(url)
-            await whisperContext.fullTranscribe(samples: data)
-            let text = await whisperContext.getTranscription()
-            return text
+            let whisper = Whisper(fromFileURL: loadedWhisperModel.localModelURL)
+            let segments = try await whisper.transcribe(audioFrames: data)
+            
+            return segments.map(\.text).joined()
         } catch {
             throw error
         }
@@ -206,6 +200,22 @@ class WhisperManager {
         }
         return floats
     }
-    
-    
+}
+
+extension WhisperManager: WhisperDelegate {
+    func whisper(_ aWhisper: Whisper, didUpdateProgress progress: Double) {
+        
+    }
+
+    func whisper(_ aWhisper: Whisper, didProcessNewSegments segments: [Segment], atIndex index: Int) {
+        
+    }
+  
+    func whisper(_ aWhisper: Whisper, didCompleteWithSegments segments: [Segment]) {
+        
+    }
+
+    func whisper(_ aWhisper: Whisper, didErrorWith error: Error) {
+        
+    }
 }
