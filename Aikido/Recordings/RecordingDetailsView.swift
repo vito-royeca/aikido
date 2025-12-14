@@ -17,7 +17,7 @@ enum RecordingTab: String, CaseIterable, Identifiable {
 }
 
 struct RecordingDetailsView: View {
-    var recording: Recording
+    var recording: RecordingModel
 
     @State private var selectedTab: RecordingTab = .transcription
 
@@ -63,11 +63,11 @@ struct RecordingDetailsView: View {
 }
 
 #Preview {
-    let recording = Recording(title: "Test.wav",
-                              timestamp: Date(),
-                              length: 100,
-                              copiedFileName: "file.wav",
-                              originalPath: "/path/file.wav")
+    let recording = RecordingModel(title: "Test.wav",
+                                   timestamp: Date(),
+                                   length: 100,
+                                   copiedFileName: "file.wav",
+                                   originalPath: "/path/file.wav")
 
     RecordingDetailsView(recording: recording)
 }

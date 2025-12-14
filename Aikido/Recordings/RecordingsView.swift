@@ -15,8 +15,8 @@ struct RecordingsView: View {
     @State private var isImporting = false
     @State private var importedURL: URL?
 
-    @Query(sort: \Recording.timestamp, order: .reverse)
-    private var recordings: [Recording]
+    @Query(sort: \RecordingModel.timestamp, order: .reverse)
+    private var recordings: [RecordingModel]
 
     var body: some View {
         NavigationStack {

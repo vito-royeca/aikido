@@ -17,9 +17,9 @@ class DataManager {
     
     var modelContainer: ModelContainer = {
         let schema = Schema([
-            LLMFile.self,
-            Recording.self,
-            WhisperFile.self
+            LLMModel.self,
+            RecordingModel.self,
+            WhisperModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)
 
@@ -35,10 +35,10 @@ class DataManager {
         if let url = Bundle.main.url(forResource: "whisper", withExtension: "json") {
             let decoder = JSONDecoder()
             let data = try Data(contentsOf: url)
-            let jsonData = try decoder.decode([WhisperFile].self, from: data)
+            let jsonData = try decoder.decode([WhisperModel].self, from: data)
             
             for whisper in jsonData {
-                let descriptor = FetchDescriptor<WhisperFile>(predicate: #Predicate { $0.name == whisper.name })
+                let descriptor = FetchDescriptor<WhisperModel>(predicate: #Predicate { $0.name == whisper.name })
                 
                 if (try? modelContainer.mainContext.fetch(descriptor))?.first == nil {
                     modelContainer.mainContext.insert(whisper)

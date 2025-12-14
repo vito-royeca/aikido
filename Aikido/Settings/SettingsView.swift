@@ -17,13 +17,13 @@ struct SettingsView: View {
     @AppStorage(.settingsLLMNameKey)
     private var llmName: String?
     
-    @Query(sort: \WhisperFile.order)
-    private var whisperFiles: [WhisperFile]
+    @Query(sort: \WhisperModel.order)
+    private var whisperModels: [WhisperModel]
     
-    @Query(sort: \LLMFile.order)
-    private var llmFiles: [LLMFile]
+    @Query(sort: \LLMModel.order)
+    private var llmModels: [LLMModel]
 
-    @State private var whisperFile: WhisperFile?
+    @State private var whisperModel: WhisperModel?
 
     var body: some View {
         NavigationStack {
@@ -40,15 +40,15 @@ struct SettingsView: View {
         Form {
             Section {
                 Picker("Select", selection: $whisperName) {
-                    ForEach(whisperFiles) { whisperFile in
-                        WhisperRowView(whisperFile: whisperFile,
-                                       willDownload: self.whisperFile == whisperFile && !whisperFile.isDownloaded,
+                    ForEach(whisperModels) { whisperModel in
+                        WhisperRowView(whisperModel: whisperModel,
+                                       willDownload: self.whisperModel == whisperModel && !whisperModel.isDownloaded,
                                        updateWhisper: updateWhisper(_:))
-                            .tag(whisperFile.name)
+                            .tag(whisperModel.name)
                     }
                 }
                 .onChange(of: whisperName) {
-                    whisperFile = whisperFiles.first { $0.name == whisperName }
+                    whisperModel = whisperModels.first { $0.name == whisperName }
                 }
                 .pickerStyle(.navigationLink)
             } header: {
@@ -59,9 +59,9 @@ struct SettingsView: View {
             
             Section {
                 Picker("Select", selection: $llmName) {
-                    ForEach(llmFiles) { llmFile in
-                        Text(llmFile.name)
-                            .tag(llmFile.name)
+                    ForEach(llmModels) { llmModel in
+                        Text(llmModel.name)
+                            .tag(llmModel.name)
                     }
                 }
             } header: {
@@ -77,32 +77,32 @@ struct SettingsView: View {
 
 extension SettingsView {
     func refreshData() {
-        for whisperFile in self.whisperFiles {
-            if FileManager.default.fileExists(atPath: whisperFile.localModelURL.path) &&
-                FileManager.default.fileExists(atPath: whisperFile.localCoreMLModelURL.path) {
-                whisperFile.isDownloaded = true
+        for whisperModel in self.whisperModels {
+            if FileManager.default.fileExists(atPath: whisperModel.localModelURL.path) &&
+                FileManager.default.fileExists(atPath: whisperModel.localCoreMLModelURL.path) {
+                whisperModel.isDownloaded = true
             } else {
-                whisperFile.isDownloaded = false
+                whisperModel.isDownloaded = false
             }
         }
     }
 
     func loadWhisper() {
-        whisperFile = whisperFiles.first { $0.name == whisperName }
+        whisperModel = whisperModels.first { $0.name == whisperName }
         
-        if let whisperFile, whisperFile.isDownloaded {
-            WhisperManager.shared.load(whisperFile)
+        if let whisperModel, whisperModel.isDownloaded {
+            WhisperManager.shared.load(whisperModel)
         }
     }
     
     func updateWhisper(_ result: Bool) {
-        guard let whisperFile else {
+        guard let whisperModel else {
             return
         }
 
         
-        whisperFile.isDownloaded = result
-        WhisperManager.shared.load(whisperFile)
+        whisperModel.isDownloaded = result
+        WhisperManager.shared.load(whisperModel)
     }
 }
 
@@ -111,17 +111,17 @@ extension SettingsView {
 struct WhisperRowView: View {
     @Environment(\.modelContext) private var modelContext
 
-    @State var whisperFile: WhisperFile
+    @State var whisperModel: WhisperModel
     var willDownload: Bool
     var updateWhisper: (Bool) -> Void
     
     var body: some View {
         HStack {
-            Text("\(whisperFile.name) \(whisperFile.info)")
+            Text("\(whisperModel.name) \(whisperModel.info)")
             
             Spacer()
             
-            if whisperFile.isDownloaded {
+            if whisperModel.isDownloaded {
                 Image(systemName: "externaldrive.fill.badge.checkmark")
                     .resizable()
                     .scaledToFit()
@@ -145,14 +145,14 @@ struct WhisperRowView: View {
     func createDownloadItems() -> [DownloadItem] {
         var items = [DownloadItem]()
         
-        if let url = URL(string: whisperFile.modelURL) {
+        if let url = URL(string: whisperModel.modelURL) {
             items.append(DownloadItem(sourceURL: url,
-                                      destinationURL: whisperFile.localModelURL))
+                                      destinationURL: whisperModel.localModelURL))
         }
         
-        if let url = URL(string: whisperFile.coreMLModelURL) {
+        if let url = URL(string: whisperModel.coreMLModelURL) {
             items.append(DownloadItem(sourceURL: url,
-                                      destinationURL: whisperFile.localCoreMLModelURL))
+                                      destinationURL: whisperModel.localCoreMLModelURL))
         }
         
         return items

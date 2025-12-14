@@ -24,7 +24,7 @@ class WhisperManager {
     private let defaultWhisperName = "tiny"
     
     private var whisperContext: WhisperContext?
-    private var loadedWhisperFile: WhisperFile?
+    private var loadedWhisperModel: WhisperModel?
     private var summarizer = Summarizer()
 
     private init() {
@@ -35,28 +35,28 @@ class WhisperManager {
     
     @MainActor
     func loadDefault() {
-        let descriptor = FetchDescriptor<WhisperFile>(predicate: #Predicate { $0.name == defaultWhisperName })
+        let descriptor = FetchDescriptor<WhisperModel>(predicate: #Predicate { $0.name == defaultWhisperName })
         
-        if let whisperFile = (try? DataManager.shared.modelContainer.mainContext.fetch(descriptor))?.first {
-            load(whisperFile)
+        if let whisperModel = (try? DataManager.shared.modelContainer.mainContext.fetch(descriptor))?.first {
+            load(whisperModel)
         }
     }
 
-    func load(_ whisperFile: WhisperFile) {
-        if let loadedWhisperFile,
-              loadedWhisperFile.name == whisperFile.name {
+    func load(_ whisperModel: WhisperModel) {
+        if let loadedWhisperModel,
+              loadedWhisperModel.name == whisperModel.name {
             return
         }
 
         do {
-            copyBundle(name: "ggml-\(whisperFile.name).bin")
-            copyBundle(name: "ggml-\(whisperFile.name)-encoder.mlmodelc")
+            copyBundle(name: "ggml-\(whisperModel.name).bin")
+            copyBundle(name: "ggml-\(whisperModel.name)-encoder.mlmodelc")
             
             whisperContext = nil
-            whisperContext = try WhisperContext.createContext(path: whisperFile.localModelURL.path())
+            whisperContext = try WhisperContext.createContext(path: whisperModel.localModelURL.path())
             
-            whisperFile.isDownloaded = true
-            self.loadedWhisperFile = whisperFile
+            whisperModel.isDownloaded = true
+            self.loadedWhisperModel = whisperModel
             print("whisper loaded successfully")
         } catch {
             print(error.localizedDescription)
@@ -118,11 +118,11 @@ class WhisperManager {
             originalPath = url.path()
         }
         
-        let recording = Recording(title: cleanTitle,
-                                  timestamp: nil,
-                                  length: 0,
-                                  copiedFileName: copiedFileName,
-                                  originalPath: originalPath)
+        let recording = RecordingModel(title: cleanTitle,
+                                       timestamp: nil,
+                                       length: 0,
+                                       copiedFileName: copiedFileName,
+                                       originalPath: originalPath)
         recording.transcription = transcription
         recording.summary = summary
 

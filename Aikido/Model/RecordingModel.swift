@@ -1,5 +1,5 @@
 //
-//  Recording.swift
+//  RecordingModel.swift
 //  Aikido
 //
 //  Created by Vito Royeca on 3/26/25.
@@ -10,7 +10,7 @@ import SwiftData
 import CoreLocation
 
 @Model
-final class Recording {
+final class RecordingModel {
     var title: String
     var timestamp: Date?
     var length: Double
@@ -30,7 +30,7 @@ final class Recording {
 
 // MARK: - Helper
 
-extension Recording {
+extension RecordingModel {
     var copiedFileURL: URL? {
         guard let copiedFileName else {
             return nil
