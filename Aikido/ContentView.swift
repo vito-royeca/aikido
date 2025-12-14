@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftData
 
-enum ContentTab {
+enum Tabs: Equatable, Hashable {
     case recordings
     case record
     case settings
@@ -37,50 +37,42 @@ enum ContentTab {
 }
 
 struct ContentView: View {
-    @State private var selectedTab: ContentTab = .recordings
+    @State private var selectedTab: Tabs = .recordings
     @StateObject private var recorderViewModel = RecorderViewModel()
     
     var body: some View {
-        tabView
-    }
-
-    var tabView: some View {
         ZStack(alignment: .bottom) {
-            NavigationView {
-                TabView(selection: $selectedTab) {
-                    RecordingsView()
-                        .tabItem {
-                            Label(ContentTab.recordings.title,
-                                  systemImage: ContentTab.recordings.icon)
-                        }
-                        .tag(ContentTab.recordings)
-                    
-                    RecorderView(isRecording: $recorderViewModel.isRecording)
-                        .tabItem {
-                            EmptyView()
-                        }
-                        .tag(ContentTab.record)
-                        
-                    
-                    SettingsView()
-                        .tabItem {
-                            Label(ContentTab.settings.title,
-                                  systemImage: ContentTab.settings.icon)
-                        }
-                        .tag(ContentTab.settings)
-                }
-                .onChange(of: selectedTab) {
-                    if recorderViewModel.isRecording {
-                        selectedTab = .record
-                    }
-                }
-                .navigationBarTitle(selectedTab.title)
-            }
-            
+            tabView
             recordButton
         }
         .environmentObject(recorderViewModel)
         .ignoresSafeArea(.keyboard) // usefull so the button doesn't move around on keyboard show
+    }
+
+    var tabView: some View {
+        TabView(selection: $selectedTab) {
+            Tab(Tabs.recordings.title,
+                systemImage: Tabs.recordings.icon,
+                value: .recordings) {
+                RecordingsView()
+            }
+            .disabled(recorderViewModel.isRecording)
+                
+
+            Tab("",
+                systemImage: "blank",
+                value: .record) {
+                RecorderView(isRecording: $recorderViewModel.isRecording)
+            }
+
+            Tab(Tabs.settings.title,
+                systemImage: Tabs.settings.icon,
+                value: .settings) {
+                SettingsView()
+            }
+            .disabled(recorderViewModel.isRecording)
+        }
+        .tabViewStyle(.sidebarAdaptable)
     }
     
     var recordButton: some View {

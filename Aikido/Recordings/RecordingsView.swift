@@ -19,25 +19,28 @@ struct RecordingsView: View {
     private var recordings: [Recording]
 
     var body: some View {
-        listView
-            .fileImporter(isPresented: $isImporting,
-                          allowedContentTypes: [.audio]) {
-                switch $0 {
-                case .success(let url):
-                    self.importedURL = url
-                case .failure(let error):
-                    print(error)
-                }
-            }
-            .toolbar {
-                RecordingsToolbar(isImporting: $isImporting)
-            }
-            .sheet(item: $importedURL) { url in
-                TranscriberView(url: url)
-            }
-            .sheet(item: $viewModel.recordedURL) { url in
-                TranscriberView(url: url)
-            }
+        NavigationStack {
+            listView
+              .toolbar {
+                  RecordingsToolbar(isImporting: $isImporting)
+              }
+              .sheet(item: $importedURL) { url in
+                  TranscriberView(url: url)
+              }
+              .sheet(item: $viewModel.recordedURL) { url in
+                  TranscriberView(url: url)
+              }
+              .fileImporter(isPresented: $isImporting,
+                            allowedContentTypes: [.audio]) {
+                  switch $0 {
+                  case .success(let url):
+                      self.importedURL = url
+                  case .failure(let error):
+                      print(error)
+                  }
+              }
+              .navigationTitle(Tabs.recordings.title)
+        }
     }
     
     var listView: some View {
@@ -45,6 +48,7 @@ struct RecordingsView: View {
             ForEach(recordings) { recording in
                 NavigationLink {
                     RecordingDetailsView(recording: recording)
+                        .toolbar(.hidden, for: .tabBar)
                 } label: {
                     VStack(alignment: .leading) {
                         Text(recording.title)
@@ -85,7 +89,7 @@ struct RecordingsView: View {
     }
 }
 
-extension URL: Identifiable {
+extension URL: @retroactive Identifiable {
     public var id: String {
         absoluteString
     }
@@ -99,7 +103,7 @@ struct RecordingsToolbar: ToolbarContent {
     @Binding var isImporting: Bool
 
     var body: some ToolbarContent {
-        ToolbarItem(placement: .navigationBarTrailing) {
+        ToolbarItem(placement: .topBarTrailing) {
             Button(action: {
                 isImporting = true
             }, label: {

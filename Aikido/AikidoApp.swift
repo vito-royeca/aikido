@@ -45,8 +45,8 @@ struct AikidoApp: App {
     
     var body: some Scene {
         WindowGroup {
-//            ContentView()
-            SummarizerTestView()
+            ContentView()
+//            SummarizerTestView()
         }
         .modelContainer(DataManager.shared.modelContainer)
     }

@@ -26,11 +26,14 @@ struct SettingsView: View {
     @State private var whisperFile: WhisperFile?
 
     var body: some View {
-        formView
-            .onAppear {
-                refreshData()
-                loadWhisper()
-            }
+        NavigationStack {
+            formView
+                .onAppear {
+                    refreshData()
+                    loadWhisper()
+                }
+                .navigationTitle(Tabs.settings.title)
+        }
     }
     
     var formView: some View {
