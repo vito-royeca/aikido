@@ -6,98 +6,167 @@
 //
 
 import AVFoundation
+import SwiftWhisper
+
+class AudioRecorder {
+    
+}
 
 class RecorderViewModel: NSObject, ObservableObject {
     @Published var isRecording = false
-    @Published var recordedURL: URL?
+    @Published var isSaving = false
+    @Published var transcription: String = ""
+    
+    
+    private var audioProcessor = AudioProcessor()
+    private var segments = [SegmentModel]()
 
-    private let fileExtension = "wav"
-    private let settings = [
-        AVFormatIDKey: Int(kAudioFormatLinearPCM),
-        AVEncoderAudioQualityKey: AVAudioQuality.high.rawValue,
-//        AVEncoderBitRateKey: 320000,
-        AVNumberOfChannelsKey: 2,
-        AVSampleRateKey: 12000.0
-    ] as [String: Any]
-    
-    private var audioRecorder: AVAudioRecorder?
-    private var audioSession: AVAudioSession?
-    private var audioFileName: URL?
-    
+    // MARK: - Public methods
+
     func start() {
-        audioSession = AVAudioSession.sharedInstance()
-        recordedURL = nil
+        requestPermissions()
 
-        do {
-            try audioSession?.setCategory(.playAndRecord, mode: .default,
-                                          options: [.defaultToSpeaker,.mixWithOthers])
-            try audioSession?.setActive(true)
-
-            AVAudioApplication.requestRecordPermission { allowed in
-                DispatchQueue.main.async {
-                    if allowed {
-                        self.isRecording = true
-                    } else {
-                        self.isRecording = false
-                        print("Error: permission not granted")
-                    }
-                }
-            }
-        } catch {
-            print("Failed to record")
-            audioSession = nil
+        guard audioProcessor.configureAudioSession() else {
             return
         }
-        
-        let fileName = "New Recording " + String(getNextID()) + "." + fileExtension
-        audioFileName = FileManager.default.urls(for: .documentDirectory,
-                                                 in: .userDomainMask)[0].appendingPathComponent(fileName)
- 
-        do {
-            audioRecorder = try AVAudioRecorder(url: audioFileName!, settings: settings)
-            audioRecorder?.delegate = self
-            audioRecorder?.record()
-        }  catch {
-            audioRecorder = nil
-            print("AVAudioRecorder error: \(error.localizedDescription)")
-        }
+
+        audioProcessor.delegate = self
+        isRecording = audioProcessor.start()
+        transcription = ""
+        segments = []
     }
-    
+
     func stop() {
-        audioRecorder?.stop()
+        audioProcessor.stop()
+        audioProcessor.delegate = nil
         isRecording = false
+        
+        // save
+        guard let url = audioProcessor.audioFileName else { return }
+        Task {
+            do {
+//                try await saveRecording(url: url, segments: segments)
+                try await importAudio(from: url)
+            } catch {
+                await MainActor.run {
+                    isSaving = false
+                }
+                print(error)
+            }
+        }
+    }
+
+    
+    @MainActor
+    func importAudio(from url: URL) async throws {
+        await MainActor.run {
+            isSaving = true
+        }
+        
+        let segments = try await WhisperManager.shared.transcribeAudio(url: url)
+        let models = segments.map { SegmentModel(startTime: $0.startTime, endTime: $0.endTime, text: $0.text) }
+        try await saveRecording(url: url, segments: models)
+
+        await MainActor.run {
+            isSaving = false
+        }
+    }
+
+    @MainActor
+    func saveRecording(url: URL, segments: [SegmentModel]) async throws {
+        let lastPath = url.path().components(separatedBy: "/").last ?? ""
+        let title = lastPath.removingPercentEncoding ?? lastPath
+        let cleanTitle = title.components(separatedBy: ".").first ?? ""
+        var copiedFileName: String?
+        var originalPath: String?
+        
+        let documentsDir = FileManager.default.urls(for: .documentDirectory,
+                                                    in: .userDomainMask)[0]
+        if url.path().hasPrefix(documentsDir.path()) {
+            copiedFileName = title
+        } else {
+            originalPath = url.path()
+        }
+        
+        let recording = RecordingModel(title: cleanTitle,
+                                       timestamp: nil,
+                                       length: 0,
+                                       copiedFileName: copiedFileName,
+                                       originalPath: originalPath)
+        recording.segments = segments
+        recording.generateTranscriptions()
+        
+        if let transcription = recording.transcription {
+            let summary = await WhisperManager.shared.summarize(text: transcription)
+            recording.summary = summary
+        }
+
+//        // get the creationDate
+//        do {
+//            if let timestamp = try url.resourceValues(forKeys: [.creationDateKey]).creationDate {
+//                recording.timestamp = timestamp
+//            }
+//        } catch {
+//            throw error
+//        }
+        // set the creationDate to Now
+        recording.timestamp = Date()
+        
+        // get the length
+        let asset = AVURLAsset(url: url, options: nil)
+        let (duration, _) = try await asset.load(.duration, .metadata)
+        recording.length = duration.seconds
+        
+        
+        // save the recording
+        DataManager.shared.modelContainer.mainContext.insert(recording)
+        do {
+            try DataManager.shared.modelContainer.mainContext.save()
+        } catch {
+            throw error
+        }
+    }
+
+    func deleteRecording(url: URL) {
+        let lastPath = url.path().components(separatedBy: "/").last ?? ""
+        let savedPath = FileManager.default.urls(for: .documentDirectory,
+                                                 in: .userDomainMask)[0].appendingPathComponent(lastPath.removingPercentEncoding ?? lastPath)
+        
+        do {
+            if FileManager.default.fileExists(atPath: savedPath.path) {
+                try FileManager.default.removeItem(at: savedPath)
+            }
+        } catch {
+            print(error)
+        }
+    }
+
+    // MARK: - Utility methods
+    
+    private func requestPermissions() {
+        if #available(iOS 17.0, *) {
+            AVAudioApplication.requestRecordPermission { _ in }
+        } else {
+            AVAudioSession.sharedInstance().requestRecordPermission { _ in }
+        }
     }
 }
 
-// MARK: - Helper
+// MARK: - AudioCaptureDelegate
 
-extension RecorderViewModel {
-    func getNextID(_ reset: Bool = false) -> Int {
-        var nextID = UserDefaults.standard.integer(forKey: "aikido.record.nextID")
-
-        if reset {
-            nextID = 1
-        } else {
-            nextID += 1
-            UserDefaults.standard.setValue(nextID, forKey: "aikido.record.nextID")
+extension RecorderViewModel: AudioProcessorDelegate {
+    func handle(newSegments: [Segment]) {
+        var text = ""
+        for segment in newSegments {
+            let model = SegmentModel(startTime: segment.startTime,
+                                     endTime: segment.endTime,
+                                     text: segment.text)
+            segments.append(model)
+            text += model.description
         }
-        return nextID
-    }
-}
 
-// MARK: - AVAudioRecorderDelegate
-
-extension RecorderViewModel: AVAudioRecorderDelegate {
-    func audioRecorderDidFinishRecording(_ recorder: AVAudioRecorder,
-                                         successfully flag: Bool) {
-        if flag {
-            audioRecorder?.stop()
-            audioRecorder = nil
-            recordedURL = audioFileName
-            isRecording = false
-            print("New audiofile: ", audioFileName?.lastPathComponent ?? "")
-        } else {
-            print("finishRecording: failed recording")
-        }
+        transcription += transcription.isEmpty
+            ? text
+            : "\n\(text)"
     }
 }

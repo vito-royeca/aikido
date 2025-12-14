@@ -44,9 +44,11 @@ struct ContentView: View {
         ZStack(alignment: .bottom) {
             tabView
             recordButton
+                .disabled(recorderViewModel.isSaving)
         }
         .environmentObject(recorderViewModel)
         .ignoresSafeArea(.keyboard) // usefull so the button doesn't move around on keyboard show
+        
     }
 
     var tabView: some View {
@@ -56,13 +58,10 @@ struct ContentView: View {
                 value: .recordings) {
                 RecordingsView()
             }
-            .disabled(recorderViewModel.isRecording)
-                
+            .disabled(recorderViewModel.isRecording || recorderViewModel.isSaving)
 
-            Tab("",
-                systemImage: "blank",
-                value: .record) {
-                RecorderView(isRecording: $recorderViewModel.isRecording)
+            Tab(value: .record) {
+                RecorderView()
             }
 
             Tab(Tabs.settings.title,
@@ -70,7 +69,7 @@ struct ContentView: View {
                 value: .settings) {
                 SettingsView()
             }
-            .disabled(recorderViewModel.isRecording)
+            .disabled(recorderViewModel.isRecording || recorderViewModel.isSaving)
         }
         .tabViewStyle(.sidebarAdaptable)
     }
@@ -78,11 +77,11 @@ struct ContentView: View {
     var recordButton: some View {
         Button {
             if recorderViewModel.isRecording {
-                selectedTab = .recordings
                 recorderViewModel.stop()
+                selectedTab = .recordings
             } else {
-                recorderViewModel.start()
                 selectedTab = .record
+                recorderViewModel.start()
             }
 
         } label: {

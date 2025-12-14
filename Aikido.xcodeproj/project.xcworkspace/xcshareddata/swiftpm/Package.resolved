@@ -1,6 +1,15 @@
 {
-  "originHash" : "413a4708f0551214bfa8c971c9da661f6fbc1675bb120a3eb8c48d6d0e38a478",
+  "originHash" : "4aab149937e734fabaa87f6016433e2720a1d42bce82d90220220c197564a2b1",
   "pins" : [
+    {
+      "identity" : "audiokit",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/AudioKit/AudioKit.git",
+      "state" : {
+        "revision" : "5b3fd238ef8ee95c9842ca4ea83ca58ee151e630",
+        "version" : "5.6.5"
+      }
+    },
     {
       "identity" : "llm.swift",
       "kind" : "remoteSourceControl",

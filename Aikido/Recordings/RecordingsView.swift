@@ -12,34 +12,32 @@ struct RecordingsView: View {
     @Environment(\.modelContext) private var modelContext
     @EnvironmentObject var viewModel: RecorderViewModel
     
-    @State private var isImporting = false
-    @State private var importedURL: URL?
+    @State private var isBrowsing = false
 
     @Query(sort: \RecordingModel.timestamp, order: .reverse)
     private var recordings: [RecordingModel]
 
     var body: some View {
         NavigationStack {
-            listView
-              .toolbar {
-                  RecordingsToolbar(isImporting: $isImporting)
-              }
-              .sheet(item: $importedURL) { url in
-                  TranscriberView(url: url)
-              }
-              .sheet(item: $viewModel.recordedURL) { url in
-                  TranscriberView(url: url)
-              }
-              .fileImporter(isPresented: $isImporting,
-                            allowedContentTypes: [.audio]) {
-                  switch $0 {
-                  case .success(let url):
-                      self.importedURL = url
-                  case .failure(let error):
-                      print(error)
-                  }
-              }
-              .navigationTitle(Tabs.recordings.title)
+            if viewModel.isSaving {
+                busyView
+                    .navigationTitle(Tabs.recordings.title)
+            } else {
+                listView
+                    .toolbar {
+                        RecordingsToolbar(isBrowsing: $isBrowsing)
+                    }
+                    .fileImporter(isPresented: $isBrowsing,
+                                  allowedContentTypes: [.audio]) {
+                        switch $0 {
+                        case .success(let url):
+                            self.importAudio(with: url)
+                        case .failure(let error):
+                            print(error)
+                        }
+                    }
+                    .navigationTitle(Tabs.recordings.title)
+            }
         }
     }
     
@@ -68,6 +66,10 @@ struct RecordingsView: View {
             .onDelete(perform: deleteItems)
         }
     }
+    
+    var busyView: some View {
+        ProgressView("Processing file. Please wait.")
+    }
 
     private func deleteItems(offsets: IndexSet) {
         withAnimation {
@@ -75,13 +77,23 @@ struct RecordingsView: View {
                 let recording = recordings[index]
                 
                 if let copiedFileURL = recording.copiedFileURL {
-                    WhisperManager.shared.deleteRecording(url: copiedFileURL)
+                    viewModel.deleteRecording(url: copiedFileURL)
                 }
                 modelContext.delete(recording)
             }
             
             do {
                 try DataManager.shared.modelContainer.mainContext.save()
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    private func importAudio(with url: URL) {
+        Task {
+            do {
+                try await viewModel.importAudio(from: url)
             } catch {
                 print(error)
             }
@@ -100,12 +112,12 @@ extension URL: @retroactive Identifiable {
 }
 
 struct RecordingsToolbar: ToolbarContent {
-    @Binding var isImporting: Bool
-
+    @Binding var isBrowsing: Bool
+    
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
             Button(action: {
-                isImporting = true
+                isBrowsing = true
             }, label: {
                 Image(systemName: "waveform.badge.plus")
             })

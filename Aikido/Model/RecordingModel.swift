@@ -17,7 +17,11 @@ final class RecordingModel {
     var copiedFileName: String?
     var originalPath: String?
     var transcription: String?
+    var transcriptionWithTime: String?
     var summary: String?
+    
+    @Relationship(deleteRule: .cascade)
+    var segments = [SegmentModel]()
 
     init(title: String, timestamp: Date?, length: Double, copiedFileName: String?, originalPath: String?) {
         self.title = title
@@ -63,5 +67,18 @@ extension RecordingModel {
             }
             return DateFormatter.localizedString(from: timestamp, dateStyle: .short, timeStyle: .short)
         }
+    }
+    
+    func generateTranscriptions() {
+        var transcription: String = ""
+        var transcriptionWithTime: String = ""
+        
+        for segment in segments {
+            transcription.append("\(segment.text)\n")
+            transcriptionWithTime.append("\(segment.description)\n")
+        }
+        
+        self.transcription = transcription
+        self.transcriptionWithTime = transcriptionWithTime
     }
 }

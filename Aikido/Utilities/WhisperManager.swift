@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AudioKit
 import AVFoundation
 import SwiftData
 import LLM
@@ -26,8 +27,10 @@ class WhisperManager {
     
     private var loadedWhisperModel: WhisperModel?
     private var summarizer = Summarizer()
-    private var segments = [Segment]()
-
+//    private var segments = [Segment]()
+    private var whisper: Whisper?
+    private var currentSegmentStartTime = 0
+    
     private init() {
         
     }
@@ -53,95 +56,40 @@ class WhisperManager {
         
         whisperModel.isDownloaded = true
         self.loadedWhisperModel = whisperModel
+        whisper = Whisper(fromFileURL: whisperModel.localModelURL)
         print("\(whisperModel.name) - Whisper model loaded successfully")
     }
     
-    func transcribeAudio(url: URL) async throws -> String? {
-        await loadDefault()
-
-        guard let loadedWhisperModel else {
-            return nil
-        }
-
+    func transcribeAudio(url: URL) async throws -> [Segment] {
         do {
-            let data = try readAudioSamples(url)
-            let whisper = Whisper(fromFileURL: loadedWhisperModel.localModelURL)
-            let segments = try await whisper.transcribe(audioFrames: data)
-            
-            return segments.map(\.text).joined()
+            let data = try await readAudioSamples(url)
+            return try await transcribe(data: data)
         } catch {
             throw error
         }
     }
     
+    func transcribe(data: [Float]) async throws -> [Segment] {
+        await loadDefault()
+
+        guard let whisper else {
+            return []
+        }
+        
+        do {
+            let segments = try await whisper.transcribe(audioFrames: data)
+            return segments
+        } catch {
+            throw error
+        }
+    }
+
     func summarize(text: String) async -> String {
         await loadDefault()
         
         await summarizer.respond(to: summaryPrompt(for: text))
 //        await summarizer.respond(to: "Give me seven national flag emojis people use the most; You must include South Korea.")
         return summarizer.output
-    }
-    
-    func deleteRecording(url: URL) {
-        let lastPath = url.path().components(separatedBy: "/").last ?? ""
-        let savedPath = FileManager.default.urls(for: .documentDirectory,
-                                                 in: .userDomainMask)[0].appendingPathComponent(lastPath.removingPercentEncoding ?? lastPath)
-        
-        do {
-            if FileManager.default.fileExists(atPath: savedPath.path) {
-                try FileManager.default.removeItem(at: savedPath)
-            }
-        } catch {
-            print(error)
-        }
-    }
-
-    @MainActor
-    func saveRecording(url: URL, transcription: String, summary: String?) async throws {
-        let lastPath = url.path().components(separatedBy: "/").last ?? ""
-        let title = lastPath.removingPercentEncoding ?? lastPath
-        let cleanTitle = title.components(separatedBy: ".").first ?? ""
-        var copiedFileName: String?
-        var originalPath: String?
-        
-        let documentsDir = FileManager.default.urls(for: .documentDirectory,
-                                                    in: .userDomainMask)[0]
-        if url.path().hasPrefix(documentsDir.path()) {
-            copiedFileName = title
-        } else {
-            originalPath = url.path()
-        }
-        
-        let recording = RecordingModel(title: cleanTitle,
-                                       timestamp: nil,
-                                       length: 0,
-                                       copiedFileName: copiedFileName,
-                                       originalPath: originalPath)
-        recording.transcription = transcription
-        recording.summary = summary
-
-        // get the creationDate
-        do {
-            if let timestamp = try url.resourceValues(forKeys: [.creationDateKey]).creationDate {
-                recording.timestamp = timestamp
-            }
-        } catch {
-            throw error
-        }
-        
-        // get the length
-        let asset = AVURLAsset(url: url, options: nil)
-        let (duration, _) = try await asset.load(.duration, .metadata)
-        recording.length = duration.seconds
-        
-        
-        // save the recording
-        DataManager.shared.modelContainer.mainContext.insert(recording)
-        do {
-            try DataManager.shared.modelContainer.mainContext.save()
-        } catch {
-            throw error
-        }
     }
     
     // MARK: - Private methods
@@ -186,36 +134,66 @@ class WhisperManager {
         }
     }
 
-    private func readAudioSamples(_ url: URL) throws -> [Float] {
-        return try decodeWaveFile(url)
-    }
-    
-    private func decodeWaveFile(_ url: URL) throws -> [Float] {
-        let data = try Data(contentsOf: url)
-        let floats = stride(from: 44, to: data.count, by: 2).map {
-            return data[$0..<$0 + 2].withUnsafeBytes {
-                let short = Int16(littleEndian: $0.load(as: Int16.self))
-                return max(-1.0, min(Float(short) / 32767.0, 1.0))
+    private func readAudioSamples(_ url: URL) async throws -> [Float] {
+        try await withCheckedThrowingContinuation { continuation in
+            convertAudioFileToPCMArray(fileURL: url) { result in
+                switch result {
+                case .success(let floats):
+                    continuation.resume(returning: floats)
+                case .failure(let error):
+                    continuation.resume(throwing: error)
+                }
             }
         }
-        return floats
+    }
+    
+    private func convertAudioFileToPCMArray(fileURL: URL, completionHandler: @escaping (Result<[Float], Error>) -> Void) {
+        var options = FormatConverter.Options()
+        options.format = .wav
+        options.sampleRate = 16000
+        options.bitDepth = 16
+        options.channels = 1
+        options.isInterleaved = false
+
+        let tempURL = URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent(UUID().uuidString)
+        let converter = FormatConverter(inputURL: fileURL, outputURL: tempURL, options: options)
+        converter.start { error in
+            if let error {
+                completionHandler(.failure(error))
+                return
+            }
+
+            let data = try! Data(contentsOf: tempURL) // Handle error here
+
+            let floats = stride(from: 44, to: data.count, by: 2).map {
+                return data[$0..<$0 + 2].withUnsafeBytes {
+                    let short = Int16(littleEndian: $0.load(as: Int16.self))
+                    return max(-1.0, min(Float(short) / 32767.0, 1.0))
+                }
+            }
+
+            try? FileManager.default.removeItem(at: tempURL)
+
+            completionHandler(.success(floats))
+        }
     }
 }
 
-extension WhisperManager: WhisperDelegate {
-    func whisper(_ aWhisper: Whisper, didUpdateProgress progress: Double) {
-        
-    }
+//extension WhisperManager: WhisperDelegate {
+//    func whisper(_ aWhisper: Whisper, didUpdateProgress progress: Double) {
+//        
+//    }
+//
+//    func whisper(_ aWhisper: Whisper, didProcessNewSegments segments: [Segment], atIndex index: Int) {
+//        
+//    }
+//  
+//    func whisper(_ aWhisper: Whisper, didCompleteWithSegments segments: [Segment]) {
+//        
+//    }
+//
+//    func whisper(_ aWhisper: Whisper, didErrorWith error: Error) {
+//        
+//    }
+//}
 
-    func whisper(_ aWhisper: Whisper, didProcessNewSegments segments: [Segment], atIndex index: Int) {
-        
-    }
-  
-    func whisper(_ aWhisper: Whisper, didCompleteWithSegments segments: [Segment]) {
-        
-    }
-
-    func whisper(_ aWhisper: Whisper, didErrorWith error: Error) {
-        
-    }
-}

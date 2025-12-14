@@ -19,6 +19,7 @@ class DataManager {
         let schema = Schema([
             LLMModel.self,
             RecordingModel.self,
+            SegmentModel.self,
             WhisperModel.self
         ])
         let modelConfiguration = ModelConfiguration(schema: schema, isStoredInMemoryOnly: false)

@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7619C07C2EEE78D300272C4D /* SwiftWhisper in Frameworks */ = {isa = PBXBuildFile; productRef = 7619C07B2EEE78D300272C4D /* SwiftWhisper */; };
+		7619C1082EEF354A00272C4D /* AudioKit in Frameworks */ = {isa = PBXBuildFile; productRef = 7619C1072EEF354A00272C4D /* AudioKit */; };
 		762D8C2A2D9A7E210011ABEE /* whisper.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; };
 		762D8C2B2D9A7E210011ABEE /* whisper.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 476FA6972D9442AC00CA3962 /* whisper.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		76C5D4E82D9CCB0700EDF6B9 /* ZIPFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 76C5D4E72D9CCB0700EDF6B9 /* ZIPFoundation */; };
@@ -56,22 +57,28 @@
 		762D8C1E2D9A4E3C0011ABEE /* Exceptions for "Aikido" folder in "AikidoTests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Model/SegmentModel.swift,
 				Player/PlaybackValue.swift,
 				Player/PlayerDisplay.swift,
 				Player/PlayerView.swift,
 				Player/PlayerViewModel.swift,
+				Recorder/AudioProcessor.swift,
 				Recorder/RecorderView.swift,
+				Resources/jfk.wav,
 			);
 			target = 7639E2A62D9358FC003B81B9 /* AikidoTests */;
 		};
 		762D8C1F2D9A4E3C0011ABEE /* Exceptions for "Aikido" folder in "AikidoUITests" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				Model/SegmentModel.swift,
 				Player/PlaybackValue.swift,
 				Player/PlayerDisplay.swift,
 				Player/PlayerView.swift,
 				Player/PlayerViewModel.swift,
+				Recorder/AudioProcessor.swift,
 				Recorder/RecorderView.swift,
+				Resources/jfk.wav,
 			);
 			target = 7639E2B02D9358FC003B81B9 /* AikidoUITests */;
 		};
@@ -114,6 +121,7 @@
 			files = (
 				76C5D4F92DA3442100EDF6B9 /* LLM in Frameworks */,
 				762D8C2A2D9A7E210011ABEE /* whisper.xcframework in Frameworks */,
+				7619C1082EEF354A00272C4D /* AudioKit in Frameworks */,
 				76C5D4E82D9CCB0700EDF6B9 /* ZIPFoundation in Frameworks */,
 				7619C07C2EEE78D300272C4D /* SwiftWhisper in Frameworks */,
 			);
@@ -189,6 +197,7 @@
 				76C5D4E72D9CCB0700EDF6B9 /* ZIPFoundation */,
 				76C5D4F82DA3442100EDF6B9 /* LLM */,
 				7619C07B2EEE78D300272C4D /* SwiftWhisper */,
+				7619C1072EEF354A00272C4D /* AudioKit */,
 			);
 			productName = Aikido;
 			productReference = 7639E2932D9358FB003B81B9 /* Aikido.app */;
@@ -277,6 +286,7 @@
 				76C5D4E62D9CCB0700EDF6B9 /* XCRemoteSwiftPackageReference "ZIPFoundation" */,
 				76C5D4F72DA3442100EDF6B9 /* XCRemoteSwiftPackageReference "LLM.swift" */,
 				7619C07A2EEE78D300272C4D /* XCRemoteSwiftPackageReference "SwiftWhisper" */,
+				7619C1062EEF354A00272C4D /* XCRemoteSwiftPackageReference "AudioKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 7639E2942D9358FB003B81B9 /* Products */;
@@ -717,6 +727,14 @@
 				minimumVersion = 1.2.0;
 			};
 		};
+		7619C1062EEF354A00272C4D /* XCRemoteSwiftPackageReference "AudioKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/AudioKit/AudioKit.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.6.5;
+			};
+		};
 		76C5D4E62D9CCB0700EDF6B9 /* XCRemoteSwiftPackageReference "ZIPFoundation" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/weichsel/ZIPFoundation.git";
@@ -740,6 +758,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 7619C07A2EEE78D300272C4D /* XCRemoteSwiftPackageReference "SwiftWhisper" */;
 			productName = SwiftWhisper;
+		};
+		7619C1072EEF354A00272C4D /* AudioKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 7619C1062EEF354A00272C4D /* XCRemoteSwiftPackageReference "AudioKit" */;
+			productName = AudioKit;
 		};
 		76C5D4E72D9CCB0700EDF6B9 /* ZIPFoundation */ = {
 			isa = XCSwiftPackageProductDependency;

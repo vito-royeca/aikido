@@ -8,14 +8,20 @@
 import SwiftUI
 
 struct RecorderView: View {
-    @Binding var isRecording: Bool
-
+    @EnvironmentObject var viewModel: RecorderViewModel
+    
     var body: some View {
-
-        Text("Recording...")
+        ScrollView {
+            Text(viewModel.transcription)
+//                .font(.system(size: 16))
+                .padding()
+                .frame(maxWidth: .infinity, alignment: .leading)
+//                .background(Color.backgroundSurface)
+//                .cornerRadius(10)
+        }
     }
 }
 
 #Preview {
-    RecorderView(isRecording: .constant(true))
+    RecorderView()
 }

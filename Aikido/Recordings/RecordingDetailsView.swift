@@ -41,7 +41,7 @@ struct RecordingDetailsView: View {
             ScrollView {
                 switch selectedTab {
                 case .transcription:
-                    Text(recording.transcription ?? "")
+                    Text(recording.transcriptionWithTime ?? "")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 case .summary:
                     Text(recording.summary ?? "")
