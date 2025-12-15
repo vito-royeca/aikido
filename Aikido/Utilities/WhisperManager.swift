@@ -9,6 +9,8 @@ import Foundation
 import AudioKit
 import AVFoundation
 import SwiftData
+import SwiftUI
+
 import LLM
 import SwiftWhisper
 
@@ -23,7 +25,8 @@ class Summarizer: LLM {
 class WhisperManager {
     static let shared = WhisperManager()
     
-    private let defaultWhisperName = "tiny"
+    @AppStorage(.settingsWhisperNameKey)
+    private var defaultWhisperName = "tiny"
     
     private var loadedWhisperModel: WhisperModel?
     private var summarizer = Summarizer()

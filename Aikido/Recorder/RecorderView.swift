@@ -14,6 +14,7 @@ struct RecorderView: View {
     var body: some View {
         NavigationStack {
             contentView
+                .padding(.bottom, 40)
                 .navigationTitle(viewModel.newTitle)
         }
     }
