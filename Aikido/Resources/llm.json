@@ -1,0 +1,10 @@
+[
+    {
+        "name": "tiny",
+        "info": "(F16, 75 MiB)",
+        "modelURL": "https://huggingface.co/ggerganov/whisper.cpp/resolve/main/ggml-tiny.bin",
+        "coreMLModelURL": "https://huggingface.co/vito-royeca/whisper-coreml/resolve/main/ggml-tiny-encoder.mlmodelc.zip?download=true",
+        "order": 0,
+        "isDownloaded": false
+    }
+]
