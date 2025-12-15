@@ -27,7 +27,7 @@ enum Tabs: Equatable, Hashable {
     var icon: String {
         switch self {
         case .recordings:
-            "list.dash"
+            "waveform"
         case .record:
             "microphone.fill"
         case .settings:
@@ -36,17 +36,30 @@ enum Tabs: Equatable, Hashable {
     }
 }
 
+@Observable
+class ContentViewState {
+    var isShowingRecordButton = true
+}
+
+extension EnvironmentValues {
+  @Entry var contentViewState = ContentViewState()
+}
+
 struct ContentView: View {
     @State private var selectedTab: Tabs = .recordings
+    @State private var viewState = ContentViewState()
     @StateObject private var recorderViewModel = RecorderViewModel()
     
     var body: some View {
         ZStack(alignment: .bottom) {
             tabView
-            recordButton
-                .disabled(recorderViewModel.isSaving)
+            if viewState.isShowingRecordButton {
+                recordButton
+                    .disabled(recorderViewModel.isSaving)
+            }
         }
         .environmentObject(recorderViewModel)
+        .environment(\.contentViewState, viewState)
         .ignoresSafeArea(.keyboard) // usefull so the button doesn't move around on keyboard show
         
     }

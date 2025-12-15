@@ -81,8 +81,6 @@ struct RecordingsView: View {
                     Text("You cannot undo this action.")
                 }
             }
-//            .onDelete(perform: deleteItems)
-            
         }
     }
     

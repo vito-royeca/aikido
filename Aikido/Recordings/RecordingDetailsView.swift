@@ -17,57 +17,76 @@ enum RecordingTab: String, CaseIterable, Identifiable {
 }
 
 struct RecordingDetailsView: View {
-    @Environment(\.presentationMode) var presentationMode
+    @Environment(\.presentationMode) private var presentationMode
     @Environment(\.modelContext) private var modelContext
-    @EnvironmentObject var viewModel: RecorderViewModel
+    @Environment(\.contentViewState) private var conrentViewState
+    @EnvironmentObject private var viewModel: RecorderViewModel
     var recording: RecordingModel
 
     @State private var selectedTab: RecordingTab = .transcription
+    @State private var isGeneratingSummary = false
 
     var body: some View {
         contentView
             .toolbar {
                 RecordingDetailsToolbar(deleteAction: deleteRecording)
             }
+            .onAppear {
+                conrentViewState.isShowingRecordButton = false
+            }
+            .onDisappear {
+                conrentViewState.isShowingRecordButton = true
+            }
     }
     
     var contentView: some View {
         VStack {
-            PlayerView(title: recording.title,
-                       audioURL: recording.copiedFileURL ?? recording.originalPathURL ?? nil)
-
-            Picker("", selection: $selectedTab) {
-                ForEach(RecordingTab.allCases) { tab in
-                    Text(tab.rawValue.capitalized)
+            VStack {
+                PlayerView(title: recording.title,
+                           audioURL: recording.copiedFileURL ?? recording.originalPathURL ?? nil)
+                
+                Picker("", selection: $selectedTab) {
+                    ForEach(RecordingTab.allCases) { tab in
+                        Text(tab.rawValue.capitalized)
+                    }
                 }
+                .pickerStyle(.segmented)
             }
-            .pickerStyle(.segmented)
-            .onChange(of: selectedTab) {
-                if selectedTab == .summary {
-                    summarize()
-                }
-            }
+            .padding()
             
-            ScrollView {
-                switch selectedTab {
-                case .transcription:
+            switch selectedTab {
+            case .transcription:
+                ScrollView {
                     Text(recording.transcriptionWithTime ?? "")
                         .frame(maxWidth: .infinity, alignment: .leading)
-                case .summary:
+                }
+            case .summary:
+                ScrollView {
                     Text(recording.summary ?? "")
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
+                .refreshable {
+                    isGeneratingSummary = true
+                    summarize()
+                }
             }
         }
-        .padding()
     }
     
     func summarize() {
         Task {
             if let transcription = recording.transcription {
                 recording.summary = await WhisperManager.shared.summarize(text: transcription)
+                do {
+                    try DataManager.shared.modelContainer.mainContext.save()
+                } catch {
+                    print(error)
+                }
             }
-                
+
+            await MainActor.run {
+                isGeneratingSummary = false
+            }
         }
     }
     

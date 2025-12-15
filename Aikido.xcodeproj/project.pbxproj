@@ -65,6 +65,7 @@
 				Recorder/AudioProcessor.swift,
 				Recorder/RecorderView.swift,
 				Resources/jfk.wav,
+				Utilities/SummaryManager.swift,
 			);
 			target = 7639E2A62D9358FC003B81B9 /* AikidoTests */;
 		};
@@ -79,6 +80,7 @@
 				Recorder/AudioProcessor.swift,
 				Recorder/RecorderView.swift,
 				Resources/jfk.wav,
+				Utilities/SummaryManager.swift,
 			);
 			target = 7639E2B02D9358FC003B81B9 /* AikidoUITests */;
 		};
