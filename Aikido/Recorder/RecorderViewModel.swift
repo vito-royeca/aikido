@@ -15,11 +15,10 @@ class AudioRecorder {
 class RecorderViewModel: NSObject, ObservableObject {
     @Published var isRecording = false
     @Published var isSaving = false
-    @Published var transcription: String = ""
-    
+    @Published var segments = [SegmentModel]()
     
     private var audioProcessor = AudioProcessor()
-    private var segments = [SegmentModel]()
+    
 
     // MARK: - Public methods
 
@@ -32,7 +31,6 @@ class RecorderViewModel: NSObject, ObservableObject {
 
         audioProcessor.delegate = self
         isRecording = audioProcessor.start()
-        transcription = ""
         segments = []
     }
 
@@ -101,7 +99,7 @@ class RecorderViewModel: NSObject, ObservableObject {
             recording.summary = summary
         }
 
-//        // get the creationDate
+//        // get the original creationDate
 //        do {
 //            if let timestamp = try url.resourceValues(forKeys: [.creationDateKey]).creationDate {
 //                recording.timestamp = timestamp
@@ -109,6 +107,7 @@ class RecorderViewModel: NSObject, ObservableObject {
 //        } catch {
 //            throw error
 //        }
+
         // set the creationDate to Now
         recording.timestamp = Date()
         
@@ -141,6 +140,15 @@ class RecorderViewModel: NSObject, ObservableObject {
         }
     }
 
+    var newTitle: String {
+        get {
+            guard let url = audioProcessor.audioFileName else { return "New Recording" }
+            let lastPath = url.path().components(separatedBy: "/").last ?? ""
+            let title = lastPath.removingPercentEncoding ?? lastPath
+            let cleanTitle = title.components(separatedBy: ".").first ?? ""
+            return cleanTitle
+        }
+    }
     // MARK: - Utility methods
     
     private func requestPermissions() {
@@ -156,17 +164,7 @@ class RecorderViewModel: NSObject, ObservableObject {
 
 extension RecorderViewModel: AudioProcessorDelegate {
     func handle(newSegments: [Segment]) {
-        var text = ""
-        for segment in newSegments {
-            let model = SegmentModel(startTime: segment.startTime,
-                                     endTime: segment.endTime,
-                                     text: segment.text)
-            segments.append(model)
-            text += model.description
-        }
-
-        transcription += transcription.isEmpty
-            ? text
-            : "\n\(text)"
+        let array = newSegments.map { SegmentModel(startTime: $0.startTime, endTime: $0.endTime, text: $0.text) }
+        segments.append(contentsOf: array)
     }
 }

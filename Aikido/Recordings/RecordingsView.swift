@@ -13,7 +13,8 @@ struct RecordingsView: View {
     @EnvironmentObject var viewModel: RecorderViewModel
     
     @State private var isBrowsing = false
-
+    @State private var isPresentingDelete = false
+    
     @Query(sort: \RecordingModel.timestamp, order: .reverse)
     private var recordings: [RecordingModel]
 
@@ -62,8 +63,26 @@ struct RecordingsView: View {
                         }
                     }
                 }
+                .swipeActions(allowsFullSwipe: true) {
+                    Button(role: .none, action: {
+                        isPresentingDelete = true
+                    }, label: {
+                        Image(systemName: "trash")
+                    })
+                    .tint(Color.red)
+                }
+                .confirmationDialog("Delete this Recording?",
+                                    isPresented: $isPresentingDelete,
+                                    titleVisibility: .visible) {
+                    Button("Delete", role: .destructive) {
+                        delete(recording: recording)
+                    }
+                } message: {
+                    Text("You cannot undo this action.")
+                }
             }
-            .onDelete(perform: deleteItems)
+//            .onDelete(perform: deleteItems)
+            
         }
     }
     
@@ -71,16 +90,12 @@ struct RecordingsView: View {
         ProgressView("Processing file. Please wait.")
     }
 
-    private func deleteItems(offsets: IndexSet) {
+    private func delete(recording: RecordingModel) {
         withAnimation {
-            for index in offsets {
-                let recording = recordings[index]
-                
-                if let copiedFileURL = recording.copiedFileURL {
-                    viewModel.deleteRecording(url: copiedFileURL)
-                }
-                modelContext.delete(recording)
+            if let copiedFileURL = recording.copiedFileURL {
+                viewModel.deleteRecording(url: copiedFileURL)
             }
+            modelContext.delete(recording)
             
             do {
                 try DataManager.shared.modelContainer.mainContext.save()

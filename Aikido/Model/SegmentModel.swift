@@ -5,10 +5,13 @@
 //  Created by Vito Royeca on 12/14/25.
 //
 
+import Foundation
 import SwiftData
 
 @Model
-final class SegmentModel: Equatable {
+final class SegmentModel: Identifiable, Equatable {
+    var id: String = UUID().uuidString
+
     var startTime: Int
     var endTime: Int
     var text: String
