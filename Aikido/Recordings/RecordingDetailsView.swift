@@ -37,11 +37,19 @@ struct RecordingDetailsView: View {
             .onDisappear {
                 conrentViewState.isShowingRecordButton = true
             }
+            .navigationTitle(recording.title)
     }
     
     var contentView: some View {
         VStack {
             VStack {
+                HStack {
+                    Text(recording.formattedTimestamp)
+                        .font(.footnote)
+                    Spacer()
+                    Text(recording.placeName ?? "")
+                        .font(.footnote)
+                }
                 PlayerView(title: recording.title,
                            audioURL: recording.copiedFileURL ?? recording.originalPathURL ?? nil)
                 
@@ -132,9 +140,13 @@ struct RecordingDetailsToolbar: ToolbarContent {
 #Preview {
     let recording = RecordingModel(title: "Test.wav",
                                    timestamp: Date(),
+                                   latitude: 0,
+                                   longitude: 0,
+                                   placeName: nil,
                                    length: 100,
                                    copiedFileName: "file.wav",
                                    originalPath: "/path/file.wav")
 
     RecordingDetailsView(recording: recording)
 }
+

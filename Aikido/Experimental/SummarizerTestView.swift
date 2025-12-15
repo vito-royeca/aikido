@@ -11,64 +11,94 @@ import LLM
 struct SummarizerTestView: View {
     @ObservedObject var summarizer = Summarizer()
     
+    @State private var scrollProxy: ScrollViewProxy? = nil
     @State var input = "What's the meaning of life?"
     @State var output = ""
+    @State var id = UUID().uuidString
     
-    let transcription = """
-        Electric masquerade Redemption. Dancing in the masquerade, idle truth and plain sight jaded,
-        pop, roll, click, shot, who will I be today or not? Fastened masks can ceiling unknown.
-        Mysterious faces chosen to be shown. Plastic smiles, heartless thank you, I love you.
-        I see faces in the mirror who I have into clue. From cracks in the facade,
-        only reveal the charade, a foundation that needs repair, wallowing and quiet despair.
-        Futile search in a world gone sour, arrows of escape bear no flower,
-        imprisoned in an uncomfortable cage, do all lead to drugs alcohol and rage.
-        Foamy rosy, gilded prisons of lies, futile locks of control men buys, offering no security,
-        securely holding captives, fear of rejection, silence's objection. Under cover of spreading
-        darkness, behind tightly closed doors bless, enchanting guys of guilt weaver, succeeding only to
-        begile the deceiver. Focused through the pain, clear by delicate humble reign, still beauty worth
-        preserving, simple appeal made unnerving. These precious things under coats of wings,
-        value held shame for gotten in game, living a beautiful, destructive roll, fragile life
-        a more precious goal, all wealth could be taken in seconds, New York, Arizona, the Alamo backends.
-        From an honored promise damaged goods dispensed, though contact made null warranties still paid
-        in full. Technology built to serve has made man its servants, fish biting and enticing lure,
-        society is sick, do I have the cure, not many motion, sweet nothing.
+    let text = """
+         This is the Micro Machine Man presenting the most midget miniature
+         motorcade of Michael Machine.
+         Each one has dramatic details, perfect trim, precision,
+         paint jobs, plus incredible Micro Machine Pocket Place.
+         That's physical police station, fire station,
+         restaurant, service station, and more.
+         Perfect pocket portable to take any place.
+         And there are many miniature places to play with.
+         Each one comes with its own special edition.
+         Micro Machine vehicle and fun, fantastic features
+         that miraculously move.
+         Raise the bolt lift at the airport, marina, man.
+         The gun turret at the army base, clean your car at the car,
+         wash, raise it, hulverage.
+         And these places fit together to form a Micro Machine world.
+         Micro Machine Pocket Place, that's so tremendously
+         tiny, so perfectly precise.
+         So dazzlingly detailed, you'll want to pocket them all.
+         Micro Machines and Micro Machine Pocket Place
+         that's sold separately from Galube, the smaller they are, the better they are.
     """
     
     var body: some View {
         VStack(alignment: .leading) {
-            ScrollView {
-                Text(summarizer.output).monospaced()
-            }
+            contentView
             
             Spacer()
             
-            HStack {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 8).foregroundStyle(.thinMaterial).frame(height: 40)
-                    TextField("input", text: $input).padding(8)
-                }
-                Button(action: respond) { Image(systemName: "paperplane.fill") }
-                Button(action: stop) { Image(systemName: "xmark") }
-            }
-            
-            HStack {
-                Button(action: summarize) {
-                    Text("Summarize")
+            VStack {
+                HStack {
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 8).foregroundStyle(.thinMaterial).frame(height: 40)
+                        TextField("input", text: $input).padding(8)
+                    }
+                    Button(action: respond) { Image(systemName: "paperplane.fill") }
+                    Button(action: stop) { Image(systemName: "xmark") }
                 }
                 
-                Button(action: toFrench) {
-                    Text("To French")
+                HStack {
+                    Button(action: summarize) {
+                        Text("Summarize")
+                    }
+                    Spacer()
+                    Button(action: toFrench) {
+                        Text("To French")
+                    }
                 }
             }
+            .frame(maxWidth: .infinity)
+            .padding()
         }
-        .frame(maxWidth: .infinity)
-        .padding()
+    }
+    
+    var contentView: some View {
+        ScrollView {
+            ScrollViewReader { proxy in
+                Text(summarizer.output)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .id(id)
+                    .onAppear {
+                        scrollProxy = proxy
+                    }
+                    .onChange(of: summarizer.output) {
+                        scrollToBottom()
+                    }
+            }
+        }
+    }
+    
+    func scrollToBottom() {
+        withAnimation {
+            scrollProxy?.scrollTo(id, anchor: .bottom)
+        }
     }
     
     func respond() {
         stop()
         Task {
             await summarizer.respond(to: input)
+            await MainActor.run {
+                id = UUID().uuidString
+            }
         }
     }
     
@@ -80,12 +110,13 @@ struct SummarizerTestView: View {
         stop()
 
         Task {
-            print("start summarizing...")
-            await summarizer.respond(to: summaryPrompt(for: transcription))
+            await summarizer.respond(to: summaryPrompt(for: text))
+            await MainActor.run {
+                id = UUID().uuidString
+            }
 //            let question = summarizer.preprocess(summaryPrompt(for: transcription), [])
 //            output = await summarizer.getCompletion(from: question)
 //            print(output)
-            print("done summarizing!")
         }
     }
     
@@ -93,9 +124,10 @@ struct SummarizerTestView: View {
         stop()
 
         Task {
-            print("start translating...")
-            await summarizer.respond(to: translateToFrench(for: transcription))
-            print("done translating!")
+            await summarizer.respond(to: translateToFrench(for: text))
+            await MainActor.run {
+                id = UUID().uuidString
+            }
         }
     }
     
@@ -116,7 +148,7 @@ struct SummarizerTestView: View {
         
         let prompt = """
             Write a concise summary of the text, return your responses with 5 lines that cover the key points of the text.
-                ```\(text)```
+                \(text)
             SUMMARY:
         """
         

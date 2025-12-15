@@ -18,7 +18,7 @@ class RecorderViewModel: NSObject, ObservableObject {
     @Published var segments = [SegmentModel]()
     
     private var audioProcessor = AudioProcessor()
-    
+    private var locationManager = LocationManager()
 
     // MARK: - Public methods
 
@@ -88,6 +88,9 @@ class RecorderViewModel: NSObject, ObservableObject {
         
         let recording = RecordingModel(title: cleanTitle,
                                        timestamp: nil,
+                                       latitude: locationManager.coordinate?.latitude ?? 0,
+                                       longitude: locationManager.coordinate?.longitude ?? 0,
+                                       placeName: locationManager.placeName,
                                        length: 0,
                                        copiedFileName: copiedFileName,
                                        originalPath: originalPath)
@@ -157,6 +160,8 @@ class RecorderViewModel: NSObject, ObservableObject {
         } else {
             AVAudioSession.sharedInstance().requestRecordPermission { _ in }
         }
+        
+        locationManager.requestLocation()
     }
 }
 
@@ -168,3 +173,4 @@ extension RecorderViewModel: AudioProcessorDelegate {
         segments.append(contentsOf: array)
     }
 }
+

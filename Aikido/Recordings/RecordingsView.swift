@@ -50,16 +50,25 @@ struct RecordingsView: View {
                         .toolbar(.hidden, for: .tabBar)
                 } label: {
                     VStack(alignment: .leading) {
-                        Text(recording.title)
-                            .font(Font.body)
                         HStack {
-                            Text(recording.formattedTimestamp)
-                                .font(Font.subheadline)
-                                .foregroundStyle(Color.secondary)
+                            Text(recording.title)
+                                .font(Font.body)
                             Spacer()
                             Text(recording.formattedLength)
                                 .font(Font.subheadline)
                                 .foregroundStyle(Color.secondary)
+                        }
+                        VStack {
+                            Text(recording.formattedTimestamp)
+                                .font(Font.subheadline)
+                                .foregroundStyle(Color.secondary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            if let placeName = recording.placeName {
+                                Text(placeName)
+                                    .font(Font.subheadline)
+                                    .foregroundStyle(Color.secondary)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                            }
                         }
                     }
                 }
@@ -82,6 +91,7 @@ struct RecordingsView: View {
                 }
             }
         }
+        .listStyle(.plain)
     }
     
     var busyView: some View {

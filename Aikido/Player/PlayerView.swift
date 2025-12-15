@@ -16,10 +16,10 @@ struct PlayerView: View {
     
     var body: some View {
         VStack {
-            if let title {
-                Text(title)
-                    .font(.footnote)
-            }
+//            if let title {
+//                Text(title)
+//                    .font(.footnote)
+//            }
             chartView
             controlsView
         }

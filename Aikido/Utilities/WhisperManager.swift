@@ -30,7 +30,6 @@ class WhisperManager {
     
     private var loadedWhisperModel: WhisperModel?
     private var summarizer = Summarizer()
-//    private var segments = [Segment]()
     private var whisper: Whisper?
     private var currentSegmentStartTime = 0
     
@@ -76,8 +75,7 @@ class WhisperManager {
         await loadDefault()
 
         guard let whisper else {
-            return []
-        }
+            return []      }
         
         do {
             let segments = try await whisper.transcribe(audioFrames: data)
@@ -91,21 +89,22 @@ class WhisperManager {
         await loadDefault()
         
         await summarizer.respond(to: summaryPrompt(for: text))
-//        await summarizer.respond(to: "Give me seven national flag emojis people use the most; You must include South Korea.")
         return summarizer.output
     }
     
     // MARK: - Private methods
 
     private func summaryPrompt(for text: String) -> String {
+//        let prompt = """
+//        Summarize the following text in a single paragraph, focusing on the main conclusion.\n
+//        \(text)
+//        
+//        """
         let prompt = """
-        <|begin_of_text|><|start_header_id|>system<|end_header_id|>You are a professional summarizer. Please provide a structured summary of this business meeting, focusing on critical information:
-        - **Updates**: Latest project or team updates.
-        - **Decisions**: Key decisions made during the meeting.
-        - **Next Steps**: Action items and assigned responsibilities.
-        <|eot_id|><|start_header_id|>transcript<|end_header_id|>\(text)<|eot_id|><|start_header_id|>user<|end_header_id|>Summarize this meeting, using the format above, in fewer than 300 words.<|eot_id|>
+            Write a concise summary of the text, return your responses with 5 lines that cover the key points of the text.
+                \(text)
+            SUMMARY:
         """
-        
         return prompt
     }
     

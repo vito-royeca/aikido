@@ -61,7 +61,6 @@ struct ContentView: View {
         .environmentObject(recorderViewModel)
         .environment(\.contentViewState, viewState)
         .ignoresSafeArea(.keyboard) // usefull so the button doesn't move around on keyboard show
-        
     }
 
     var tabView: some View {
