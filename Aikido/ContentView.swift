@@ -5,6 +5,7 @@
 //  Created by Vito Royeca on 3/25/25.
 //
 
+import AVFoundation
 import SwiftUI
 import SwiftData
 import LLM
@@ -41,6 +42,7 @@ enum Tabs: Equatable, Hashable {
 class ContentViewState {
     var isShowingRecordButton = true
     var bot: AIBot?
+    var locationManager = LocationManager()
 }
 
 extension EnvironmentValues {
@@ -59,6 +61,9 @@ struct ContentView: View {
     var body: some View {
         if let _ = viewState.bot {
             contentView
+                .onAppear {
+                    requestPermissions()
+                }
         } else {
             BotLoaderView(model: model,
                           quantization: quantization,
@@ -130,6 +135,19 @@ extension ContentView: BotLoaderViewDelegae {
     func didLoad(bot: AIBot?) {
         viewState.bot = bot
         recorderViewModel.bot = bot
+        recorderViewModel.locationManager = viewState.locationManager
+    }
+}
+
+extension ContentView {
+    func requestPermissions() {
+        if #available(iOS 17.0, *) {
+            AVAudioApplication.requestRecordPermission { _ in }
+        } else {
+            AVAudioSession.sharedInstance().requestRecordPermission { _ in }
+        }
+        
+        viewState.locationManager.requestLocation()
     }
 }
 

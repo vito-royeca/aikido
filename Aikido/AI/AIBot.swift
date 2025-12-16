@@ -32,16 +32,17 @@ class AIBot: LLM {
     }
     
     private func summaryPrompt(for text: String) -> String {
-//        let prompt = """
-//        Summarize the following text in a single paragraph, focusing on the main conclusion.\n
-//        \(text)
-//
-//        """
         let prompt = """
-            Write a concise summary of the text, return your responses with at most 5 lines that cover the key points of the text.
-                \(text)
-            SUMMARY:
+            Summarize the following text in at least one paragraph, focusing on the main conclusion.\n
+            \(text)
         """
+        
+//        let prompt = """
+//            Write a concise summary of the text, return your responses with at most 5 lines that cover the key points of the text.
+//                \(text)
+//            SUMMARY:
+//        """
+
         return prompt
     }
 }

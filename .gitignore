@@ -37,3 +37,4 @@ tmp
 Aikido/Resources/models
 .swiftpm
 .gradle
+..bfg-report/

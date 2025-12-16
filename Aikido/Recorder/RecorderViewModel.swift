@@ -18,15 +18,13 @@ class RecorderViewModel: NSObject, ObservableObject {
     @Published var segments = [SegmentModel]()
     
     var bot: AIBot? = nil
-
+    var locationManager: LocationManager? = nil
+    
     private var audioProcessor = AudioProcessor()
-    private var locationManager = LocationManager()
 
     // MARK: - Public methods
 
     func start() {
-        requestPermissions()
-
         guard audioProcessor.configureAudioSession() else {
             return
         }
@@ -90,9 +88,9 @@ class RecorderViewModel: NSObject, ObservableObject {
         
         let recording = RecordingModel(title: cleanTitle,
                                        timestamp: nil,
-                                       latitude: locationManager.coordinate?.latitude ?? 0,
-                                       longitude: locationManager.coordinate?.longitude ?? 0,
-                                       placeName: locationManager.placeName,
+                                       latitude: locationManager?.coordinate?.latitude ?? 0,
+                                       longitude: locationManager?.coordinate?.longitude ?? 0,
+                                       placeName: locationManager?.placeName,
                                        length: 0,
                                        copiedFileName: copiedFileName,
                                        originalPath: originalPath)
@@ -154,17 +152,6 @@ class RecorderViewModel: NSObject, ObservableObject {
             let cleanTitle = title.components(separatedBy: ".").first ?? ""
             return cleanTitle
         }
-    }
-    // MARK: - Utility methods
-    
-    private func requestPermissions() {
-        if #available(iOS 17.0, *) {
-            AVAudioApplication.requestRecordPermission { _ in }
-        } else {
-            AVAudioSession.sharedInstance().requestRecordPermission { _ in }
-        }
-        
-        locationManager.requestLocation()
     }
 }
 
