@@ -16,8 +16,7 @@ struct BotTestView: View {
 //    let model = "google/gemma-3-1b-it-qat-q4_0-gguf"
     let quantization: Quantization = .Q2_K
     let template: Template = .chatML("You are a sentient AI with emotions.")
-//    let template: Template = .gemma
-    
+
     var body: some View {
         NavigationStack {
             if let bot {
@@ -36,7 +35,7 @@ struct BotTestView: View {
         }
     }
     
-    func reloadBot() {
+    private func reloadBot() {
         bot = nil
     }
 }
@@ -55,7 +54,7 @@ struct BotTestToolbar: ToolbarContent {
     }
 }
 
-extension BotTestView: BotLoaderViewDelegae {
+extension BotTestView: BotLoaderViewDelegate {
     func didLoad(bot: AIBot?) {
         self.bot = bot
     }

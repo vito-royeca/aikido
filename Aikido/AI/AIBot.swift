@@ -9,6 +9,9 @@ import Foundation
 import LLM
 
 class AIBot: LLM {
+    static let summaryTemplate: Template = .chatML("Summarize the following text in at least one paragraph, focusing on the main conclusion.")
+//    static let summaryTemplate: Template = .chatML("Write a concise summary of the text, return your responses with at least 2 lines that cover the key points of the text.")
+    
     convenience init?(model: String,
                       quantization: Quantization = .Q2_K,
                       template: Template,
@@ -27,22 +30,7 @@ class AIBot: LLM {
     }
     
     func summarize(text: String) async -> String {
-        await respond(to: summaryPrompt(for: text))
+        await respond(to: text)
         return output
-    }
-    
-    private func summaryPrompt(for text: String) -> String {
-        let prompt = """
-            Summarize the following text in at least one paragraph, focusing on the main conclusion.\n
-            \(text)
-        """
-        
-//        let prompt = """
-//            Write a concise summary of the text, return your responses with at most 5 lines that cover the key points of the text.
-//                \(text)
-//            SUMMARY:
-//        """
-
-        return prompt
     }
 }

@@ -33,7 +33,7 @@ struct BotView: View {
         .frame(maxWidth: .infinity)
     }
     
-    var outputView: some View {
+    private var outputView: some View {
         ScrollView {
             ScrollViewReader { proxy in
                 if !bot.thinking.isEmpty {
@@ -56,15 +56,12 @@ struct BotView: View {
         }
     }
 
-    var inputView: some View {
+    private var inputView: some View {
         HStack {
-            ZStack {
-                RoundedRectangle(cornerRadius: 8)
-                    .foregroundStyle(.thinMaterial)
-                    .frame(height: 40)
-                TextField("Ask the AI", text: $input)
-                    .padding(8)
-            }
+            TextField("Ask the AI",
+                      text: $input,
+                      axis: .vertical)
+                .textFieldStyle(.roundedBorder)
             if isBusy {
                 Button(action: stop) {
                     Image(systemName: "xmark")
@@ -77,7 +74,7 @@ struct BotView: View {
         }
     }
     
-    func scrollToBottom() {
+    private func scrollToBottom() {
         withAnimation {
             scrollProxy?.scrollTo(id, anchor: .bottom)
         }

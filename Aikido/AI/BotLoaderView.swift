@@ -8,7 +8,7 @@
 import SwiftUI
 import LLM
 
-protocol BotLoaderViewDelegae {
+protocol BotLoaderViewDelegate {
     func didLoad(bot: AIBot?)
 }
 
@@ -16,7 +16,7 @@ struct BotLoaderView: View {
     let model: String
     let quantization: Quantization
     let template: Template
-    var delegate: BotLoaderViewDelegae?
+    var delegate: BotLoaderViewDelegate?
 
     @State private var progress: CGFloat = 0
 
@@ -24,7 +24,7 @@ struct BotLoaderView: View {
         progressView
     }
     
-    var progressView: some View {
+    private var progressView: some View {
         ProgressView(value: progress) {
             Text("Loading AI...")
         } currentValueLabel: {
@@ -52,9 +52,8 @@ struct BotLoaderView: View {
 #Preview {
     let model = "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF"
     let quantization: Quantization = .Q2_K
-    let template: Template = .chatML("You are a sentient AI with emotions.")
     
     BotLoaderView(model: model,
                   quantization: quantization,
-                  template: template)
+                  template: AIBot.summaryTemplate)
 }

@@ -56,7 +56,6 @@ struct ContentView: View {
     
     private let model = "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF"
     private let quantization: Quantization = .Q2_K
-    private let template: Template = .chatML("You are a sentient AI with emotions.")
     
     var body: some View {
         if let _ = viewState.bot {
@@ -67,7 +66,7 @@ struct ContentView: View {
         } else {
             BotLoaderView(model: model,
                           quantization: quantization,
-                          template: template,
+                          template: AIBot.summaryTemplate,
                           delegate: self)
         }
     }
@@ -131,7 +130,7 @@ struct ContentView: View {
     }
 }
 
-extension ContentView: BotLoaderViewDelegae {
+extension ContentView: BotLoaderViewDelegate {
     func didLoad(bot: AIBot?) {
         viewState.bot = bot
         recorderViewModel.bot = bot
