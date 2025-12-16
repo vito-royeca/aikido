@@ -50,7 +50,8 @@ struct DownloadView: View {
             Slider(value: $progress, in: 0...1)
             Button("Reset") {
                 progress = 0
-            }.buttonStyle(.borderedProminent)
+            }
+            .buttonStyle(.borderedProminent)
         }
     }
 }

@@ -17,6 +17,8 @@ class RecorderViewModel: NSObject, ObservableObject {
     @Published var isSaving = false
     @Published var segments = [SegmentModel]()
     
+    var bot: AIBot? = nil
+
     private var audioProcessor = AudioProcessor()
     private var locationManager = LocationManager()
 
@@ -97,8 +99,9 @@ class RecorderViewModel: NSObject, ObservableObject {
         recording.segments = segments
         recording.generateTranscriptions()
         
-        if let transcription = recording.transcription {
-            let summary = await WhisperManager.shared.summarize(text: transcription)
+        if let transcription = recording.transcription,
+           let bot {
+            let summary = await bot.summarize(text: transcription)
             recording.summary = summary
         }
 

@@ -14,9 +14,9 @@ struct RecorderView: View {
     var body: some View {
         NavigationStack {
             contentView
-                .padding(.bottom, 40)
                 .navigationTitle(viewModel.newTitle)
         }
+        .frame(maxWidth: .infinity)
     }
     
     var contentView: some View {
@@ -34,6 +34,7 @@ struct RecorderView: View {
                     scrollToBottom()
                 }
             }
+            .padding()
         }
     }
     

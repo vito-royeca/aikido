@@ -14,14 +14,6 @@ import SwiftUI
 import LLM
 import SwiftWhisper
 
-class Summarizer: LLM {
-    convenience init() {
-        let url = Bundle.main.url(forResource: "tinyllama-1.1b-chat-v1.0.Q2_K", withExtension: "gguf")!
-        let systemPrompt = "You are a sentient AI with emotions."
-        self.init(from: url, template: .llama(systemPrompt))!
-    }
-}
-
 class WhisperManager {
     static let shared = WhisperManager()
     
@@ -29,7 +21,6 @@ class WhisperManager {
     private var defaultWhisperName = "tiny"
     
     private var loadedWhisperModel: WhisperModel?
-    private var summarizer = Summarizer()
     private var whisper: Whisper?
     private var currentSegmentStartTime = 0
     
@@ -85,29 +76,8 @@ class WhisperManager {
         }
     }
 
-    func summarize(text: String) async -> String {
-        await loadDefault()
-        
-        await summarizer.respond(to: summaryPrompt(for: text))
-        return summarizer.output
-    }
-    
     // MARK: - Private methods
 
-    private func summaryPrompt(for text: String) -> String {
-//        let prompt = """
-//        Summarize the following text in a single paragraph, focusing on the main conclusion.\n
-//        \(text)
-//        
-//        """
-        let prompt = """
-            Write a concise summary of the text, return your responses with 5 lines that cover the key points of the text.
-                \(text)
-            SUMMARY:
-        """
-        return prompt
-    }
-    
     private func copyBundle(name: String) {
         if let resPath = Bundle.main.resourcePath {
             do {

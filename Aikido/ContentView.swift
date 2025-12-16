@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import LLM
 
 enum Tabs: Equatable, Hashable {
     case recordings
@@ -39,6 +40,7 @@ enum Tabs: Equatable, Hashable {
 @Observable
 class ContentViewState {
     var isShowingRecordButton = true
+    var bot: AIBot?
 }
 
 extension EnvironmentValues {
@@ -46,11 +48,26 @@ extension EnvironmentValues {
 }
 
 struct ContentView: View {
+    @StateObject private var recorderViewModel = RecorderViewModel()
     @State private var selectedTab: Tabs = .recordings
     @State private var viewState = ContentViewState()
-    @StateObject private var recorderViewModel = RecorderViewModel()
+    
+    private let model = "TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF"
+    private let quantization: Quantization = .Q2_K
+    private let template: Template = .chatML("You are a sentient AI with emotions.")
     
     var body: some View {
+        if let _ = viewState.bot {
+            contentView
+        } else {
+            BotLoaderView(model: model,
+                          quantization: quantization,
+                          template: template,
+                          delegate: self)
+        }
+    }
+
+    var contentView: some View {
         ZStack(alignment: .bottom) {
             tabView
             if viewState.isShowingRecordButton {
@@ -106,6 +123,13 @@ struct ContentView: View {
         .frame(width: 80, height: 80)
         .background(recorderViewModel.isRecording ? Color.red : Color.green)
         .clipShape(Circle())
+    }
+}
+
+extension ContentView: BotLoaderViewDelegae {
+    func didLoad(bot: AIBot?) {
+        viewState.bot = bot
+        recorderViewModel.bot = bot
     }
 }
 

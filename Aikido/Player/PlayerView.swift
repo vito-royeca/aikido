@@ -78,25 +78,25 @@ struct PlayerView: View {
             .font(.footnote)
             
             HStack(spacing: 40) {
-                Button(action: {
+                Button {
                     viewModel.skip(forwards: false)
-                }, label: {
+                } label: {
                     Image(systemName: "10.arrow.trianglehead.counterclockwise")
-                })
+                }
                 
-                Button(action: {
+                Button {
                     viewModel.playOrPause()
-                }, label: {
+                } label: {
                     Image(systemName: "\(viewModel.isPlaying ? "pause" : "play").circle.fill")
                         .resizable()
                         .frame(width: 30, height: 30)
-                })
+                }
                 
-                Button(action: {
+                Button {
                     viewModel.skip(forwards: true)
-                }, label: {
+                } label: {
                     Image(systemName: "10.arrow.trianglehead.clockwise")
-                })
+                }
             }
             .padding(10)
             .foregroundColor(.secondary)

@@ -49,35 +49,14 @@ struct RecordingsView: View {
                     RecordingDetailsView(recording: recording)
                         .toolbar(.hidden, for: .tabBar)
                 } label: {
-                    VStack(alignment: .leading) {
-                        HStack {
-                            Text(recording.title)
-                                .font(Font.body)
-                            Spacer()
-                            Text(recording.formattedLength)
-                                .font(Font.subheadline)
-                                .foregroundStyle(Color.secondary)
-                        }
-                        VStack {
-                            Text(recording.formattedTimestamp)
-                                .font(Font.subheadline)
-                                .foregroundStyle(Color.secondary)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            if let placeName = recording.placeName {
-                                Text(placeName)
-                                    .font(Font.subheadline)
-                                    .foregroundStyle(Color.secondary)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                            }
-                        }
-                    }
+                    RecordingsRowView(recording: recording)
                 }
                 .swipeActions(allowsFullSwipe: true) {
-                    Button(role: .none, action: {
+                    Button(role: .none) {
                         isPresentingDelete = true
-                    }, label: {
+                    } label: {
                         Image(systemName: "trash")
-                    })
+                    }
                     .tint(Color.red)
                 }
                 .confirmationDialog("Delete this Recording?",
@@ -130,6 +109,35 @@ extension URL: @retroactive Identifiable {
     }
 }
 
+struct RecordingsRowView: View {
+    var recording: RecordingModel
+    
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text(recording.title)
+                    .font(Font.body)
+                Spacer()
+                Text(recording.formattedLength)
+                    .font(Font.subheadline)
+                    .foregroundStyle(Color.secondary)
+            }
+            VStack {
+                Text(recording.formattedTimestamp)
+                    .font(Font.subheadline)
+                    .foregroundStyle(Color.secondary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                if let placeName = recording.placeName {
+                    Text(placeName)
+                        .font(Font.subheadline)
+                        .foregroundStyle(Color.secondary)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+            }
+        }
+    }
+}
+
 #Preview {
     RecordingsView()
 }
@@ -139,11 +147,11 @@ struct RecordingsToolbar: ToolbarContent {
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            Button(action: {
+            Button {
                 isBrowsing = true
-            }, label: {
+            } label: {
                 Image(systemName: "waveform.badge.plus")
-            })
+            }
         }
     }
 }

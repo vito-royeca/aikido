@@ -19,7 +19,7 @@ enum RecordingTab: String, CaseIterable, Identifiable {
 struct RecordingDetailsView: View {
     @Environment(\.presentationMode) private var presentationMode
     @Environment(\.modelContext) private var modelContext
-    @Environment(\.contentViewState) private var conrentViewState
+    @Environment(\.contentViewState) private var contentViewState
     @EnvironmentObject private var viewModel: RecorderViewModel
     var recording: RecordingModel
 
@@ -32,78 +32,98 @@ struct RecordingDetailsView: View {
                 RecordingDetailsToolbar(deleteAction: deleteRecording)
             }
             .onAppear {
-                conrentViewState.isShowingRecordButton = false
+                contentViewState.isShowingRecordButton = false
             }
             .onDisappear {
-                conrentViewState.isShowingRecordButton = true
+                contentViewState.isShowingRecordButton = true
             }
             .navigationTitle(recording.title)
     }
     
     var contentView: some View {
         VStack {
-            VStack {
-                HStack {
-                    Text(recording.formattedTimestamp)
-                        .font(.footnote)
-                    Spacer()
-                    Text(recording.placeName ?? "")
-                        .font(.footnote)
-                }
-                PlayerView(title: recording.title,
-                           audioURL: recording.copiedFileURL ?? recording.originalPathURL ?? nil)
-                
-                Picker("", selection: $selectedTab) {
-                    ForEach(RecordingTab.allCases) { tab in
-                        Text(tab.rawValue.capitalized)
-                    }
-                }
-                .pickerStyle(.segmented)
-            }
-            .padding()
-            
+            infoView
+                .padding(.leading)
+                .padding(.trailing)
+
             switch selectedTab {
             case .transcription:
-                ScrollView {
-                    Text(recording.transcriptionWithTime ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
+                transcriptionView
             case .summary:
-                ScrollView {
-                    Text(recording.summary ?? "")
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                }
-                .refreshable {
-                    isGeneratingSummary = true
-                    summarize()
+                summaryView
+            }
+        }
+    }
+    
+    var infoView: some View {
+        VStack {
+            HStack {
+                Text(recording.formattedTimestamp)
+                    .font(.footnote)
+                Spacer()
+                Text(recording.placeName ?? "")
+                    .font(.footnote)
+            }
+            PlayerView(title: recording.title,
+                       audioURL: recording.copiedFileURL ?? recording.originalPathURL ?? nil)
+            
+            Picker("", selection: $selectedTab) {
+                ForEach(RecordingTab.allCases) { tab in
+                    Text(tab.rawValue.capitalized)
                 }
             }
+            .pickerStyle(.segmented)
+        }
+    }
+
+    var transcriptionView: some View {
+        ScrollView {
+            Text(recording.transcriptionWithTime ?? "")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+        }
+    }
+
+    var summaryView: some View {
+        ScrollView {
+            Text(recording.summary ?? "")
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .padding()
+        }
+        .refreshable {
+            isGeneratingSummary = true
+            summarize()
         }
     }
     
     func summarize() {
-        Task {
-            if let transcription = recording.transcription {
-                recording.summary = await WhisperManager.shared.summarize(text: transcription)
+        if let transcription = recording.transcription,
+           let bot = contentViewState.bot {
+            Task {
                 do {
+                    recording.summary = await bot.summarize(text: transcription)
                     try DataManager.shared.modelContainer.mainContext.save()
+                    await MainActor.run {
+                        isGeneratingSummary = false
+                    }
                 } catch {
+                    await MainActor.run {
+                        isGeneratingSummary = false
+                    }
                     print(error)
                 }
             }
-
-            await MainActor.run {
-                isGeneratingSummary = false
-            }
+        } else {
+            isGeneratingSummary = false
         }
     }
     
     func deleteRecording() {
-        if let copiedFileURL = recording.copiedFileURL {
-            viewModel.deleteRecording(url: copiedFileURL)
-        }
-        modelContext.delete(recording)
         do {
+            if let copiedFileURL = recording.copiedFileURL {
+                viewModel.deleteRecording(url: copiedFileURL)
+            }
+            modelContext.delete(recording)
             try DataManager.shared.modelContainer.mainContext.save()
         } catch {
             print(error)
@@ -119,11 +139,11 @@ struct RecordingDetailsToolbar: ToolbarContent {
     
     var body: some ToolbarContent {
         ToolbarItem(placement: .topBarTrailing) {
-            Button(action: {
+            Button {
                 isPresentingDelete = true
-            }, label: {
+            } label: {
                 Image(systemName: "trash")
-            })
+            }
             .confirmationDialog("Delete this Recording?",
                                 isPresented: $isPresentingDelete,
                                 titleVisibility: .visible) {

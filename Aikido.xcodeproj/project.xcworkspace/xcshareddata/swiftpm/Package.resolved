@@ -1,5 +1,5 @@
 {
-  "originHash" : "4aab149937e734fabaa87f6016433e2720a1d42bce82d90220220c197564a2b1",
+  "originHash" : "d7d0e3890787535872522380ac6a1c39b45dc814e4c7f089c5605aabb7d727da",
   "pins" : [
     {
       "identity" : "audiokit",
@@ -15,8 +15,17 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/eastriverlee/LLM.swift.git",
       "state" : {
-        "revision" : "7584d0736fce6ec032ab357ee63a8e7b00c64d96",
-        "version" : "1.7.0"
+        "branch" : "main",
+        "revision" : "427f3b8957a40982500abc8d35ccff8b83ec56a4"
+      }
+    },
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-syntax.git",
+      "state" : {
+        "revision" : "4799286537280063c85a32f09884cfbca301b1a1",
+        "version" : "602.0.0"
       }
     },
     {
