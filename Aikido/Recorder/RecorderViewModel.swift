@@ -8,10 +8,6 @@
 import AVFoundation
 import SwiftWhisper
 
-class AudioRecorder {
-    
-}
-
 class RecorderViewModel: NSObject, ObservableObject {
     @Published var isRecording = false
     @Published var isSaving = false

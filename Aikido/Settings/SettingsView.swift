@@ -24,7 +24,8 @@ struct SettingsView: View {
     private var llmModels: [LLMModel]
 
     @State private var whisperModel: WhisperModel?
-
+    @State private var isDownloading = false
+    
     var body: some View {
         NavigationStack {
             formView
@@ -36,39 +37,50 @@ struct SettingsView: View {
         }
     }
     
-    var formView: some View {
+    private var formView: some View {
         Form {
-            Section {
-                Picker("Select", selection: $whisperName) {
-                    ForEach(whisperModels) { whisperModel in
-                        WhisperRowView(whisperModel: whisperModel,
-                                       willDownload: self.whisperModel == whisperModel && !whisperModel.isDownloaded,
-                                       updateWhisper: updateWhisper(_:))
-                            .tag(whisperModel.name)
-                    }
+            whisperSection
+            llmSection
+        }
+    }
+    
+    private var whisperSection: some View {
+        Section {
+            let text = isDownloading ? "Downloading..." : "Select"
+            Picker(text, selection: $whisperName) {
+                ForEach(whisperModels) { whisperModel in
+                    WhisperRowView(whisperModel: whisperModel,
+                                   isDownloading: isDownloading,
+                                   downloadItems: createDownloadItems(),
+                                   delegate: self)
+                        .tag(whisperModel.name)
                 }
-                .onChange(of: whisperName) {
-                    whisperModel = whisperModels.first { $0.name == whisperName }
-                }
-                .pickerStyle(.navigationLink)
-            } header: {
-                Text("Whisper AI Model")
-            } footer: {
-                Text("General-purpose speech recognition model")
             }
-            
-            Section {
-                Picker("Select", selection: $llmName) {
-                    ForEach(llmModels) { llmModel in
-                        Text(llmModel.name)
-                            .tag(llmModel.name)
-                    }
-                }
-            } header: {
-                Text("LLM Model")
-            } footer: {
-                Text("General-purpose AI model")
+            .onChange(of: whisperName) {
+                whisperModel = whisperModels.first { $0.name == whisperName }
+                isDownloading = !(whisperModel?.isDownloaded ?? false)
             }
+            .pickerStyle(.navigationLink)
+            .disabled(isDownloading)
+        } header: {
+            Text("Whisper AI Model")
+        } footer: {
+            Text("General-purpose speech recognition model")
+        }
+    }
+    
+    private var llmSection: some View {
+        Section {
+            Picker("Select", selection: $llmName) {
+                ForEach(llmModels) { llmModel in
+                    Text(llmModel.name)
+                        .tag(llmModel.name)
+                }
+            }
+        } header: {
+            Text("LLM Model")
+        } footer: {
+            Text("General-purpose AI model")
         }
     }
 }
@@ -95,70 +107,80 @@ extension SettingsView {
         }
     }
     
-    func updateWhisper(_ result: Bool) {
-        guard let whisperModel else {
-            return
-        }
-
-        
-        whisperModel.isDownloaded = result
-        WhisperManager.shared.load(whisperModel)
-    }
-}
-
-// MARK: - WhisperRowView
-
-struct WhisperRowView: View {
-    @Environment(\.modelContext) private var modelContext
-
-    @State var whisperModel: WhisperModel
-    var willDownload: Bool
-    var updateWhisper: (Bool) -> Void
-    
-    var body: some View {
-        HStack {
-            Text("\(whisperModel.name) \(whisperModel.info)")
-            
-            Spacer()
-            
-            if whisperModel.isDownloaded {
-                Image(systemName: "externaldrive.fill.badge.checkmark")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 20, height: 20)
-            } else {
-                if willDownload {
-                    FileDownloadView(items: createDownloadItems())
-                        .onDownload { result in
-                            updateWhisper(result)
-                        }
-                } else {
-                    Image(systemName: "square.and.arrow.down")
-                        .resizable()
-                        .scaledToFit()
-                        .frame(width: 20, height: 20)
-                }
-            }
-        }
-    }
-    
     func createDownloadItems() -> [DownloadItem] {
         var items = [DownloadItem]()
         
+        guard let whisperModel else {
+            return items
+        }
+        
         if let url = URL(string: whisperModel.modelURL) {
-            items.append(DownloadItem(sourceURL: url,
-                                      destinationURL: whisperModel.localModelURL))
+            items.append(DownloadItem(source: url,
+                                      destination: whisperModel.localModelURL))
         }
         
         if let url = URL(string: whisperModel.coreMLModelURL) {
-            items.append(DownloadItem(sourceURL: url,
-                                      destinationURL: whisperModel.localCoreMLModelURL))
+            items.append(DownloadItem(source: url,
+                                      destination: whisperModel.localCoreMLModelURL))
         }
         
         return items
     }
 }
 
+// MARK: - DownloadViewDelegate
+
+extension SettingsView: DownloadViewDelegate {
+    func downloadCompleted(result: Bool) {
+        guard let whisperModel else {
+            return
+        }
+
+        whisperModel.isDownloaded = result
+        isDownloading = false
+        if result {
+            WhisperManager.shared.load(whisperModel)
+        }
+    }
+}
+
+// MARK: - WhisperRowView
+
+struct WhisperRowView: View {
+    @State var whisperModel: WhisperModel
+    var isDownloading: Bool
+    var downloadItems: [DownloadItem]
+    var delegate: DownloadViewDelegate
+    
+    var body: some View {
+            HStack {
+                Text("\(whisperModel.name) \(whisperModel.info)")
+                if whisperModel.isDownloaded {
+                    Image(systemName: "externaldrive.fill.badge.checkmark")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 20, height: 20)
+                } else {
+                    if isDownloading {
+                        DownloadView(items: downloadItems,
+                                     delegate: delegate)
+                            .frame(width: 20, height: 20)
+                    } else {
+                        Image(systemName: "square.and.arrow.down")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 20, height: 20)
+                    }
+                }
+            }
+        .onAppear {
+            print("isDownloading=\(isDownloading)")
+        }
+    }
+}
+
+// To delete Preview data:
+// xcrun simctl --set previews delete all
 #Preview {
     SettingsView()
         .modelContainer(DataManager.shared.modelContainer)

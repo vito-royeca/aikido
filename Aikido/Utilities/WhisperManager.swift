@@ -16,11 +16,11 @@ import SwiftWhisper
 
 class WhisperManager {
     static let shared = WhisperManager()
+    var loadedWhisperModel: WhisperModel?
     
     @AppStorage(.settingsWhisperNameKey)
     private var defaultWhisperName = "tiny"
     
-    private var loadedWhisperModel: WhisperModel?
     private var whisper: Whisper?
     private var currentSegmentStartTime = 0
     

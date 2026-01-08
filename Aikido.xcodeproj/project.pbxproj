@@ -59,6 +59,7 @@
 			membershipExceptions = (
 				AI/AIBot.swift,
 				AI/BotLoaderView.swift,
+				Download/DownloadViewModel.swift,
 				Model/SegmentModel.swift,
 				Player/PlaybackValue.swift,
 				Player/PlayerDisplay.swift,
@@ -76,6 +77,7 @@
 			membershipExceptions = (
 				AI/AIBot.swift,
 				AI/BotLoaderView.swift,
+				Download/DownloadViewModel.swift,
 				Model/SegmentModel.swift,
 				Player/PlaybackValue.swift,
 				Player/PlayerDisplay.swift,

@@ -58,17 +58,17 @@ struct ContentView: View {
     private let quantization: Quantization = .Q2_K
     
     var body: some View {
-        if let _ = viewState.bot {
+//        if let _ = viewState.bot {
             contentView
-                .onAppear {
-                    requestPermissions()
-                }
-        } else {
-            BotLoaderView(model: model,
-                          quantization: quantization,
-                          template: AIBot.summaryTemplate,
-                          delegate: self)
-        }
+//                .onAppear {
+//                    requestPermissions()
+//                }
+//        } else {
+//            BotLoaderView(model: model,
+//                          quantization: quantization,
+//                          template: AIBot.summaryTemplate,
+//                          delegate: self)
+//        }
     }
 
     var contentView: some View {
